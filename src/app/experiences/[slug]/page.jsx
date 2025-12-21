@@ -1,3 +1,5 @@
+// @/app/experiences/[slug]/page.jsx
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
@@ -10,15 +12,15 @@ const WEEKDAY_LABEL = {
   THU: "Thu",
   FRI: "Fri",
   SAT: "Sat",
-  SUM: "Sum"
+  SUM: "Sum",
 };
 
-export default async function ExperienceDetailPage( { params } ) {
+export default async function ExperienceDetailPage({ params }) {
   const { slug } = await params;
   const exp = getExperienceBySlug(slug);
   if (!exp) return notFound();
 
-  const reviews = getReviewByExperienceSlug(exp.slug)
+  const reviews = getReviewByExperienceSlug(exp.slug);
 
   return (
     <main>
@@ -44,7 +46,9 @@ export default async function ExperienceDetailPage( { params } ) {
       </ul>
 
       <div className="enter-btn">
-        <Link href={`/booking?experience=${exp.slug}`}>Book this experience</Link>
+        <Link href={`/booking?experience=${exp.slug}`}>
+          Book this experience
+        </Link>
       </div>
 
       <hr />

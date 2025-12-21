@@ -1,0 +1,229 @@
+// @/src/styles/shared/_mixins.scss
+
+// map-getメソッドが非推奨になったのでモジュールの追加
+@use "sass:map";  
+@use './variables' as *;
+
+// メディア・クエリ
+//  sm => md => lg => xlの順になるようスタイリングをレイアウトすることが秘訣です。
+// 『min-width』の設定を『map（js的で良い）』に保存する。
+$breakpoints: (
+  // 480px以上 => スマホを横向きにした時の設定
+  "sm": "(min-width: 480px)",
+  // 600px以上 => タブレットを縦向きにした時の設定
+  "md": "(min-width: 600px)",
+  // 960px以上 => ノートPCの設定
+  "lg": "(min-width: 960px)",
+  // 1280px以上 => デスクトップPCの設定
+  "xl": "(min-width: 1280px)",
+);
+
+@mixin mq($bp) {
+  @media #{map.get($breakpoints, $bp)} {
+    @content;
+  }
+}
+
+@mixin content-width {
+  width: 90%;
+  margin: 0 auto;
+  max-width: $content-max-width;
+}
+
+@mixin tume {
+  font-feature-settings: "palt" 1;
+}
+
+// アニメーション
+@mixin anime(
+  $name,
+
+  // animation-duration
+  //    1回のアニメーション周期が完了するまでの再生時間。
+  $duration: 1s,
+
+  // animation-timing-function（詳細のパラメータは下記）
+  //    アニメーションがそれぞれの周期の中でどのように進行するかを設定。
+  $timing: ease,
+
+  // animation-delay
+  //    アニメーションをいつ開始するかを指定。
+  $delay: 0s,
+
+  // animation-iteration-count（詳細のパラメータは下記）
+  //    停止するまでにアニメーション周期が再生される回数を指定。
+  $iteration: 1,
+
+  // animation-direction（詳細のパラメータは下記）
+  //    アニメーション再生の向きを順方向、逆方向、前後反転のいずれにするかを設定。
+  $direction: normal,
+
+  // animation-fill-mode（詳細のパラメータは下記）
+  //    アニメーションの開始と終了時の状態を指定。
+  $fill: forwards
+  ) {
+  animation: {
+    name: $name;
+    duration: $duration;
+    timing-function: $timing;
+    delay: $delay;
+    iteration-count: $iteration;
+    direction: $direction;
+    fill-mode: $fill;
+  }
+}
+
+// animation-timing-function params
+//
+// ease, ease-in, ease-out, ease-in-out　など
+
+// animation-iteration-count params
+//
+// 無限に繰り返す　infinite;
+
+// animation-direction params
+//
+// normal             
+//    => アニメーションを毎回順方向に再生します。
+//       アニメーション周期ごとに、アニメーションを最初の状態にリセットして
+//       そこからまた始めます。
+// reverse            
+//    => アニメーションを毎回逆方向に再生します
+//       言い換えれば、アニメーション周期ごとに、アニメーションを最後の状態にリセットして
+//       そこからまた始めます。アニメーションを逆方向に実行し、イージング関数も逆になります。
+//       例えば、イージング関数の ease-in が ease-out になります。
+// alternate          
+//    => アニメーションを毎回反転させ、初回は順方向になります。
+//       周期が偶数か奇数かを特定する回数は1から始まります。
+// alternate-reverse  
+//    => アニメーションを毎回反転させ、初回は逆方向になります。
+//       周期が偶数か奇数かを特定する回数は1から始まります。
+
+// animation-fill-mode params
+//
+// none      => 指定なし。初期値。
+// forwards  => 元の状態に戻らずアニメーション最後の状態を維持。
+// backwards => アニメーションの最初の状態に戻る。
+// both      => backwardsとforwardsの両方の状態を適用。
+
+
+// 背景
+@mixin bg( 
+  // 背景色
+  $color: unset,
+  // 配置するイメージまでのパス。
+  $image: '',
+  // イメージの配置位置（詳細のパラメータは下記）。
+  $position: center,
+  // イメージの領域に対するサイズ（詳細のパラメータは下記）。
+  $size: cover,
+  // 画像の繰り返し（詳細のパラメータは下記）。
+  $repeat: no-repeat,
+  // イメージの領域に対してスクロールに追従するか否か。
+  //    追従する => 『scroll』、背景を固定する => 『fixed』
+  $attachment: scroll,
+  // 背景の描画領域を定める。テキスト・カラー属性への値の付与は必須。
+  $clip: border-box,
+  $txt-color: inherit) {
+  background: {
+    color: $color;
+    image: url('#{$image}');
+    size: $size;
+    position: $position;
+    repeat: $repeat;
+    attachment: $attachment;
+    clip: $clip;
+  }
+  color: $txt-color;
+}
+
+// // background-position params
+//
+// top left       top 0% left 0%（right 100%）=== left 0%
+// top            top 0% left 50%（right 50%）
+// top right      top 0% left 100%（right 0%）=== right 0%
+
+// left           top 50% left 0%（right 100%）=== left 50%
+// center         50%
+// right          top 50% left 100%（right 0%）=== right 50%
+
+// bottom left    bottom 0% left 0%（right 100%）=== left 100%
+// bottom         bottom 0% left 50%（right 50%）
+// bottom right   bottom 0% left 0%（right 100%）=== right 100%
+
+// // background-size params
+//
+// cover   => 画像の縦横比を崩さずに、可能な限り要素いっぱいに拡大して表示する。
+// contain => 画像全体を表示させ、かつ、縦横比を変えずにできるだけ大きく表示させる。
+// auto    => 縦横比を維持して拡大縮小する。
+
+// // background-repeat params
+//
+// repeat    => 要素いっぱいに背景画像が繰り返される。
+// no-repeat => 背景画像が１つのみで繰り返さない。
+// repeat-x  => 背景が横方向にのみ繰り返す。
+// repeat-y  => 背景が縦方向にのみ繰り返す。
+
+// // background-clip params
+//
+// border-box  => borderの外枠までを含めた範囲。
+// padding-box => paddingの外側までを含めた範囲。
+// content-box => paddingの内側の範囲。
+// text        => テキストをクリッピングマスクにする。
+//                ただし、テキストは『color: transparent』が必須。
+
+@mixin positionAlt(
+  $top: 0,
+  $left: 0,
+  $x: 0,
+  $y: 0
+  ) {
+  position: absolute;
+  @if $top == 'tl' {
+    top: 0;
+    left: $left;
+  } @else if $top == 'cc' {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } @else {
+    top: $top;
+    left: $left;
+    transform: translate($x, $y);
+  }
+}
+
+// position params（デフォルトはセンターセンター設定）
+// @mixin positionAlt(
+//   $top: 50%,
+//   $left: 50%,
+//   $x: -50%, 
+//   $y: -50%
+//   ) {
+//   position: absolute;
+//   top: $top;
+//   left: $left;
+//   transform: translate($x, $y);
+// }
+
+// position: absolute
+//    引数なし => 左上に配置。
+//    引数『cc』 => センターセンターに配置。
+
+@mixin fontAwesome($unicode, $fontSize: inherit, $fontFamily: Free, $fontWeight: 900) {
+  content: $unicode;
+  font-size: $fontSize;
+  font-family: "Font Awesome 6 " + $fontFamily;
+  font-weight: $fontWeight;
+  @content;
+}
+
+// // 電話番号のスタイルに適用する例
+// .temple-info__tel {
+//   &::before {
+//     @include fontAwesome("\f095", inherit, Free, 900) {
+//       margin-right: 8px;
+//       color: #4a90e2;
+//     };
+//   }
+// }

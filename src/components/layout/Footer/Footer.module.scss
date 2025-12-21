@@ -1,0 +1,16 @@
+// @/components/layout/Footer.module.scss
+
+@use '@/styles/shared' as *;
+
+.footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 2rem 0;
+  color: $color-white;
+  background-color: $color-black;
+}
+
+.copyright {
+  text-align: center;
+  margin: 0;
+}

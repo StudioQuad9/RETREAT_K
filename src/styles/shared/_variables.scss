@@ -1,0 +1,50 @@
+// @/src/styles/shared/_variables.scss
+
+// サイトに適応するmax-width
+$content-max-width: 1080px;
+
+// メインカラー
+$color-primary-dark: #8b6f47;    // 灰桜（はいざくら）- 落ち着いたピンクベージュ
+$color-primary: #a0826d;    // 灰桜（はいざくら）- 落ち着いたピンクベージュ
+$color-primary-light: #eec2a3;    // 灰桜（はいざくら）- 落ち着いたピンクベージュ
+$color-secondary: #e8dcc4;  // 和紙色 - 温かみのあるベージュ
+$color-accent: #d4a5a5;     // 桜色 - 優しいピンク
+
+// バリエーション
+$color-brown: #cc6f1dff;
+$color-brown-dark: #d35400;
+$color-brown-dull: #b9814f;
+$color-brown-dull-dark: #946135;
+
+// このサイトの白色と黒
+$color-white: #f9f6f2;    // オフホワイト（和紙風）
+$color-black: #333;
+
+// テキストカラー
+$color-text: #707070;  // グレー
+
+// font-family
+$font-gothic: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Hiragino Sans", sans-serif;
+$font-mincho: "Noto Serif JP", "Georgia", "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", serif;
+$font-mono: "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Consolas", "Courier New", monospace;
+$font-title-en: "Ysabeau";
+
+// font-size
+$fs-xs: 0.75rem;
+$fs-sm: 0.875rem;
+$fs-base: 1rem;
+$fs-lg1: 1.125rem;
+$fs-lg2: 1.25rem;
+$fs-lg3: 1.5rem;
+$fs-lg4: 1.875rem;
+$fs-lg5: 2.25rem;
+
+// font-weight
+$fw-normal: 400;
+$fw-medium: 500;
+$fw-bold: 700;
+
+// line-height
+$lh-tight: 1.25;
+$lh-normal: 1.5;
+$lh-relaxed: 1.75;

@@ -1,3 +1,5 @@
+// @/app/experiences/page.jsx
+
 import Link from "next/link";
 import { EXPERIENCES } from "@/lib/data/experiences";
 

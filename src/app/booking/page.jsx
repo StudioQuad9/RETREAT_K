@@ -1,3 +1,5 @@
+// @/app/booking/page.jsx
+
 import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 
