@@ -17,7 +17,7 @@ export default function ExperiencesPage() {
             <div className="price">
               Price: ￥{experience.priceJPY.toLocaleString()}
             </div>
-            <Link href={`/experience/${experience.slug}`}>View details</Link>
+            <Link href={`/experiences/${experience.slug}`}>View details</Link>
           </li>
         ))}
       </ul>

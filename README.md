@@ -2,25 +2,47 @@
 ```
 └── src/
     ├── app/
+    │   ├── globals.scss
+    │   ├── layout.js
+    │   ├── page.js
+    │   ├── page.module.scss
     │   ├── booking/
     │   │   ├── page.jsx
     │   │   └── complete/
     │   │       └── 
-    ├── experiences/
-    │   ├── page.jsx
-    │   └── [slug]/
-    │       └── page.jsx
-    └── lib/
-        └── data
-            ├── experiences.js
-            └── reviews.js
+    │   └── experiences/
+    │       ├── page.jsx
+    │       └── [slug]/
+    │           └── page.jsx
+    ├── components/
+    │   └── layout
+    │       ├── Header
+    │       │   ├── index.jsx
+    │       │   └── Header.module.scss
+    │       └── Footer
+    │           ├── index.jsx
+    │           └── Footer.module.scss
+    ├── lib/
+    │   └── data
+    │       ├── experiences.js
+    │       └── reviews.js
+    └── styles/
+        └── shared
+            ├── _index.scss
+            ├── _mixins.scss
+            ├── _variables.scss
+            └── reset.css
 ```
-
-
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+
+```
+npx create-next-app@latest my-app
+cd my-app
+npm run dev
+```
 
 First, run the development server:
 

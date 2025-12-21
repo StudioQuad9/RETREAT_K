@@ -20,8 +20,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
+main {
   @include content-width;
+  padding: 32px $pad;
+}
+
+section {
+  margin-top: 24px;
+}
+
+h1 {
+  margin-bottom: 12px;
+}
+
+h2 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.para {
+  line-height: 1.7;
+}
+
+label {
+  display: block;
+  margin-top: 14px
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
 }
 
 // p {
