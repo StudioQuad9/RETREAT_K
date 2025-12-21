@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getExprienceBySlug } from "@/lib/data/expriences";
+import { getExperienceBySlug } from "@/lib/data/experiences";
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -11,22 +11,26 @@ const WEEKDAY_LABEL = {
   SUM: "Sum",
 };
 
-export default function BookingPage({ searchPramas }) {
-  const slug = searchPramas?.exprience;
-  const exp = slug ? getExprienceBySlug(slug) : null;
+export default async function BookingPage({ searchParams }) {
+  const { experience } = await searchParams;
+  const exp = experience ? getExperienceBySlug(experience) : null;
 
   if (!exp) {
     return (
       <main>
         <h1>Booking</h1>
-        <div className="pgh">Please select an exprience first.</div>
+        <div className="pgh">Please select an experience first.</div>
         <Link href="/experiences">Go to Expriences</Link>
       </main>
     );
   }
-
+// `${WEEKDAY_LABEL[schedule.weekday]} ${schedule.time}`
   const scheduleText = exp.scheduleDetails
-    .map((schedule) => `${WEEKDAY_LABEL[schedule.time]}`)
+    .map((schedule) => {
+      const weekdayLabel = WEEKDAY_LABEL[schedule.weekday];
+      const timeLabel = schedule.time;
+      return `${weekdayLabel} ${timeLabel}`;
+    })
     .join(",");
 
   return (
@@ -42,33 +46,33 @@ export default function BookingPage({ searchPramas }) {
           Duration: {Math.round(exp.durationMinutes/ 30) / 2 } hours
         </div>
         <div className="pgh price">
-          Price: ￥{exp.priceJPY.tolocalString()} / person
+          Price: ￥{exp.priceJPY.toLocaleString()} / person
         </div>
       </section>
 
       <form action="/booking/complete">
         <section>
           <h3>Your Details</h3>
-          <label htmlFor="">
+          <label htmlFor="name">
             Full name
-            <input name="name" type="text" required />
+            <input id="name" name="name" type="text" required />
           </label>
-          <label htmlFor="">
+          <label htmlFor="email">
             Email
-            <input name="email" type="email" required />
+            <input id="email" name="email" type="email" required />
           </label>
-          <label htmlFor="">
+          <label htmlFor="guests">
             Number of guests
-            <input name="guests" type="number" min="1" defalutValue="1" required />
+            <input id="guests" name="guests" type="number" min="1" defalutValue="1" required />
           </label>
-          <input name="exprience" type="hidden" value={exp.slug} />
+          <input name="experience" type="hidden" value={exp.slug} />
         </section>
 
         <button type="submit">Proceed</button>
       </form>
 
       <div className="enter-btn">
-        <Link href={`/expriences/${exp.slug}`}>Back to details</Link>
+        <Link href={`/experiences/${exp.slug}`}>Back to details</Link>
       </div>
     </main>
   );

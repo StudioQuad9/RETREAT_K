@@ -6,13 +6,13 @@
     │   │   ├── page.jsx
     │   │   └── complete/
     │   │       └── 
-    ├── expriences/
+    ├── experiences/
     │   ├── page.jsx
     │   └── [slug]/
     │       └── page.jsx
     └── lib/
         └── data
-            ├── expriences.js
+            ├── experiences.js
             └── reviews.js
 ```
 

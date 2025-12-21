@@ -1,6 +1,6 @@
 export const REVIEWS = [
   {
-    exprienceSlug: "",
+    experienceSlug: "",
     displayName: "",
     country: "",
     rating: 5,
@@ -10,6 +10,6 @@ export const REVIEWS = [
   }
 ];
 
-export function getReviewByExprienceSlug(slug) {
-  return REVIEWS.filter((r) => r.exprienceSlug === slug);
+export function getReviewByExperienceSlug(slug) {
+  return REVIEWS.filter((review) => review.experienceSlug === slug);
 }

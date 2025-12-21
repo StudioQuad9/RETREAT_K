@@ -1,19 +1,21 @@
 import Link from "next/link";
-import { EXPRIENCES } from "@/lib/data/expriences";
+import { EXPERIENCES } from "@/lib/data/experiences";
 
-export default function ExpriencesPage() {
+export default function ExperiencesPage() {
   return (
     <main>
       <h1>Expriences</h1>
       <ul>
-        {EXPRIENCES.map((exprience) => (
-          <li key={exprience.slug}>
-            <h2>{exprience.title}</h2>
+        {EXPERIENCES.map((experience) => (
+          <li key={experience.slug}>
+            <h2>{experience.title}</h2>
             <div className="duration">
-              Duration: {Math.round(exprience.durationMinutes / 30) / 2} hours
+              Duration: {Math.round(experience.durationMinutes / 30) / 2} hours
             </div>
-            <div className="price">￥{exprience.priceJPY.toLocaleString()}</div>
-            <Link href={`/exprience/${exprience.slug}`}>View details</Link>
+            <div className="price">
+              Price: ￥{experience.priceJPY.toLocaleString()}
+            </div>
+            <Link href={`/experience/${experience.slug}`}>View details</Link>
           </li>
         ))}
       </ul>

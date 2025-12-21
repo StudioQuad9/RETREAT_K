@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getExprienceBySlug } from "@/lib/data/expriences";
-import { getReviewByExprienceSlug } from "@/lib/data/reviews";
+import { getExperienceBySlug } from "@/lib/data/experiences";
+import { getReviewByExperienceSlug } from "@/lib/data/reviews";
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -13,11 +13,12 @@ const WEEKDAY_LABEL = {
   SUM: "Sum"
 };
 
-export default function ExprienceDetailPage( { prams } ) {
-  const exp = getExprienceBySlug(prams.slug);
+export default async function ExperienceDetailPage( { params } ) {
+  const { slug } = await params;
+  const exp = getExperienceBySlug(slug);
   if (!exp) return notFound();
 
-  const reviews = getReviewByExprienceSlug(exp.slug)
+  const reviews = getReviewByExperienceSlug(exp.slug)
 
   return (
     <main>
@@ -25,7 +26,7 @@ export default function ExprienceDetailPage( { prams } ) {
       <div className="pgh duration">
         Duration: {Math.round(exp.durationMinutes / 30) / 2} hours
       </div>
-      <div className="pgh price">Price: ￥{exp.priceJPY.toLocalString()}</div>
+      <div className="pgh price">Price: ￥{exp.priceJPY.toLocaleString()}</div>
       <h2>Schedule</h2>
       <ul>
         {exp.scheduleDetails.map((schedule, idx) => (
@@ -43,7 +44,7 @@ export default function ExprienceDetailPage( { prams } ) {
       </ul>
 
       <div className="enter-btn">
-        <Link href={`/booking?exprience=${exp.slug}`}>Book this exprience</Link>
+        <Link href={`/booking?experience=${exp.slug}`}>Book this experience</Link>
       </div>
 
       <hr />

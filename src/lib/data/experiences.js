@@ -1,4 +1,4 @@
-export const EXPRIENCES = [
+export const EXPERIENCES = [
   {
     slug: "sokan-zen-tea",
     title: "Sokan Zen Meditation & Tea",
@@ -9,7 +9,7 @@ export const EXPRIENCES = [
     highlights: [
       "Guided Zen meditation with a Zen monk",
       "Tea time in a auite temple setting",
-      "Small group exprience",
+      "Small group experience",
     ],
   },
   {
@@ -21,12 +21,12 @@ export const EXPRIENCES = [
     locationText: "DAIHOON-JI, Kyoto",
     highlights: [
       "Rare cultural program held on limited dates",
-      "Learn and exprience Kyogen in a histric setting",
+      "Learn and experience Kyogen in a histric setting",
       "Premium small-group format",
     ],
   },
 ];
 
-export function getExprienceBySlug(slug) {
-  return EXPRIENCES.find((e) => e.slug === slug) || null;
+export function getExperienceBySlug(slug) {
+  return EXPERIENCES.find((experience) => experience.slug === slug) || null;
 }
