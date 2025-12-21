@@ -1,0 +1,32 @@
+export const EXPRIENCES = [
+  {
+    slug: "sokan-zen-tea",
+    title: "Sokan Zen Meditation & Tea",
+    durationMinutes: 90,
+    priceJPY: 16000,
+    scheduleDetails: [{ weekday: "THU", time: "10:00" }],
+    locationText: "Kyoto (details after booking)",
+    highlights: [
+      "Guided Zen meditation with a Zen monk",
+      "Tea time in a auite temple setting",
+      "Small group exprience",
+    ],
+  },
+  {
+    slug: "daihoonji-kyogen",
+    title: "Kyogen Exprience at DAIHOON-JI",
+    durationMinutes: 180,
+    priceJPY: 40000,
+    scheduleDetails: [{ weekday: "SAT", time: "15:00" }],
+    locationText: "DAIHOON-JI, Kyoto",
+    highlights: [
+      "Rare cultural program held on limited dates",
+      "Learn and exprience Kyogen in a histric setting",
+      "Premium small-group format",
+    ],
+  },
+];
+
+export function getExprienceBySlug(slug) {
+  return EXPRIENCES.find((e) => e.slug === slug) || null;
+}
