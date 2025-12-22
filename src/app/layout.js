@@ -13,19 +13,22 @@ const notoSans = Noto_Sans_JP({
   // 251014現在　Next.js v15は、『japanese』に対応してない。
   // subsets: ['latin', 'japanese'],
   display: 'swap',
-})
+  variable: "--font-gothic",
+});
 
 const notoSerif = Noto_Serif_JP({
   weight: ['400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
-})
+  variable: "--font-mincho",
+});
 
 const ysabeau = Ysabeau({
   weight: ['200', '500'],
   subsets: ['latin'],
   display: 'swap',
-})
+  variable: "--font-title-en",
+});
 
 // meta要素の設定
 export const metadata = {
@@ -40,16 +43,16 @@ export const metadata = {
 // => suppressHydrationWarning
 export default function RootLayout({ children }) {
   return (
-    <html lang="ja">
-      <body
-        lang="ja"
-        className={`
-        ${notoSans.className}
-        ${notoSerif.className}
-        ${ysabeau.className}
-        suppressHydrationWarning
+    <html 
+      lang="ja" 
+      className={`
+        ${notoSans.variable}
+        ${notoSerif.variable}
+        ${ysabeau.variable}
       `}
-      >
+      suppressHydrationWarning
+    >
+      <body>
         <Header />
         <main>{children}</main>
         <Footer />
