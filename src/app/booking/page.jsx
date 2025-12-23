@@ -65,7 +65,7 @@ export default async function BookingPage({ searchParams }) {
           </label>
           <label htmlFor="guests">
             Number of guests
-            <input id="guests" name="guests" type="number" min="1" defalutValue="1" required />
+            <input id="guests" name="guests" type="number" min="1" defalutvalue="1" required />
           </label>
           <input name="experience" type="hidden" value={exp.slug} />
         </section>

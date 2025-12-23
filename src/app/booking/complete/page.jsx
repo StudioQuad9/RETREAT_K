@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
+import { formatDuration } from "@/lib/utils/formatDuration";
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -31,53 +32,63 @@ export default async function BookingCompletePage({ searchParams }) {
         .join(", ")
     : "";
 
+
   return (
     <main>
-      <h1 className="en">Booking Confirmed</h1>
-
-      <p>Thank you. Your booking is confirmed.</p>
+      <h1 className="en">Booking complete</h1>
+      <p>
+        Your booking is confirmed. We will send a confirmation email with details.
+      </p>
 
       {exp ? (
         <section>
           <h2>Summary</h2>
-          <p>Experience: {exp.title}</p>
-          <p>Schedule: {scheduleText}</p>
-          {guestCount ? <p>Guests: {guestCount}</p> : null}
-          {email ? <p>Email: {email}</p> : null}
+          <div className="spec">Experience: {exp.title}</div>
+          <div className="spec">Schedule: {scheduleText}</div>
+          <div className="spec">
+            Duration: {formatDuration(exp.durationMinutes)}
+          </div>
+          <div className="spec">
+            Price: ¥{exp.priceJPY.toLocaleString()} / person
+          </div>
+          {/* {guestCount ? <div className="spec">Guests: {guestCount}</div> : null} */}
+          {/* {email ? <div className="spec">Email: {email}</div> : null} */}
         </section>
       ) : (
         <section>
           <h2>Summary</h2>
           <p>
-            We couldn&apos;t read the experience info. Please return to the experiences page.
+            We couldn&apos;t read the experience info. Please return to the
+            experiences page.
           </p>
         </section>
       )}
-
       <section>
-        <h2>Next steps</h2>
-        <p>
-          We will send you a confirmation email with meeting details.
-        </p>
+        <h2>What’s next</h2>
+        <ul>
+          <li>We’ll email you meeting details and a simple checklist.</li>
+          <li>Please arrive 10 minutes early.</li>
+          <li>If you have questions, reply to the confirmation email.</li>
+        </ul>
       </section>
-
       <section>
-        <h2>After the experience</h2>
+        <h2>Review (after your experience)</h2>
         <p>
           After your experience, we will send you a short review request. Your
           feedback helps us preserve authentic cultural programs.
         </p>
       </section>
-
-      <div className="enter-btn">
-        <Link href="/experiences">Back to Experiences</Link>
-      </div>
-
-      {exp ? (
+      {exp && (
         <div className="enter-btn">
-          <Link href={`/experiences/${exp.slug}`}>Back to details</Link>
+          <Link href={`/experiences/${exp.slug}`}>Back to experience page</Link>
         </div>
-      ) : null}
+      )}
+      <section>
+        <p>If you want to book another experience, please check our list.</p>
+        <div className="enter-btn">
+          <Link href="/experiences">Go to Experiences</Link>
+        </div>
+      </section>
     </main>
   );
 }
