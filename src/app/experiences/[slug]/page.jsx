@@ -25,10 +25,11 @@ export default async function ExperienceDetailPage({ params }) {
   return (
     <main>
       <h1>{exp.title}</h1>
-      <div className="pgh duration">
+      <div className="spec">
         Duration: {Math.round(exp.durationMinutes / 30) / 2} hours
       </div>
-      <div className="pgh price">Price: ￥{exp.priceJPY.toLocaleString()}</div>
+      <div className="spec">Price: ￥{exp.priceJPY.toLocaleString()}</div>
+      
       <h2>Schedule</h2>
       <ul>
         {exp.scheduleDetails.map((schedule, idx) => (
@@ -55,7 +56,7 @@ export default async function ExperienceDetailPage({ params }) {
 
       <h2>Reviews</h2>
       {reviews.length === 0 ? (
-        <div className="pgh">No reviews yet.</div>
+        <p>No reviews yet.</p>
       ) : (
         <ul>
           {reviews.map((review, idx) => (

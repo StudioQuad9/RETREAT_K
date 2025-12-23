@@ -21,7 +21,7 @@ export default async function BookingPage({ searchParams }) {
     return (
       <main>
         <h1>Booking</h1>
-        <div className="pgh">Please select an experience first.</div>
+        <p>Please select an experience first.</p>
         <Link href="/experiences">Go to Expriences</Link>
       </main>
     );
@@ -41,13 +41,13 @@ export default async function BookingPage({ searchParams }) {
 
       <section>
         <h2>{exp.title}</h2>
-        <div className="pgh schedule">
+        <div className="spec">
           Schedule: {scheduleText}
         </div>
-        <div className="pgh duration">
+        <div className="spec">
           Duration: {Math.round(exp.durationMinutes/ 30) / 2 } hours
         </div>
-        <div className="pgh price">
+        <div className="spec">
           Price: ￥{exp.priceJPY.toLocaleString()} / person
         </div>
       </section>
