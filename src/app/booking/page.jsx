@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
+import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 
@@ -13,8 +14,16 @@ const WEEKDAY_LABEL = {
   THU: "Thu",
   FRI: "Fri",
   SAT: "Sat",
-  SUM: "Sum",
+  SUN: "Sun",
 };
+
+function buildScheduleText(exp) {
+  return exp.scheduleDetails
+    .map((schedule) => {
+      const weekday = WEEKDAY_LABEL[schedule.weekday] ?? schedule.weekday;
+      return `${ weekday } ${ schedule.time }`;
+    }).join(", ");
+}
 
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;
@@ -28,6 +37,17 @@ export default async function BookingPage({ searchParams }) {
     const name = String(formData.get("name") || "");
     const email = String(formData.get("email") || "");
     const guests = String(formData.get("guests") || "");
+
+    const bookedExp = experience ? getExperienceBySlug(experience) : null;
+    const scheduleText = bookedExp ? buildScheduleText(bookedExp): "";
+
+    await sendBookingEmail({
+      to: email,
+      name,
+      guests,
+      experienceTitle: bookedExp?.title ?? "",
+      scheduleText
+    });
 
     const query = new URLSearchParams({ experience, name, email, guests });
     redirect(`/booking/complete?${query.toString()}`);
@@ -43,11 +63,7 @@ export default async function BookingPage({ searchParams }) {
     );
   }
 
-  const scheduleText = exp.scheduleDetails
-    .map((schedule) => {
-      return `${ WEEKDAY_LABEL[schedule.weekday] ?? schedule.weekday } ${ schedule.time }`;
-    })
-    .join(", ");
+  const scheduleText = buildScheduleText(exp);
 
   return (
     <main>
@@ -59,9 +75,7 @@ export default async function BookingPage({ searchParams }) {
         <div className="spec">
           Duration: {formatDuration(exp.durationMinutes)}
         </div>
-        <div className="spec">
-          Price: ￥{formatYen(exp.priceJPY)} / person
-        </div>
+        <div className="spec">Price: ￥{formatYen(exp.priceJPY)} / person</div>
       </section>
 
       <form action={sumbitBooking}>
@@ -71,10 +85,12 @@ export default async function BookingPage({ searchParams }) {
             Full name
             <input id="name" name="name" type="text" required />
           </label>
+
           <label htmlFor="email">
             Email
             <input id="email" name="email" type="email" required />
           </label>
+
           <label htmlFor="guests">
             Number of guests
             <input
@@ -82,10 +98,11 @@ export default async function BookingPage({ searchParams }) {
               name="guests"
               type="number"
               min="1"
-              defalutvalue="1"
+              defaultValue="1"
               required
             />
           </label>
+          
           <input name="experience" type="hidden" value={exp.slug} />
         </section>
 

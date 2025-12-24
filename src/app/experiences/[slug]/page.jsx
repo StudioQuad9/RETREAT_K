@@ -13,7 +13,7 @@ const WEEKDAY_LABEL = {
   THU: "Thu",
   FRI: "Fri",
   SAT: "Sat",
-  SUM: "Sum",
+  SUN: "Sun",
 };
 
 export default async function ExperienceDetailPage({ params }) {
