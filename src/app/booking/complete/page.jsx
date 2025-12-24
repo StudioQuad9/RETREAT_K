@@ -17,9 +17,9 @@ export default async function BookingCompletePage({ searchParams }) {
   const params = await searchParams;
 
   const experienceSlug = params?.experience || "";
-  const guestName = params?.name || "";
-  const guestCount = params?.guests || "";
-  const email = params?.email || "";
+  // const guestName = params?.name || "";
+  // const guestCount = params?.guests || "";
+  // const email = params?.email || "";
 
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
