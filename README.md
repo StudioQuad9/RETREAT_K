@@ -1,3 +1,115 @@
+# RETREAT K – Cultural Experience Booking Site (Prototype)
+
+## Overview
+
+RETREAT K is a prototype booking website for authentic cultural experiences in Kyoto, Japan.
+The project is designed as a pre-platform validation site prior to listing experiences on GetYourGuide and other global travel platforms.
+
+This site demonstrates:
+* Clear experience information
+* A complete booking flow
+* Post-booking communication design
+* A review acquisition strategy aligned with platform policies
+
+## Purpose of This Project
+
+Before launching on GetYourGuide, this site serves to:
+* Validate demand through direct bookings
+* Accumulate verifiable experience delivery records
+* Establish a legitimate review flow without violating platform rules
+* Present a transparent and professional operation model
+
+This site is not a demo UI, but a working operational prototype.
+
+## Implemented Experience Programs
+
+1. Sokan Zen Meditation & Tea
+  * Schedule: Thursday, 10:00
+  * Duration: 90 minutes
+  * Price: ¥16,000 per person
+  * Small-group guided meditation and tea experience led by a Zen monk
+
+2. Kyogen Experience at Daihoon-ji
+  * Schedule: Saturday, 15:00
+  * Duration: 180 minutes
+  * Price: ¥40,000 per person
+  * Rare traditional Kyogen experience held at Daihoon-ji Temple
+
+## Booking Flow
+
+The site implements a complete booking flow:
+  1.	Experience list
+  1.	Experience detail page
+  1.	Booking form
+  1.	Booking completion page
+
+The booking completion page is intentionally designed to:
+  * Confirm the reservation clearly
+  * Explain next steps (email follow-up, meeting details)
+  * Introduce review requests as a future action, not an immediate demand
+
+This approach avoids forced or artificial reviews and aligns with global platform guidelines.
+
+## Review Policy (Important)
+
+Reviews are not collected on this website immediately after booking.
+
+### Instead:
+* Guests are informed that a review request will be sent after the experience
+* Reviews are requested only after actual participation
+* Feedback is positioned as a contribution to preserving authentic cultural programs
+
+### This ensures:
+* Authenticity
+* Transparency
+* Compliance with GetYourGuide and Google review policies
+
+## Technical Stack
+* Framework: Next.js (App Router)
+* Rendering: Server Components
+* Styling: SCSS (custom variables & mixins)
+* Data Structure: Static data modules (prototype phase)
+* Utilities: Shared formatting utilities for duration and pricing
+
+### The codebase prioritizes:
+* Readability
+* Clear separation of concerns
+* Defensive data handling (no trust in user input)
+
+## Design Philosophy
+* JSX is kept minimal and readable
+* Display logic is extracted into reusable utilities
+* No client-side state libraries are used at this stage
+* The site is intentionally simple, focusing on operational clarity
+
+### This allows easy transition to:
+* Database-backed bookings
+* Payment integration
+* Automated email delivery
+* Platform synchronization
+
+## Status
+
+This repository represents a working pre-launch system.
+
+### Planned next steps:
+* Booking confirmation email delivery
+* Post-experience review request automation
+* Platform listing integration (GetYourGuide)
+
+## Disclaimer
+
+This site is a prototype for operational validation.
+It does not process payments at this stage and does not represent a public marketplace.
+
+## Contact
+
+RETREAT K
+Kyoto, Japan
+mail: takahiro@hokuto-p.co.jp
+
+# Others
+## Site map
 
 ```
 └── src/
@@ -9,7 +121,7 @@
     │   ├── booking/
     │   │   ├── page.jsx
     │   │   └── complete/
-    │   │       └── 
+    │   │       └── page.jsx
     │   └── experiences/
     │       ├── page.jsx
     │       └── [slug]/
@@ -23,9 +135,12 @@
     │           ├── index.jsx
     │           └── Footer.module.scss
     ├── lib/
-    │   └── data
-    │       ├── experiences.js
-    │       └── reviews.js
+    │   ├── data
+    │   │   ├── experiences.js
+    │   │   └── reviews.js
+    │   └── utils/
+    │       ├── formatDuration.js
+    │       └── formatYen.js
     └── styles/
         └── shared
             ├── _index.scss
@@ -59,20 +174,3 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

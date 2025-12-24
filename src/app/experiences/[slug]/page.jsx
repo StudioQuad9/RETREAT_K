@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { getReviewByExperienceSlug } from "@/lib/data/reviews";
+import { formatYen } from "@/lib/utils/formatYen";
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -28,8 +29,10 @@ export default async function ExperienceDetailPage({ params }) {
       <div className="spec">
         Duration: {Math.round(exp.durationMinutes / 30) / 2} hours
       </div>
-      <div className="spec">Price: ￥{exp.priceJPY.toLocaleString()}</div>
-      
+      <div className="spec">
+        Price: ￥{formatYen(exp.priceJPY)} / person
+      </div>
+
       <h2>Schedule</h2>
       <ul>
         {exp.scheduleDetails.map((schedule, idx) => (

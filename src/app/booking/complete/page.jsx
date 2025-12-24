@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
+import { formatYen } from "@/lib/utils/formatYen";
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -15,7 +16,6 @@ const WEEKDAY_LABEL = {
 export default async function BookingCompletePage({ searchParams }) {
   // Next.js 15系では searchParams が Promise になることがあるので await します
   const params = await searchParams;
-
   const experienceSlug = params?.experience || "";
   // const guestName = params?.name || "";
   // const guestCount = params?.guests || "";
@@ -49,7 +49,7 @@ export default async function BookingCompletePage({ searchParams }) {
             Duration: {formatDuration(exp.durationMinutes)}
           </div>
           <div className="spec">
-            Price: ¥{exp.priceJPY.toLocaleString()} / person
+            Price: ￥{formatYen(exp.priceJPY)} / person
           </div>
           {/* {guestCount ? <div className="spec">Guests: {guestCount}</div> : null} */}
           {/* {email ? <div className="spec">Email: {email}</div> : null} */}

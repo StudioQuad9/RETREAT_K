@@ -1,7 +1,10 @@
 // @/app/booking/page.jsx
 
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
+import { formatDuration } from "@/lib/utils/formatDuration";
+import { formatYen } from "@/lib/utils/formatYen";
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -14,8 +17,21 @@ const WEEKDAY_LABEL = {
 };
 
 export default async function BookingPage({ searchParams }) {
-  const { experience } = await searchParams;
-  const exp = experience ? getExperienceBySlug(experience) : null;
+  const params = await searchParams;
+  const experienceSlug = params?.experience || "";
+  const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
+
+  async function sumbitBooking(formData) {
+    "use server";
+
+    const experience = String(formData.get("experience") || "");
+    const name = String(formData.get("name") || "");
+    const email = String(formData.get("email") || "");
+    const guests = String(formData.get("guests") || "");
+
+    const query = new URLSearchParams({ experience, name, email, guests });
+    redirect(`/booking/complete?${query.toString()}`);
+  }
 
   if (!exp) {
     return (
@@ -26,14 +42,12 @@ export default async function BookingPage({ searchParams }) {
       </main>
     );
   }
-// `${WEEKDAY_LABEL[schedule.weekday]} ${schedule.time}`
+
   const scheduleText = exp.scheduleDetails
     .map((schedule) => {
-      const weekdayLabel = WEEKDAY_LABEL[schedule.weekday];
-      const timeLabel = schedule.time;
-      return `${weekdayLabel} ${timeLabel}`;
+      return `${ WEEKDAY_LABEL[schedule.weekday] ?? schedule.weekday } ${ schedule.time }`;
     })
-    .join(",");
+    .join(", ");
 
   return (
     <main>
@@ -41,18 +55,16 @@ export default async function BookingPage({ searchParams }) {
 
       <section>
         <h2>{exp.title}</h2>
+        <div className="spec">Schedule: {scheduleText}</div>
         <div className="spec">
-          Schedule: {scheduleText}
+          Duration: {formatDuration(exp.durationMinutes)}
         </div>
         <div className="spec">
-          Duration: {Math.round(exp.durationMinutes/ 30) / 2 } hours
-        </div>
-        <div className="spec">
-          Price: ￥{exp.priceJPY.toLocaleString()} / person
+          Price: ￥{formatYen(exp.priceJPY)} / person
         </div>
       </section>
 
-      <form action="/booking/complete">
+      <form action={sumbitBooking}>
         <section>
           <h3>Your Details</h3>
           <label htmlFor="name">
@@ -65,7 +77,14 @@ export default async function BookingPage({ searchParams }) {
           </label>
           <label htmlFor="guests">
             Number of guests
-            <input id="guests" name="guests" type="number" min="1" defalutvalue="1" required />
+            <input
+              id="guests"
+              name="guests"
+              type="number"
+              min="1"
+              defalutvalue="1"
+              required
+            />
           </label>
           <input name="experience" type="hidden" value={exp.slug} />
         </section>
