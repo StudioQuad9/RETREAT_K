@@ -138,6 +138,8 @@ mail: takahiro@hokuto-p.co.jp
     │   ├── data
     │   │   ├── experiences.js
     │   │   └── reviews.js
+    │   ├── server/
+    │   │   └── sendBookingEmail.js
     │   └── utils/
     │       ├── formatDuration.js
     │       └── formatYen.js

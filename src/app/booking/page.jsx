@@ -6,24 +6,16 @@ import { getExperienceBySlug } from "@/lib/data/experiences";
 import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
+import { buildScheduleText } from "@/lib/utils/buildScheduleText";
 
-const WEEKDAY_LABEL = {
-  MON: "Mon",
-  TUE: "Tue",
-  WED: "Wed",
-  THU: "Thu",
-  FRI: "Fri",
-  SAT: "Sat",
-  SUN: "Sun",
-};
 
-function buildScheduleText(exp) {
-  return exp.scheduleDetails
-    .map((schedule) => {
-      const weekday = WEEKDAY_LABEL[schedule.weekday] ?? schedule.weekday;
-      return `${ weekday } ${ schedule.time }`;
-    }).join(", ");
-}
+// function buildScheduleText(exp) {
+//   return exp.scheduleDetails
+//     .map((schedule) => {
+//       const weekday = WEEKDAY_LABEL[schedule.weekday] ?? schedule.weekday;
+//       return `${ weekday } ${ schedule.time }`;
+//     }).join(", ");
+// }
 
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;

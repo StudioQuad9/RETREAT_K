@@ -1,3 +1,5 @@
+// @/lib/data/reviews.js
+
 export const REVIEWS = [
   {
     experienceSlug: "",

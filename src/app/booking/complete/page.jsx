@@ -2,16 +2,7 @@ import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
-
-const WEEKDAY_LABEL = {
-  MON: "Mon",
-  TUE: "Tue",
-  WED: "Wed",
-  THU: "Thu",
-  FRI: "Fri",
-  SAT: "Sat",
-  SUN: "Sun",
-};
+import { buildScheduleText } from "@/lib/utils/buildScheduleText";
 
 export default async function BookingCompletePage({ searchParams }) {
   // Next.js 15系では searchParams が Promise になることがあるので await します
@@ -23,21 +14,14 @@ export default async function BookingCompletePage({ searchParams }) {
 
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
-  const scheduleText = exp?.scheduleDetails
-    ? exp.scheduleDetails
-        .map(
-          (schedule) =>
-            `${WEEKDAY_LABEL[schedule.weekday]} ${schedule.time}`
-        )
-        .join(", ")
-    : "";
-
+  const scheduleText = buildScheduleText(exp);
 
   return (
     <main>
       <h1 className="en">Booking complete</h1>
       <p>
-        Your booking is confirmed. We will send a confirmation email with details.
+        Your booking is confirmed. We will send a confirmation email with
+        details.
       </p>
 
       {exp ? (

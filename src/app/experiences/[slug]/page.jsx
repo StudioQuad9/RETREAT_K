@@ -4,17 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { getReviewByExperienceSlug } from "@/lib/data/reviews";
+import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
-
-const WEEKDAY_LABEL = {
-  MON: "Mon",
-  TUE: "Tue",
-  WED: "Wed",
-  THU: "Thu",
-  FRI: "Fri",
-  SAT: "Sat",
-  SUN: "Sun",
-};
+import { buildScheduleText } from "@/lib/utils/buildScheduleText";
 
 export default async function ExperienceDetailPage({ params }) {
   const { slug } = await params;
@@ -27,19 +19,13 @@ export default async function ExperienceDetailPage({ params }) {
     <main>
       <h1>{exp.title}</h1>
       <div className="spec">
-        Duration: {Math.round(exp.durationMinutes / 30) / 2} hours
+        Duration: {formatDuration(exp.durationMinutes)}
       </div>
-      <div className="spec">
-        Price: ￥{formatYen(exp.priceJPY)} / person
-      </div>
+      <div className="spec">Price: ￥{formatYen(exp.priceJPY)} / person</div>
 
       <h2>Schedule</h2>
       <ul>
-        {exp.scheduleDetails.map((schedule, idx) => (
-          <li key={idx}>
-            {WEEKDAY_LABEL[schedule.weekday]} {schedule.time}
-          </li>
-        ))}
+        <li>{buildScheduleText(exp)}</li>
       </ul>
 
       <h2>Highlights</h2>
