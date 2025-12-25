@@ -7,10 +7,13 @@ export function formatDuration(value) {
   const hours = Math.floor(minutes / 60);
   const restMinutes = minutes % 60;
 
+  const hourLabel = hours === 1 ? "hour" : "hours";
+  const minuteLabel = restMinutes === 1 ? "minute" : "minutes";
+
   if (hours === 0) {
-    return `${restMinutes} ${restMinutes === 1 ? "minute" : "minutes"}`;
+    return `${restMinutes} ${minuteLabel}`;
   } else if (restMinutes === 0) {
-    return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    return `${hours} ${hourLabel}`;
   }
-  return `${hours} hours ${restMinutes} minutes`;
+  return `${hours} ${hourLabel} ${restMinutes} ${minuteLabel}`;
 };

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { EXPERIENCES } from "@/lib/data/experiences";
-
+import { formatDuration } from "@/lib/utils/formatDuration";
+import { formatYen } from "@/lib/utils/formatYen";
 export default function ExperiencesPage() {
   return (
     <main>
@@ -12,10 +13,10 @@ export default function ExperiencesPage() {
           <li key={experience.slug}>
             <h2>{experience.title}</h2>
             <div className="duration">
-              Duration: {Math.round(experience.durationMinutes / 30) / 2} hours
+              Duration: {formatDuration(experience.durationMinutes)}
             </div>
             <div className="price">
-              Price: ￥{experience.priceJPY.toLocaleString()}
+              Price: ￥{formatYen(experience.priceJPY)}
             </div>
             <Link href={`/experiences/${experience.slug}`}>View details</Link>
           </li>
