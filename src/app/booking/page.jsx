@@ -7,30 +7,32 @@ import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText } from "@/lib/utils/buildScheduleText";
-
-
-// function buildScheduleText(exp) {
-//   return exp.scheduleDetails
-//     .map((schedule) => {
-//       const weekday = WEEKDAY_LABEL[schedule.weekday] ?? schedule.weekday;
-//       return `${ weekday } ${ schedule.time }`;
-//     }).join(", ");
-// }
+import BookingForm from "@/app/booking/BookingForm";
 
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;
   const experienceSlug = params?.experience || "";
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
-  async function sumbitBooking(formData) {
+  async function submitBooking(formData) {
     "use server";
 
     const experience = String(formData.get("experience") || "");
     const name = String(formData.get("name") || "");
     const email = String(formData.get("email") || "");
-    const guests = String(formData.get("guests") || "");
+    const guests = Number(formData.get("guests") || 0);
+
+    if (!Number.isFinite(guests) || guests < 1) {
+      throw new Error("Invalid guests");
+    }
 
     const bookedExp = experience ? getExperienceBySlug(experience) : null;
+    if (!bookedExp) throw new Error("Invalid experience");
+
+    if (guests > bookedExp.capacity) {
+      throw new Error(`Guests exceeds capacity (${bookedExp.capacity})`);
+    }
+    
     const scheduleText = bookedExp ? buildScheduleText(bookedExp): "";
 
     await sendBookingEmail({
@@ -70,36 +72,12 @@ export default async function BookingPage({ searchParams }) {
         <div className="spec">Price: ￥{formatYen(exp.priceJPY)} / person</div>
       </section>
 
-      <form action={sumbitBooking}>
-        <section>
-          <h3>Your Details</h3>
-          <label htmlFor="name">
-            Full name
-            <input id="name" name="name" type="text" required />
-          </label>
-
-          <label htmlFor="email">
-            Email
-            <input id="email" name="email" type="email" required />
-          </label>
-
-          <label htmlFor="guests">
-            Number of guests
-            <input
-              id="guests"
-              name="guests"
-              type="number"
-              min="1"
-              defaultValue="1"
-              required
-            />
-          </label>
-          
-          <input name="experience" type="hidden" value={exp.slug} />
-        </section>
-
-        <button type="submit">Proceed</button>
-      </form>
+      <BookingForm
+        experienceSlug={exp.slug}
+        priceJPY={exp.priceJPY}
+        capacity={exp.capacity}
+        submitBooking={submitBooking}
+      />
 
       <div className="enter-btn">
         <Link href={`/experiences/${exp.slug}`}>Back to details</Link>

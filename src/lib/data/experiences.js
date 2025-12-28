@@ -1,3 +1,5 @@
+// @/lib/data/experience.js
+
 export const EXPERIENCES = [
   {
     slug: "sokan-zen-tea",
@@ -5,6 +7,8 @@ export const EXPERIENCES = [
     durationMinutes: 90,
     priceJPY: 16000,
     scheduleDetails: [{ weekday: "THU", time: "10:00" }],
+    minGuests: 3,
+    capacity: 9,
     locationText: "Kyoto (details after booking)",
     highlights: [
       "Guided Zen meditation with a Zen monk",
@@ -18,6 +22,8 @@ export const EXPERIENCES = [
     durationMinutes: 180,
     priceJPY: 40000,
     scheduleDetails: [{ weekday: "SAT", time: "15:00" }],
+    minGuests: 3,
+    capacity: 6,
     locationText: "DAIHOON-JI, Kyoto",
     highlights: [
       "Rare cultural program held on limited dates",

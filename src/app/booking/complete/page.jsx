@@ -29,6 +29,8 @@ export default async function BookingCompletePage({ searchParams }) {
           <h2>Summary</h2>
           <div className="spec">Experience: {exp.title}</div>
           <div className="spec">Schedule: {scheduleText}</div>
+          <div className="spec">Minimum to run: {exp.minGuests} guests</div>
+          <div className="spec">Capacity: {exp.capacity} guests</div>
           <div className="spec">
             Duration: {formatDuration(exp.durationMinutes)}
           </div>

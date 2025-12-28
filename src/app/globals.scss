@@ -80,3 +80,8 @@ pre {
   white-space: pre; // これが本命：改行とスペースを保持
   overflow-x: auto; // はみ出したら横スクロール
 }
+
+button {
+  margin-top: 2rem;
+  padding: .5em 1.5em;
+}

@@ -1,4 +1,4 @@
-// @/src/lib/utils/buildScheduleText.js
+// @/lib/utils/buildScheduleText.js
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
