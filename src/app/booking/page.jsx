@@ -6,7 +6,7 @@ import { getExperienceBySlug } from "@/lib/data/experiences";
 import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
-import { buildScheduleText } from "@/lib/utils/buildScheduleText";
+import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
 import BookingForm from "@/app/booking/BookingForm";
 
 export default async function BookingPage({ searchParams }) {
@@ -54,7 +54,15 @@ export default async function BookingPage({ searchParams }) {
       scheduleText,
     });
 
-    const query = new URLSearchParams({ experience, name, email, guests });
+    const date = bookingDate.toISOString();
+    const query = new URLSearchParams({
+      experience,
+      name,
+      email,
+      guests:
+      String(guests),
+      date
+    });
     redirect(`/booking/complete?${query.toString()}`);
   }
 
@@ -85,6 +93,7 @@ export default async function BookingPage({ searchParams }) {
         experienceSlug={exp.slug}
         priceJPY={exp.priceJPY}
         capacity={exp.capacity}
+        allowedWeekdays={buildScheduleIndex(exp)}
         submitBooking={submitBooking}
       />
 

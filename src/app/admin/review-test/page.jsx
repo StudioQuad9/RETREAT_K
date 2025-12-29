@@ -6,7 +6,7 @@
 
 import { sendReviewEmail } from "@/lib/server/sendReviewEmail";
 import { getExperienceBySlug } from "@/lib/data/experiences";
-import { buildScheduleText } from "@/lib/utils/buildScheduleText";
+import { buildScheduleText } from "@/lib/utils/buildSchedule";
 
 export default function ReviewTestPage() {
   async function send(formData) {

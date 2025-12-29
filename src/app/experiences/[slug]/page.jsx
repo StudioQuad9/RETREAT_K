@@ -6,7 +6,7 @@ import { getExperienceBySlug } from "@/lib/data/experiences";
 import { getReviewByExperienceSlug } from "@/lib/data/reviews";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
-import { buildScheduleText } from "@/lib/utils/buildScheduleText";
+import { buildScheduleText } from "@/lib/utils/buildSchedule";
 
 export default async function ExperienceDetailPage({ params }) {
   const { slug } = await params;

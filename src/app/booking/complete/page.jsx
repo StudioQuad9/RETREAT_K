@@ -2,33 +2,48 @@ import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
-import { buildScheduleText } from "@/lib/utils/buildScheduleText";
+import { buildScheduleText } from "@/lib/utils/buildSchedule";
 
 export default async function BookingCompletePage({ searchParams }) {
   // Next.js 15系では searchParams が Promise になることがあるので await します
   const params = await searchParams;
   const experienceSlug = params?.experience || "";
-  // const guestName = params?.name || "";
-  // const guestCount = params?.guests || "";
-  // const email = params?.email || "";
+  const guestName = params?.name || "";
+  const email = params?.email || "";
+  const guestCount = params?.guests || "";
+  const dateRaw = params?.date || "";
 
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
-  const scheduleText = buildScheduleText(exp);
+  let bookingDateText = "";
+  if (dateRaw) {
+    const day = new Date(dateRaw);
+    if (!Number.isNaN(day.getTime())) {
+      bookingDateText = day.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+  }
 
   return (
     <main>
       <h1 className="en">Booking complete</h1>
       <p>
-        Your booking is confirmed. We will send a confirmation email with
-        details.
+        Your booking is confirmed. We will send a confirmation email with details.
       </p>
 
       {exp ? (
         <section>
           <h2>Summary</h2>
           <div className="spec">Experience: {exp.title}</div>
-          <div className="spec">Schedule: {scheduleText}</div>
+          {bookingDateText && (
+            <div className="spec">
+              Date: {bookingDateText}
+            </div>
+          )}
           <div className="spec">Minimum to run: {exp.minGuests} guests</div>
           <div className="spec">Capacity: {exp.capacity} guests</div>
           <div className="spec">
@@ -37,8 +52,8 @@ export default async function BookingCompletePage({ searchParams }) {
           <div className="spec">
             Price: ￥{formatYen(exp.priceJPY)} / person
           </div>
-          {/* {guestCount ? <div className="spec">Guests: {guestCount}</div> : null} */}
-          {/* {email ? <div className="spec">Email: {email}</div> : null} */}
+          {guestCount ? <div className="spec">Guests: {guestCount}</div> : null}
+          {email ? <div className="spec">Email: {email}</div> : null}
         </section>
       ) : (
         <section>

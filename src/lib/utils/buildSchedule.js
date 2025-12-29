@@ -1,4 +1,4 @@
-// @/lib/utils/buildScheduleText.js
+// @/lib/utils/buildSchedule.js
 
 const WEEKDAY_LABEL = {
   MON: "Mon",
@@ -18,4 +18,23 @@ export function buildScheduleText(exp) {
     })
     .join(", ")
     : "";
+}
+
+const WEEKDAY_INDEX = {
+  SUN: 0,
+  MON: 1,
+  TUE: 2,
+  WED: 3,
+  THU: 4,
+  FRI: 5,
+  SAT: 6,
+};
+
+export function buildScheduleIndex(exp) {
+  if (!exp?.scheduleDetails) return [];
+  return (
+    exp?.scheduleDetails.map((schedule) => {
+      return WEEKDAY_INDEX[schedule.weekday]
+    }).filter((idx) => Number.isFinite(idx))
+  );
 }

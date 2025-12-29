@@ -10,21 +10,29 @@ export default function BookingForm({
   experienceSlug,
   priceJPY,
   capacity,
+  allowedWeekdays,
   submitBooking,
 }) {
+  // 人数のState
   const [guests, setGuests] = useState(1);
-  const [date, setDate] = useState(null);
-
-  const totalJPY = useMemo(() => {
-    return priceJPY * guests;
-  }, [priceJPY, guests]);
-
   function handleGuestsChange(e) {
     const value = Number(e.target.value);
     if (!Number.isFinite(value) || value < 1 || value > capacity) return;
     
     setGuests(value);
   }
+  // 日時のState
+  const [date, setDate] = useState(null);
+
+  const totalJPY = useMemo(() => {
+    return priceJPY * guests;
+  }, [priceJPY, guests]);
+
+  // 選べない日をまとめて定義
+  const disabledRules = [
+    { before: new Date() },
+    (day) => !allowedWeekdays.includes(day.getDay()),
+  ];
 
   return (
     <form action={submitBooking}>
@@ -34,19 +42,22 @@ export default function BookingForm({
           mode="single"
           selected={date}
           onSelect={setDate}
-          disabled={{ before: new Date() }} //今日より前の日付を表示も選択もさせない
+          disabled={disabledRules}
+          // //今日より前の日付を表示も選択もさせない
+          // disabled={{ before: new Date() }}
           // 曜日を『Sun, Mon, Tue, Wed, Thu, Fri, Sat』と表示させる。
           formatters={{
-            formatWeekdayName: (date) => date.toLocaleDateString("en-US", { weekday: "short"})
+            formatWeekdayName: (date) =>
+              date.toLocaleDateString("en-US", { weekday: "short" }),
           }}
         />
 
         {!date && <p style={{ color: "red" }}>Please select a date.</p>}
 
-        <input 
-          type="hidden" 
-          name="date" 
-          value={date ? date.toISOString() : ""} 
+        <input
+          type="hidden"
+          name="date"
+          value={date ? date.toISOString() : ""}
         />
       </section>
 
@@ -81,7 +92,9 @@ export default function BookingForm({
         <input name="experience" type="hidden" value={experienceSlug} />
       </section>
 
-      <button type="submit" disabled={!date}>Proceed</button>
+      <button type="submit" disabled={!date}>
+        Proceed
+      </button>
     </form>
   );
   
