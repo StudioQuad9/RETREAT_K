@@ -1,6 +1,9 @@
+// @/app/booking/BookingForm.jsx
+
 "use client";
 
 import { useMemo, useState } from "react";
+import { DayPicker } from "react-day-picker";
 import { formatYen } from "@/lib/utils/formatYen";
 
 export default function BookingForm({
@@ -10,6 +13,7 @@ export default function BookingForm({
   submitBooking,
 }) {
   const [guests, setGuests] = useState(1);
+  const [date, setDate] = useState(null);
 
   const totalJPY = useMemo(() => {
     return priceJPY * guests;
@@ -24,6 +28,28 @@ export default function BookingForm({
 
   return (
     <form action={submitBooking}>
+      <section>
+        <h3>Select Date</h3>
+        <DayPicker
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          disabled={{ before: new Date() }} //今日より前の日付を表示も選択もさせない
+          // 曜日を『Sun, Mon, Tue, Wed, Thu, Fri, Sat』と表示させる。
+          formatters={{
+            formatWeekdayName: (date) => date.toLocaleDateString("en-US", { weekday: "short"})
+          }}
+        />
+
+        {!date && <p style={{ color: "red" }}>Please select a date.</p>}
+
+        <input 
+          type="hidden" 
+          name="date" 
+          value={date ? date.toISOString() : ""} 
+        />
+      </section>
+
       <section>
         <h3>Your Details</h3>
         <label htmlFor="name">
@@ -49,13 +75,13 @@ export default function BookingForm({
             required
           />
         </label>
-        <p>
-          Total: ￥{formatYen(totalJPY)}
-        </p>
+
+        <p>Total: ￥{formatYen(totalJPY)}</p>
+
         <input name="experience" type="hidden" value={experienceSlug} />
       </section>
-  
-      <button type="submit">Proceed</button>
+
+      <button type="submit" disabled={!date}>Proceed</button>
     </form>
   );
   

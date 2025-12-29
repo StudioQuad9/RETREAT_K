@@ -14,33 +14,44 @@ export default async function BookingPage({ searchParams }) {
   const experienceSlug = params?.experience || "";
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
+  // BookingFormコンポーネントとのやり取り用関数を親で定義する
   async function submitBooking(formData) {
     "use server";
 
+    // カレンダーでゲストが予約した日付
+    const dateRaw = String(formData.get("date") || "");
+    if (!dateRaw) throw new Error("Date is required");
+    const bookingDate = new Date(dateRaw);
+    if (Number.isNaN(bookingDate.getTime())) {
+      throw new Error("Invalid date");
+    }
+
+    // フォームから送られたデータ
     const experience = String(formData.get("experience") || "");
     const name = String(formData.get("name") || "");
     const email = String(formData.get("email") || "");
     const guests = Number(formData.get("guests") || 0);
 
+    // 人数についてバリデーション
     if (!Number.isFinite(guests) || guests < 1) {
       throw new Error("Invalid guests");
     }
-
     const bookedExp = experience ? getExperienceBySlug(experience) : null;
     if (!bookedExp) throw new Error("Invalid experience");
-
     if (guests > bookedExp.capacity) {
       throw new Error(`Guests exceeds capacity (${bookedExp.capacity})`);
     }
-    
-    const scheduleText = bookedExp ? buildScheduleText(bookedExp): "";
 
+    // 体験スケジュールの日付と曜日
+    const scheduleText = bookedExp ? buildScheduleText(bookedExp) : "";
+
+    // 予約の内容を送信する本体にあたる関数
     await sendBookingEmail({
       to: email,
       name,
       guests,
       experienceTitle: bookedExp?.title ?? "",
-      scheduleText
+      scheduleText,
     });
 
     const query = new URLSearchParams({ experience, name, email, guests });
@@ -57,15 +68,13 @@ export default async function BookingPage({ searchParams }) {
     );
   }
 
-  const scheduleText = buildScheduleText(exp);
-
   return (
     <main>
       <h1>Booking</h1>
 
       <section>
         <h2>{exp.title}</h2>
-        <div className="spec">Schedule: {scheduleText}</div>
+        <div className="spec">Schedule: {buildScheduleText(exp)}</div>
         <div className="spec">
           Duration: {formatDuration(exp.durationMinutes)}
         </div>
