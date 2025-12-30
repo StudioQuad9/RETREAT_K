@@ -1,14 +1,16 @@
+// @/app/booking/complete/page.jsx
+
 import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
-import { buildScheduleText } from "@/lib/utils/buildSchedule";
 
 export default async function BookingCompletePage({ searchParams }) {
   // Next.js 15系では searchParams が Promise になることがあるので await します
   const params = await searchParams;
+
   const experienceSlug = params?.experience || "";
-  const guestName = params?.name || "";
+  const name = params?.name || "";
   const email = params?.email || "";
   const guestCount = params?.guests || "";
   const dateRaw = params?.date || "";
@@ -32,7 +34,8 @@ export default async function BookingCompletePage({ searchParams }) {
     <main>
       <h1 className="en">Booking complete</h1>
       <p>
-        Your booking is confirmed. We will send a confirmation email with details.
+        Your booking is confirmed. We will send a confirmation email with
+        details.
       </p>
 
       {exp ? (
@@ -40,9 +43,7 @@ export default async function BookingCompletePage({ searchParams }) {
           <h2>Summary</h2>
           <div className="spec">Experience: {exp.title}</div>
           {bookingDateText && (
-            <div className="spec">
-              Date: {bookingDateText}
-            </div>
+            <div className="spec">Booked date: {bookingDateText}</div>
           )}
           <div className="spec">Minimum to run: {exp.minGuests} guests</div>
           <div className="spec">Capacity: {exp.capacity} guests</div>
@@ -50,8 +51,10 @@ export default async function BookingCompletePage({ searchParams }) {
             Duration: {formatDuration(exp.durationMinutes)}
           </div>
           <div className="spec">
-            Price: ￥{formatYen(exp.priceJPY)} / person
+            Price: ￥{formatYen(exp.priceJPY * guestCount)} / total<br />
+            (￥{formatYen(exp.priceJPY)} / person)
           </div>
+          {name ? <div className="spec">Name: {name}</div> : null}
           {guestCount ? <div className="spec">Guests: {guestCount}</div> : null}
           {email ? <div className="spec">Email: {email}</div> : null}
         </section>

@@ -8,6 +8,7 @@ import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
 import BookingForm from "@/app/booking/BookingForm";
+import { saveBooking } from "@/lib/server/saveBooking";
 
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;
@@ -45,6 +46,23 @@ export default async function BookingPage({ searchParams }) {
     // 体験スケジュールの日付と曜日
     const scheduleText = bookedExp ? buildScheduleText(bookedExp) : "";
 
+    // 予約された日付
+    const dateText = bookingDate.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+
+    // Supabaseに予約の値を保存する
+    await saveBooking({
+      experienceSlug: experience,
+      bookingDate,
+      guests,
+      name,
+      email,
+    });
+
     // 予約の内容を送信する本体にあたる関数
     await sendBookingEmail({
       to: email,
@@ -52,16 +70,17 @@ export default async function BookingPage({ searchParams }) {
       guests,
       experienceTitle: bookedExp?.title ?? "",
       scheduleText,
+      dateText,
     });
 
+    // クエリを生成してリダイレクトする
     const date = bookingDate.toISOString();
     const query = new URLSearchParams({
       experience,
       name,
       email,
-      guests:
-      String(guests),
-      date
+      guests: String(guests),
+      date,
     });
     redirect(`/booking/complete?${query.toString()}`);
   }
