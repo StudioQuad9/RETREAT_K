@@ -159,9 +159,91 @@ mail: takahiro@hokuto-p.co.jp
   * eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3c2hjcHFuenJkcnVxb3Zob2VwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNzUyOTQsImV4cCI6MjA4MjY1MTI5NH0.lXsRsgloE70I8baAzo6vSUJbWof4uDc-C7V1tr6GMII
 * service_role
 
+---
 
+### テーブルを生成する
 
+```sql
+create table if not exists public.bookings (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
 
+  experience_slug text not null,
+  booking_date date not null,
+
+  guests int not null check (guests > 0),
+  name text,
+  email text
+);
+```
+
+---
+
+### experience_slug, booking_dateで検索するためのSQL
+```sql
+create index if not exists experience_slug_booking_date_idx
+on public.bookings (experience_slug, booking_date);
+```
+
+* もし、`booking`テーブルに`experience_slug_booking_date_idx`という`インデックス`（検索用のオブジェクトのようなもの）がなければ、
+* `experience_slug`, `booking_date`の既に存在するカラムを使って、
+* `複合インデックス`（2列同時）を作れ。というSQL
+
+---
+
+```sql
+alter table public.bookings
+add constraint bookings_unique
+unique (experience_slug, booking_date, email);
+```
+
+* bookingsテーブルを変更する。
+* 制約名は bookings_unique。
+* 体験名、予約日、Eメールアドレスのセットが重複していないこと。というSQL。
+
+---
+
+```sql
+alter table public.bookings
+add constraint bookings_guests_check check (guests > 0);
+```
+
+* bookingsテーブルを変更する。
+* 制約名は bookings_guests_check。
+* 予約人数は必ず 1人以上。というSQL。
+
+---
+
+```sql
+select sum(guests) from bookings where experience_slug = ? and booking_date = ?
+```
+
+* すでに予約されている人数の合計を計算する。
+* bookingテーブルから、
+* 指定した体験・開催日に対して
+  といSQL。
+
+---
+
+### 残席計算用の SQL
+
+これで「その日その体験の予約人数合計」を Supabase側で計算できる。
+
+```sql
+create or replace function public.booked_guests(
+  p_experience_slug text,
+  p_booking_date date
+)
+returns integer
+language sql
+stable
+as $$
+  select coalesce(sum(guests), 0)::int
+  from public.bookings
+  where experience_slug = p_experience_slug
+    and booking_date = p_booking_date;
+$$;
+```
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

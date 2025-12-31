@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useActionState, useMemo, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import { formatYen } from "@/lib/utils/formatYen";
 
@@ -24,6 +24,12 @@ export default function BookingForm({
   // 日時のState
   const [date, setDate] = useState(null);
 
+  // useActionState
+  const [state, formAction, isPending] = useActionState(
+    async (_prev, formData) => submitBooking(formData), 
+    { ok: true, error: "" }
+  );
+
   const totalJPY = useMemo(() => {
     return priceJPY * guests;
   }, [priceJPY, guests]);
@@ -35,7 +41,7 @@ export default function BookingForm({
   ];
 
   return (
-    <form action={submitBooking}>
+    <form action={formAction}>
       <section>
         <h3>Select Date</h3>
         <DayPicker
@@ -51,8 +57,6 @@ export default function BookingForm({
               date.toLocaleDateString("en-US", { weekday: "short" }),
           }}
         />
-
-        {!date && <p style={{ color: "red" }}>Please select a date.</p>}
 
         <input
           type="hidden"
@@ -92,8 +96,12 @@ export default function BookingForm({
         <input name="experience" type="hidden" value={experienceSlug} />
       </section>
 
-      <button type="submit" disabled={!date}>
-        Proceed
+      {!date && <p style={{ color: "red" }}>Please select a date.</p>}
+      {!state.ok && state.error && (
+        <p style={{ color: "red" }}>{state.error}</p>
+      )}
+      <button type="submit" disabled={!date || isPending}>
+        {isPending ? "Processing..." : "Proceed"}
       </button>
     </form>
   );

@@ -9,6 +9,8 @@ import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
 import BookingForm from "@/app/booking/BookingForm";
 import { saveBooking } from "@/lib/server/saveBooking";
+import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
+import { handleToISODateString } from "@/lib/utils/handleToISODateString";
 
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;
@@ -19,14 +21,18 @@ export default async function BookingPage({ searchParams }) {
   async function submitBooking(formData) {
     "use server";
 
+    // date
     // カレンダーでゲストが予約した日付
     const dateRaw = String(formData.get("date") || "");
-    if (!dateRaw) throw new Error("Date is required");
+    if (!dateRaw) {
+      return { ok: false, error: "Please select a date." };
+    }
     const bookingDate = new Date(dateRaw);
     if (Number.isNaN(bookingDate.getTime())) {
-      throw new Error("Invalid date");
+      return { ok: false, error: "Invalid date." };
     }
 
+    // form
     // フォームから送られたデータ
     const experience = String(formData.get("experience") || "");
     const name = String(formData.get("name") || "");
@@ -35,16 +41,53 @@ export default async function BookingPage({ searchParams }) {
 
     // 人数についてバリデーション
     if (!Number.isFinite(guests) || guests < 1) {
-      throw new Error("Invalid guests");
+      return { ok: false, error: "Invalid guests" };
     }
     const bookedExp = experience ? getExperienceBySlug(experience) : null;
-    if (!bookedExp) throw new Error("Invalid experience");
+    if (!bookedExp) return { ok: false, error: "Invalid experience" };
     if (guests > bookedExp.capacity) {
-      throw new Error(`Guests exceeds capacity (${bookedExp.capacity})`);
+      return { ok: false, error: `Guests exceeds capacity (${bookedExp.capacity})` };
     }
+    
+    // 残席数（保存前）
+    const bookingDateISO = handleToISODateString(bookingDate);
+    const { remaining } = await getRemainingSeats({
+      experienceSlug: experience,
+      bookingDateISO,
+      capacity: bookedExp.capacity,
+    });
 
+    if (guests > remaining) {
+      return { ok: false, error: `Not enough seats. Remaining: ${remaining}` };
+    }
+    
+    // save(unique制約で落ちる可能性)
+    try {
+      // Supabaseに予約の値を保存する
+      // 保存　ここで重複が起きうる
+      await saveBooking({
+        experienceSlug: experience,
+        bookingDate,
+        guests,
+        name,
+        email,
+      });
+    } catch (error) {
+      // “重複予約” をユーザー向け文言に変換
+      const msg = String(error?.message || error);
+
+      if (msg.includes("duplicate key value violates unique constraint")) {
+        return {
+          ok: false,
+          error: "This booking already exists for that date (same email).",
+        };
+      }
+      return { ok: false, error: "Failed to save booking. Please try again." };
+    }    
+
+    // Email
     // 体験スケジュールの日付と曜日
-    const scheduleText = bookedExp ? buildScheduleText(bookedExp) : "";
+    const scheduleText = buildScheduleText(bookedExp);
 
     // 予約された日付
     const dateText = bookingDate.toLocaleDateString("en-US", {
@@ -54,33 +97,23 @@ export default async function BookingPage({ searchParams }) {
       day: "numeric",
     });
 
-    // Supabaseに予約の値を保存する
-    await saveBooking({
-      experienceSlug: experience,
-      bookingDate,
-      guests,
-      name,
-      email,
-    });
-
     // 予約の内容を送信する本体にあたる関数
     await sendBookingEmail({
       to: email,
       name,
       guests,
-      experienceTitle: bookedExp?.title ?? "",
+      experienceTitle: bookedExp.title,
       scheduleText,
       dateText,
     });
 
     // クエリを生成してリダイレクトする
-    const date = bookingDate.toISOString();
     const query = new URLSearchParams({
       experience,
       name,
       email,
       guests: String(guests),
-      date,
+      date: bookingDate.toISOString(),
     });
     redirect(`/booking/complete?${query.toString()}`);
   }
