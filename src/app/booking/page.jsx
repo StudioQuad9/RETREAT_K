@@ -7,10 +7,10 @@ import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
-import BookingForm from "@/app/booking/BookingForm";
 import { saveBooking } from "@/lib/server/saveBooking";
 import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
 import { handleToISODateString } from "@/lib/utils/handleToISODateString";
+import BookingForm from "@/app/booking/BookingForm";
 
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;

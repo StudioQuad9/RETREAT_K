@@ -115,9 +115,12 @@ mail: takahiro@hokuto-p.co.jp
 └── src/
     ├── app/
     │   ├── globals.scss
-    │   ├── layout.js
+    │   ├── layout.jsx
     │   ├── page.js
     │   ├── page.module.scss
+    │   ├── admin/
+    │   │   └── review-test
+    │   │       └── page.jsx
     │   ├── booking/
     │   │   ├── page.jsx
     │   │   └── complete/
@@ -139,12 +142,19 @@ mail: takahiro@hokuto-p.co.jp
     │   │   ├── experiences.js
     │   │   └── reviews.js
     │   ├── server/
-    │   │   └── sendBookingEmail.js
+    │   │   ├── getRemainingSeats.js
+    │   │   ├── saveBooking.js
+    │   │   ├── sendBookingEmail.js
+    │   │   ├── sendReviewEmail.js
+    │   │   └── supabaseAdmin.js
     │   └── utils/
+    │       ├── buildSchedule.js
     │       ├── formatDuration.js
-    │       └── formatYen.js
+    │       ├── formatYen.js
+    │       └── handleToISODateString.js
     └── styles/
         └── shared
+            ├── _daypicker.scss
             ├── _index.scss
             ├── _mixins.scss
             ├── _variables.scss

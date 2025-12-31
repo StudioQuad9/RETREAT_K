@@ -4,7 +4,13 @@ import "server-only";
 import { supabaseAdmin } from "@/lib/server/supabaseAdmin";
 import { handleToISODateString } from "@/lib/utils/handleToISODateString";
 
-export async function saveBooking({ experienceSlug, bookingDate, guests, name, email }) {
+export async function saveBooking({
+  experienceSlug,
+  bookingDate,
+  guests,
+  name,
+  email
+}) {
   if (!experienceSlug) throw new Error("Missing experienceSlug");
   if (!(bookingDate instanceof Date) || !Number.isFinite(bookingDate.getTime())) {
     throw new Error("Invalid bookingDate");
