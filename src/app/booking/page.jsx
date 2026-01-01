@@ -4,12 +4,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
+import { saveBooking } from "@/lib/server/saveBooking";
+import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
-import { saveBooking } from "@/lib/server/saveBooking";
-import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
-import { handleToISODateString } from "@/lib/utils/handleToISODateString";
+import { toISODateString } from "@/lib/utils/toISODateString";
+import { formatBookingDateText } from "@/lib/utils/formatBookingDateText";
 import BookingForm from "@/app/booking/BookingForm";
 
 export default async function BookingPage({ searchParams }) {
@@ -23,6 +24,7 @@ export default async function BookingPage({ searchParams }) {
 
     // date
     // カレンダーでゲストが予約した日付
+    // 文字列で渡ってきた日付のデータをjsのdateオブジェクトへ復号する。
     const dateRaw = String(formData.get("date") || "");
     if (!dateRaw) {
       return { ok: false, error: "Please select a date." };
@@ -46,11 +48,15 @@ export default async function BookingPage({ searchParams }) {
     const bookedExp = experience ? getExperienceBySlug(experience) : null;
     if (!bookedExp) return { ok: false, error: "Invalid experience" };
     if (guests > bookedExp.capacity) {
-      return { ok: false, error: `Guests exceeds capacity (${bookedExp.capacity})` };
+      return {
+        ok: false,
+        error: `Guests exceeds capacity (${bookedExp.capacity})`,
+      };
     }
-    
+
     // 残席数（保存前）
-    const bookingDateISO = handleToISODateString(bookingDate);
+    // jsのDateオブジェクトをISO準拠の文字列へ変更
+    const bookingDateISO = toISODateString(bookingDate);
     const { remaining } = await getRemainingSeats({
       experienceSlug: experience,
       bookingDateISO,
@@ -60,7 +66,7 @@ export default async function BookingPage({ searchParams }) {
     if (guests > remaining) {
       return { ok: false, error: `Not enough seats. Remaining: ${remaining}` };
     }
-    
+
     // save(unique制約で落ちる可能性)
     try {
       // Supabaseに予約の値を保存する
@@ -83,19 +89,15 @@ export default async function BookingPage({ searchParams }) {
         };
       }
       return { ok: false, error: "Failed to save booking. Please try again." };
-    }    
+    }
 
     // Email
     // 体験スケジュールの日付と曜日
     const scheduleText = buildScheduleText(bookedExp);
 
     // 予約された日付
-    const dateText = bookingDate.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    // jsのDateオブジェクトを任意の文字列へ変更
+    const bookingDateText = formatBookingDateText(bookingDateISO);
 
     // 予約の内容を送信する本体にあたる関数
     await sendBookingEmail({
@@ -104,7 +106,7 @@ export default async function BookingPage({ searchParams }) {
       guests,
       experienceTitle: bookedExp.title,
       scheduleText,
-      dateText,
+      bookingDateText,
     });
 
     // クエリを生成してリダイレクトする
@@ -113,7 +115,7 @@ export default async function BookingPage({ searchParams }) {
       name,
       email,
       guests: String(guests),
-      date: bookingDate.toISOString(),
+      date: bookingDateISO,
     });
     redirect(`/booking/complete?${query.toString()}`);
   }

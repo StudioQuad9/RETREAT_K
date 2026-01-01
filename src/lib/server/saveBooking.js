@@ -2,7 +2,7 @@
 
 import "server-only";
 import { supabaseAdmin } from "@/lib/server/supabaseAdmin";
-import { handleToISODateString } from "@/lib/utils/handleToISODateString";
+import { toISODateString } from "@/lib/utils/toISODateString";
 
 export async function saveBooking({
   experienceSlug,
@@ -19,7 +19,7 @@ export async function saveBooking({
 
   const { error } = await supabaseAdmin.from("bookings").insert({
     experience_slug: experienceSlug,
-    booking_date: handleToISODateString(bookingDate),
+    booking_date: toISODateString(bookingDate),
     guests,
     name: name || null,
     email: email || null,
@@ -27,13 +27,3 @@ export async function saveBooking({
 
   if (error) throw new Error(`Supabase insert failed: ${error.message}`);
 }
-
-// function toISODateString(date) {
-//   // date: JavaScript Data
-//   // Supabaseのdate型を入れるのでYYYY-MM-DDにする
-//   const y = date.getFullYear();
-//   const m = String(date.getMonth() + 1).padStart(2, "0");
-//   const d = String(date.getDate()).padStart(2, "0");
-
-//   return `${y}-${m}-${d}`;
-// }

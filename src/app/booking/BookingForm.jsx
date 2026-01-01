@@ -61,6 +61,8 @@ export default function BookingForm({
         <input
           type="hidden"
           name="date"
+          // DayPickerから送られたjsオブジェクトを
+          // 文字列に変換して親コンポーネントへ渡す。
           value={date ? date.toISOString() : ""}
         />
       </section>
@@ -104,13 +106,5 @@ export default function BookingForm({
         {isPending ? "Processing..." : "Proceed"}
       </button>
     </form>
-  );
-  
+  ); 
 }
-
-// // フォームに入ってた文言。一応残す。後でどうするか考える。
-// <p>
-//   Capacity: up to {exp.capacity} guests per session.
-//   <br />
-//   This experience runs when the total participants reach {exp.minGuests} guests.
-// </p>

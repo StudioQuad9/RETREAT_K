@@ -151,7 +151,7 @@ mail: takahiro@hokuto-p.co.jp
     │       ├── buildSchedule.js
     │       ├── formatDuration.js
     │       ├── formatYen.js
-    │       └── handleToISODateString.js
+    │       └── toISODateString.js
     └── styles/
         └── shared
             ├── _daypicker.scss
@@ -254,7 +254,27 @@ as $$
     and booking_date = p_booking_date;
 $$;
 ```
+
+---
+
+## ということはカレンダーがヤバいか？
+
+  ISO = International Organization for Standardization（国際標準化機構）
+  ISO 8601 という日付の国際規格がある。
+
+  代表例：
+  | 形式 | 意味 |
+  | ---- | ---- |
+  | 2025-01-03 | 日付のみ（date） |
+  | 2025-01-03T10:30:00Z | 日付＋時刻（UTC） |
+  | 2025-01-03T19:30:00+09:00 | 日付＋時刻（JST） |
+
+ということは、
+**アメリカや、ヨーロッパで予約されたらヤバいことが起こる**のか？
+**基礎工事が終わったら解決させる案件となる。**
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
 
 ## Getting Started
 

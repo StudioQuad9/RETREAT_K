@@ -12,7 +12,7 @@ export async function sendBookingEmail({
   guests,
   experienceTitle,
   scheduleText,
-  dateText,
+  bookingDateText,
 }) {
   if (!to) throw new Error("Missing recpient email (to)");
   if (!process.env.RESEND_FROM) throw new Error("Missing RESEND_FROM");
@@ -30,7 +30,7 @@ Thank you for your booking!
 
 Experience: ${safeTitle}
 Schedule: ${safeSchedule}
-BookedDate: ${dateText || "-"}
+Booking Date: ${bookingDateText || "-"}
 Guests: ${safeGuests}
 Name: ${safeName}
 
@@ -45,7 +45,7 @@ Your feedback helps us preserve authentic cultural programs.
 
 Experience: ${safeTitle}
 Schedule: ${safeSchedule}
-BookedDate: ${dateText || "-"}
+Booking Date: ${bookingDateText || "-"}
 Guests: ${safeGuests}
 Name: ${safeName}
 Customer email: ${to}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
+import { formatBookingDateText } from "@/lib/utils/formatBookingDateText";
 
 export default async function BookingCompletePage({ searchParams }) {
   // Next.js 15系では searchParams が Promise になることがあるので await します
@@ -16,19 +17,7 @@ export default async function BookingCompletePage({ searchParams }) {
   const dateRaw = params?.date || "";
 
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
-
-  let bookingDateText = "";
-  if (dateRaw) {
-    const day = new Date(dateRaw);
-    if (!Number.isNaN(day.getTime())) {
-      bookingDateText = day.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    }
-  }
+  const bookingDateText = formatBookingDateText(dateRaw);
 
   return (
     <main>
@@ -43,7 +32,7 @@ export default async function BookingCompletePage({ searchParams }) {
           <h2>Summary</h2>
           <div className="spec">Experience: {exp.title}</div>
           {bookingDateText && (
-            <div className="spec">Booked date: {bookingDateText}</div>
+            <div className="spec">Booking date: {bookingDateText}</div>
           )}
           <div className="spec">Minimum to run: {exp.minGuests} guests</div>
           <div className="spec">Capacity: {exp.capacity} guests</div>
