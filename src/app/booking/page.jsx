@@ -9,7 +9,6 @@ import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
-import { toISODateString } from "@/lib/utils/toISODateString";
 import { formatBookingDateText } from "@/lib/utils/formatBookingDateText";
 import BookingForm from "@/app/booking/BookingForm";
 
@@ -17,6 +16,13 @@ export default async function BookingPage({ searchParams }) {
   const params = await searchParams;
   const experienceSlug = params?.experience || "";
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
+
+  // 日付選択時に残席を返すServer Action（BookingForm から呼ぶ）
+  async function checkRemainingSeats(experienceSlug, bookingDateISO, capacity) {
+    "use server";
+    return await getRemainingSeats({ experienceSlug, bookingDateISO, capacity});
+    
+  }
 
   // BookingFormコンポーネントとのやり取り用関数を親で定義する
   async function submitBooking(formData) {
@@ -29,7 +35,10 @@ export default async function BookingPage({ searchParams }) {
     if (!dateRaw) {
       return { ok: false, error: "Please select a date." };
     }
-    const bookingDate = new Date(dateRaw);
+    // dataRawは"YYYY-MM-DD"を想定
+    const bookingDateISO = dateRaw;
+    // Supabase保存などでDateが必要な箇所用（UTC 00:00として生成）
+    const bookingDate = new Date(`${bookingDateISO}T00:00:00Z`);
     if (Number.isNaN(bookingDate.getTime())) {
       return { ok: false, error: "Invalid date." };
     }
@@ -55,16 +64,14 @@ export default async function BookingPage({ searchParams }) {
     }
 
     // 残席数（保存前）
-    // jsのDateオブジェクトをISO準拠の文字列へ変更
-    const bookingDateISO = toISODateString(bookingDate);
-    const { remaining } = await getRemainingSeats({
+    const { remainingCount } = await getRemainingSeats({
       experienceSlug: experience,
       bookingDateISO,
       capacity: bookedExp.capacity,
     });
 
-    if (guests > remaining) {
-      return { ok: false, error: `Not enough seats. Remaining: ${remaining}` };
+    if (guests > remainingCount) {
+      return { ok: false, error: `Not enough seats. Remaining: ${remainingCount}` };
     }
 
     // save(unique制約で落ちる可能性)
@@ -148,6 +155,7 @@ export default async function BookingPage({ searchParams }) {
         priceJPY={exp.priceJPY}
         capacity={exp.capacity}
         allowedWeekdays={buildScheduleIndex(exp)}
+        checkRemainingSeats={checkRemainingSeats}
         submitBooking={submitBooking}
       />
 

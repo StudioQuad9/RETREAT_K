@@ -1,6 +1,7 @@
 // @/lib/utils/toISODateString.js
 // 入力をISOに則った日付文字列に変換する関数定義
 export function toISODateString(date) {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
   const y = date.getFullYear();         // 年
   const m = String(date.getMonth() + 1) // 月（1〜12）
             .padStart(2, "0");          // 2桁に揃える
