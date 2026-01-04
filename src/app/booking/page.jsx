@@ -15,27 +15,34 @@ import BookingForm from "@/app/booking/BookingForm";
 export default async function BookingPage({ searchParams }) {
   const params = await searchParams;
   const experienceSlug = params?.experience || "";
+  // getExperienceBySlug()関数は、確認装置。
+  // 登録している体験の中に、該当する名称のものがあるかどうかをチェックした上で、
+  // その登録している体験の名称を返すようにしている。
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
-  // 日付選択時に残席を返すServer Action（BookingForm から呼ぶ）
+  // 日付選択時に残席を返すServer Action（関数）（client component の BookingForm から呼ぶ）
   async function checkRemainingSeats(experienceSlug, bookingDateISO, capacity) {
     "use server";
-    return await getRemainingSeats({ experienceSlug, bookingDateISO, capacity});
-    
+    return await getRemainingSeats({
+      experienceSlug,
+      bookingDateISO,
+      capacity,
+    });
   }
 
-  // BookingFormコンポーネントとのやり取り用関数を親で定義する
+  // 予約を送信するためのServer Action（関数）を上と同じ理由で親コンポーネントで定義する
   async function submitBooking(formData) {
     "use server";
 
     // date
     // カレンダーでゲストが予約した日付
     // 文字列で渡ってきた日付のデータをjsのdateオブジェクトへ復号する。
-    const dateRaw = String(formData.get("date") || "");
+    const dateRaw = String(formData.get("selectedDate") || "");
     if (!dateRaw) {
       return { ok: false, error: "Please select a date." };
     }
-    // dataRawは"YYYY-MM-DD"を想定
+    // フォームから渡ってきた dataRaw は "YYYY-MM-DD" を想定できるので
+    // 変数名はあえて "bookingDateISO" としている。
     const bookingDateISO = dateRaw;
     // Supabase保存などでDateが必要な箇所用（UTC 00:00として生成）
     const bookingDate = new Date(`${bookingDateISO}T00:00:00Z`);
@@ -71,7 +78,10 @@ export default async function BookingPage({ searchParams }) {
     });
 
     if (guests > remainingCount) {
-      return { ok: false, error: `Not enough seats. Remaining: ${remainingCount}` };
+      return {
+        ok: false,
+        error: `Not enough seats. Remaining: ${remainingCount}`,
+      };
     }
 
     // save(unique制約で落ちる可能性)
