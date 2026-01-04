@@ -123,6 +123,7 @@ mail: takahiro@hokuto-p.co.jp
     │   │       └── page.jsx
     │   ├── booking/
     │   │   ├── page.jsx
+    │   │   ├── BookingForm.jsx
     │   │   └── complete/
     │   │       └── page.jsx
     │   └── experiences/
@@ -149,6 +150,7 @@ mail: takahiro@hokuto-p.co.jp
     │   │   └── supabaseAdmin.js
     │   └── utils/
     │       ├── buildSchedule.js
+    │       ├── formatBookingDateText.js
     │       ├── formatDuration.js
     │       ├── formatYen.js
     │       └── toISODateString.js
@@ -358,6 +360,210 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ---
 
+260103からやること
+
+全体を見たとき、いちばん筋が良くて事故が少ない進め方はこれです。
+
+⸻
+
+進め方（推奨順）
+
+① UIの残席表示を「完成形」にする（あなたのメモの②をまず完了）
+
+理由：ユーザー事故（満席予約・勘違い）を最速で減らせる。UXの安心感も一気に上がる。
+
+やることは3つだけに絞る：
+	1.	日付クリックで 「残席: X / 定員: C」 を表示
+	2.	満席（remainingCount === 0）なら
+	•	その日を選択不可（クリックできない）にする
+	3.	「残席確認中」「確認失敗」を表示
+
+※ここで “人数変更時の再計算” はまだ必須じゃない。まず日付単位でOK。
+
+⸻
+
+② 「満席日は選択不可」を“確実に”する（UIだけでなく、データでも）
+
+理由：UIで塞いでも、別タブ・別端末・同時アクセスでズレるので、最後はサーバーで止める必要がある。
+
+すでにあなたは submitBooking 側で
+	•	残席チェック
+	•	保存（unique含む）
+をしているので土台は良い。
+
+ここでやるのは1点だけ：
+	•	保存前の残席チェック → 保存 →（成功したら）メール
+という順番を維持しつつ、
+残席不足なら保存しない（もう出来てる）
+
+この段階では「取り合い対策（同時アクセス）」はまだ次でOK。
+
+⸻
+
+③ “人数変更で再計算” を追加（設計の選択ではなく、実質必須に近い）
+
+理由：今のUIは「日付を選んだ瞬間の残席」を出している。
+でもユーザーが人数を 1→6 に変えたら、その場で不足が分かる方が事故が減る。
+
+ここは実装は軽いです：
+	•	selectedDate と guests が変わったら再取得
+	•	remainingCount < guests なら赤で警告＋ボタン無効
+
+⸻
+
+④ 文言（クレーム予防）を、UIに組み込む（あなたのメモ④）
+
+理由：予約体験のクレームはUIの説明不足で起きます。
+ここは後回しにすると、あとで全部書き直しになります。
+
+最小限入れるべき場所は3つ：
+	1.	予約フォーム直下（送信前）
+	2.	予約完了ページ
+	3.	メール本文
+
+特に重要：
+	•	「最少催行人数 = あなたの人数ではない」
+	•	「予約が確定か／催行判断が後か」
+	•	キャンセル規定・遅刻規定（ここは短くても必須）
+
+⸻
+
+⑤ 同時アクセスの“取り合い”対策（RPC / トランザクション）で堅牢化
+
+理由：ここまでで 通常運用は十分。
+本当に必要になったら強化するのがコスパ良い。
+
+やるなら：
+	•	RPCで「残席確認＋insert」を一発でやる（原子的にする）
+	•	もしくは bookings に対して日付・体験単位で集計を安全に扱う
+
+⸻
+
+今日の指示（あなたに今すぐやってほしい順）
+	1.	②のUI完成：
+	•	「残席: X / 定員: C」表示
+	•	満席日は選択不可（クリックもできない）
+	2.	次に ③：人数変更でも再計算して、足りなければ送信不可
+	3.	仕上げに ④文言（フォーム・完了ページ・メールで統一）
+
+⸻
+
+ここから先、私が差分で出すなら
+
+あなたの現状コード（BookingForm / page.jsx / getRemainingSeats）が揃っているので、
+	•	満席日の disabled を “実際にDayPickerに反映する”差分
+	•	人数変更で再取得する差分
+	•	表示文言を追加する差分
+
+この3つを、あなたのファイル構成のままパッチで出せます。
+
+次はどれから出します？
+指示どおり進めるなら 「満席日は選択不可（DayPicker disabled に反映）」の差分 を先に出します。
+
+---
+
+## server actionについて理解する
+
+### 結論（まず答え）
+
+今回の構造を一言で言うと
+
+**Server Action を親（Server Component）で定義し、**
+**Client Component（BookingForm）から 呼べる形で 渡しているです。**
+
+---
+
+#### なぜ `checkRemainingSeats` 親コンポーネントで定義しているのか
+
+```jsx
+async function checkRemainingSeats(experienceSlug, bookingDateISO, capacity) {
+  "use server";
+  return await getRemainingSeats({
+    experienceSlug,
+    bookingDateISO,
+    capacity,
+  });
+}
+```
+
+サーバーでのやり取りをするコンポーネントと、
+Stateを使うコンポーネントではファイルを分けないといけないから。
+
+もう一段だけ正確に言うと
+* Server Component（page.jsx）
+  * DB / Supabase / fs / server-only を扱える
+  * "use server" な関数（Server Action）を定義できる
+* Client Component（BookingForm.jsx）
+  * useState, useEffect, useTransition が使える
+  * ただし DB には直接触れない
+  * Server Action を「関数として呼ぶ」ことはできる
+
+👉 だから「橋渡し役」として親に関数を書く必要がある。
+
+---
+
+#### なぜ `use server` を「あえて」書く必要があるのか
+
+重要ポイントです
+
+```jsx
+async function checkRemainingSeats(...) {
+  "use server";
+  ...
+}
+```
+
+#### "use server" の意味（正確）
+
+> この関数は、`ブラウザ`ではなく `サーバーで実行される` ことを Next.js に宣言する。
+
+という意味です。
+
+これを書かないとどうなるか？
+
+* Next.js はその関数を `クライアントで実行される普通の関数` 
+と解釈する。
+* すると中で、以下の不具合が出てできて、
+`ビルドエラー` or `実行時エラー`になる。
+  * supabaseAdmin
+  * server-only
+  * Node API
+
+👉 だから 「あえて必須」 なのです。
+
+---
+
+#### props で渡している理由（ここ重要）
+
+```jsx
+<BookingForm
+  ...
+  checkRemainingSeats={checkRemainingSeats}
+  submitBooking={submitBooking}
+/>
+```
+
+ここで起きていること（内部的）
+* Client Component 側では `await checkRemainingSeats(...)` と普通の関数呼び出しのように見える。
+* でも実際には：
+  * Next.js が
+  * 「サーバーに POST」
+  * 「Server Action 実行」
+  * 「結果を返す」
+を 全部自動でやってくれている
+
+👉 これが Server Actions の魔法です。
+
+---
+
+#### あなたの文章を「完成形」に直すなら
+
+この関数は Client Component から呼ばれるが、
+実行は必ずサーバーで行わせたいので "use server" を明示する必要がある。
+
+
+
+---
 ## Getting Started
 
 ```

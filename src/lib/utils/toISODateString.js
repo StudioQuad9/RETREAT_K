@@ -1,4 +1,5 @@
 // @/lib/utils/toISODateString.js
+
 // 入力をISOに則った日付文字列に変換する関数定義
 export function toISODateString(date) {
   if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "";
