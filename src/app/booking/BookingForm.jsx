@@ -3,10 +3,10 @@
 "use client";
 
 import {
-  useActionState,
-  useMemo,
   useState,
   useEffect,
+  useActionState,
+  useMemo,
   useTransition
 } from "react";
 import { DayPicker } from "react-day-picker";
@@ -19,6 +19,7 @@ export default function BookingForm({
   capacity,
   allowedWeekdays,
   checkRemainingSeats,
+  fetchSoldOutDates,
   submitBooking,
 }) {
   // 関数型UIの基本構文に従って記述しあるので留意する。
@@ -41,6 +42,23 @@ export default function BookingForm({
   }
   //   日時のState
   const [selectedDate, setSelectedDate] = useState(null);
+  //   更新用関数。disabled日をクリックしても「選択させない」ガード機能付き。
+  const handleSelectDate = (date) => {
+    if (!date) {
+      setSelectedDate(null); // 初期値に戻す。
+      return;
+    }
+    if (isDisabledDate(date)) {
+      return; // ここで止めるので「満席日はクリックできない」になる
+    }
+    setSelectedDate(date);
+  };
+
+  //   DayPickerが今表示している月
+  const [viewMonth, setViewMonth] = useState(() => new Date());
+
+  //   満席日一覧（"YYYY-MM-DD"）をSetで保持
+  const [soldOutSet, setSoldOutSet] = useState(() => new Set());
 
   // 2. 非同期UI状態（状態の宣言）
   //   残席表示用のState
@@ -68,11 +86,26 @@ export default function BookingForm({
     return priceJPY * guests;
   }, [priceJPY, guests]);
 
-  //   選べない日をまとめて定義
-  const disabledRules = [
-    { before: new Date() },
-    (day) => !allowedWeekdays.includes(day.getDay()),
-  ];
+  //  「日」単位で比較（時刻のズレで今日が弾かれないように）
+  const startOfDay = (date) => {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  };
+
+  //   最終的な disabled 判定（曜日/過去日 + 満席日）
+  //   引数 data は、JSのDate オブジェクトを期待している。
+  const isDisabledDate = (date) => {
+    if (!date) return false;
+    const today0 = startOfDay(new Date());
+    const day0 = startOfDay(date);
+    // 今日より以前の日付は disabled にする。
+    if (day0 < today0) return true;
+    // 体験実施曜日以外は desabled にする。
+    if (!allowedWeekdays.includes(date.getDay())) return true;
+    // 予約満席になった日は desabled にする。
+    if (soldOutSet.has(toISODateString(date))) return true;
+    
+    return false;
+  };
 
   // 5. 副作用（状態変化に反応する副作用）
   //   日付を選ぶと同時に残席取得
@@ -92,7 +125,7 @@ export default function BookingForm({
 
     startSeatTransition(async () => {
       try {
-        // result は { bookingCount, remainingCount } を想定
+        // result は { bookingCount, remainingCount } を期待する。
         const result = await checkRemainingSeats(
           experienceSlug,
           bookingDateISO,
@@ -120,6 +153,39 @@ export default function BookingForm({
     };
   }, [selectedDate, experienceSlug, capacity, checkRemainingSeats]);
 
+  // 表示月が変わったら、その月の満席日を取得して soldOutSet に反映
+  useEffect(() => {
+    let cancelled = false;
+
+    async function run() {
+      if (!fetchSoldOutDates) return;
+      try {
+        const year = viewMonth.getFullYear();
+        const month1to12 = viewMonth.getMonth() + 1;
+
+        const res = await fetchSoldOutDates(
+          experienceSlug,
+          year,
+          month1to12,
+          capacity
+        );
+        if (cancelled) return;
+
+        const list = Array.isArray(res?.soldOutDates) ? res.soldOutDates : [];
+        setSoldOutSet(new Set(list));
+      } catch (e) {
+        if (cancelled) return;
+        // 取得失敗時は「満席disableなし」で続行（submitBooking側で最終防衛できる）
+        setSoldOutSet(new Set());
+      }
+    }
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [viewMonth, experienceSlug, capacity, fetchSoldOutDates]);
+
   return (
     <form action={formAction}>
       <section>
@@ -127,9 +193,13 @@ export default function BookingForm({
         <DayPicker
           mode="single"
           selected={selectedDate}
-          onSelect={setSelectedDate}
-          //今日より前の日付を表示も選択もさせない
-          disabled={disabledRules}
+          onSelect={handleSelectDate}
+          // 今日より前の日付を表示も選択もさせない
+          //  判定の基準を関数にして設けて、それを属性の値として投げるだけで、
+          //  DayPickerコンポーネントがあとはHTMLの表示に落とし込んでくれる。
+          disabled={isDisabledDate}
+          month={viewMonth}
+          onMonthChange={setViewMonth}
           // 曜日を『Sun, Mon, Tue, Wed, Thu, Fri, Sat』と表示させる。
           formatters={{
             formatWeekdayName: (selectedDate) =>

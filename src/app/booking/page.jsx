@@ -6,6 +6,7 @@ import { getExperienceBySlug } from "@/lib/data/experiences";
 import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
 import { saveBooking } from "@/lib/server/saveBooking";
 import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
+import { getSoldOutDatesForMonth } from "@/lib/server/getSoldOutDatesForMonth";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
@@ -21,11 +22,23 @@ export default async function BookingPage({ searchParams }) {
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
 
   // 日付選択時に残席を返すServer Action（関数）（client component の BookingForm から呼ぶ）
+  // 期待する値は、日付に紐づいた、{ bookedCount, remainingCount }。
   async function checkRemainingSeats(experienceSlug, bookingDateISO, capacity) {
     "use server";
     return await getRemainingSeats({
       experienceSlug,
       bookingDateISO,
+      capacity,
+    });
+  }
+
+  // 表示中の月の「満席日一覧」を返すServer Action（BookingFormから呼ぶ）
+  async function fetchSoldOutDates(experienceSlug, year, month1to12, capacity) {
+    "use server";
+    return await getSoldOutDatesForMonth({
+      experienceSlug,
+      year,
+      month1to12,
       capacity,
     });
   }
@@ -166,6 +179,7 @@ export default async function BookingPage({ searchParams }) {
         capacity={exp.capacity}
         allowedWeekdays={buildScheduleIndex(exp)}
         checkRemainingSeats={checkRemainingSeats}
+        fetchSoldOutDates={fetchSoldOutDates}
         submitBooking={submitBooking}
       />
 

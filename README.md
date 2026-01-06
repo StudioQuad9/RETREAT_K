@@ -1,3 +1,99 @@
+## 今日の最終に戻るべきターン
+
+了解です。ここからは 「Stripeを事故らせない最小実装」= Stripe Checkout（ホスト決済画面）で、支払いの正当性をサーバーで検証してから予約を “確定” する 方向がいちばん安全です。
+
+理由：フロント側でカード情報を触らない（PCI/実装ミスの地雷が激減）＋支払い結果を Stripe側の事実 で判定できるからです（改ざん耐性）。StripeもまずCheckout Sessionを推してます。 ￼
+
+⸻
+
+今やるべき「最小・安全」な設計（MVP）
+
+結論（おすすめの順序）
+	1.	残席チェック（今のまま）
+	2.	（DBに）仮予約を作る status="pending"（この時点で席を確保する）
+	3.	Stripe Checkout Sessionを作成して redirect
+	4.	決済完了の事実をサーバーで確認（Webhookが理想 / まずは success ページでセッション照合でも可）
+	5.	予約を“確定” status="paid" にして、確認メール送信（ここで一度だけ）
+
+これで「支払ったのに予約が無い」「予約はあるのに払ってない」「決済中に売り切れて揉める」を避けやすいです。
+
+⸻
+
+24時間前の締切・最少催行未達・キャンセルはどうする？
+
+あなたが気づいた通り、ここは本来重要です。ただ、いきなり100%自動化はコストが跳ねます。
+
+なので段階案：
+
+フェーズ1（今）
+	•	「予約=確定」（決済も同時）
+	•	キャンセル/最少催行未達は 運用で返金（Stripeダッシュボードで返金、または簡単な管理画面から返金）
+	•	24時間前締切は UI + サーバーの両方でブロック（“日付”だけの今のモデルだと時間が無いので、まずは「前日になったら予約不可」のような粗いルールでもOK）
+
+フェーズ2（商品が回り出してから）
+	•	体験に 開始時刻 を持たせる（例：10:00 / 15:00）
+	•	締切=開始24h前 を厳密化
+	•	最少催行未達を自動通知＆自動返金（Webhook + 定期バッチ/cron）
+
+いまはフェーズ1で十分です。ここで背伸びすると開発が止まります。
+
+⸻
+
+Stripe 最小実装で増やすファイル（これが「事故らせない」型）
+
+Stripe公式の「Checkout Session作成」フローはこれです： ￼
+Webhook署名検証もStripeの手順に沿います： ￼
+
+追加する（または新規作成する）候補ファイル
+	•	src/lib/server/stripe.js（Stripe初期化：secret keyを読む）
+	•	src/app/api/stripe/checkout/route.js（Checkout Session作成）
+	•	src/app/api/stripe/webhook/route.js（決済完了イベントを受けて予約確定）※最終的にここが本命
+	•	予約テーブル（Supabase）の列追加（最小で）
+	•	status（pending/paid/cancelled）
+	•	stripe_session_id
+	•	amount_total（任意）
+
+⸻
+
+まず、あなたの現状コードに合わせて「どこを差分にするか」
+
+あなたのBookingは今こうです：
+	•	submitBooking が 保存 → メール → redirect まで全部やってる
+	•	ここにStripeを入れるなら、最低限 保存と確定を分ける 必要があります
+
+最小差分の方針
+	•	submitBooking の役割を「仮予約作成 → Checkoutへ飛ばす」に変更
+	•	決済完了は（最初は）/booking/complete で session_id をサーバーで照合して 確定
+（あとでWebhookに移行するとさらに堅牢）
+
+⸻
+
+次にあなたから欲しいファイル（差分パッチを“正確に”出すため）
+
+いまのツリーだと、Stripeを差し込む“芯”はここです。これを貼ってください（コピペでOK）：
+	1.	src/lib/server/saveBooking.js（予約保存の中身。status列をどう扱うか決めるため）
+	2.	src/app/booking/complete/page.jsx（ここで決済完了の照合→確定の場所にするのが最短）
+	3.	Supabase bookings テーブル定義（列一覧だけでOK：booking_date 型も確認したい）
+
+この3つが揃ったら、**「あなたの現状コードに完全追従した差分パッチ」**で出します。
+（今の page.jsx と BookingForm.jsx はすでに十分あります）
+
+⸻
+
+先に決め打ちで言う「MVPのルール」（迷わないための仕様）
+	•	予約画面のボタン文言：Proceed to payment
+	•	成功後：Booking complete (Paid)
+	•	失敗/キャンセル：Payment canceled. Your booking was not completed.
+	•	予約確定の定義：Stripeで paid が確認できたら確定
+
+⸻
+
+必要ファイルのうち、まず saveBooking.js を貼ってください。
+貼ってくれた瞬間に、その内容に合わせて「最小・安全Stripe Checkout」の差分パッチを出します。
+
+---
+
+
 # RETREAT K – Cultural Experience Booking Site (Prototype)
 
 ## Overview
@@ -144,6 +240,7 @@ mail: takahiro@hokuto-p.co.jp
     │   │   └── reviews.js
     │   ├── server/
     │   │   ├── getRemainingSeats.js
+    │   │   ├── getSoldOutDatesForMonth.js
     │   │   ├── saveBooking.js
     │   │   ├── sendBookingEmail.js
     │   │   ├── sendReviewEmail.js

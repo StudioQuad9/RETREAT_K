@@ -4,17 +4,18 @@ import "server-only";
 import { supabaseAdmin } from "@/lib/server/supabaseAdmin";
 
 export async function getRemainingSeats({ experienceSlug, bookingDateISO, capacity }) {
-  // // 体験の有無
+  // 体験の有無
   if (!experienceSlug) throw new Error("Missing experienceSlug");
-  // // 予約日の有無
+  // 予約日の有無
   if (typeof bookingDateISO !== "string") throw new Error("Missing bookingDateISO");
-  // 催行人数が数字、0名より少ないか
+  // 催行人数が数字か？　0名より少ないか？
   if (!Number.isFinite(capacity) || Number(capacity) < 0) throw new Error("Invalid capacity");
 
   // まずはRPCを試す
   try {
     // rpcメソッドは、Supabase上で設定したbooked_guests関数を使い、
     // 体験と日時に紐づいた予約人数の合計を整数で返す。
+    // 期待する値は、日付に紐づいた、{ bookedCount, remainingCount }。
     const { data, error } = await supabaseAdmin.rpc("booked_guests", {
       p_experience_slug: experienceSlug,
       p_booking_date: bookingDateISO, //  “YYYY-MM-DD”（date型）で渡すのがポイント
