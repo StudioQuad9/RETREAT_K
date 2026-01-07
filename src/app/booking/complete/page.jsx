@@ -1,6 +1,7 @@
 // @/app/booking/complete/page.jsx
 
 import Link from "next/link";
+import { stripe } from "@/lib/server/stripe";
 import { getExperienceBySlug } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
@@ -9,23 +10,47 @@ import { formatBookingDateText } from "@/lib/utils/formatBookingDateText";
 export default async function BookingCompletePage({ searchParams }) {
   // Next.js 15系では searchParams が Promise になることがあるので await します
   const params = await searchParams;
+  const sessionID = params?.session_id || "";
+  if (!sessionID) {
+    return (
+      <main>
+        <h1 className="em">Payment complete</h1>
+        <p>We couldn&apos;t read the payment session.</p>
+        <div className="enter-btn">
+          <Link href="/experiences">Go to Experiences</Link>
+        </div>
+      </main>
+    )
+  }
 
-  const experienceSlug = params?.experience || "";
-  const name = params?.name || "";
-  const email = params?.email || "";
-  const guestCount = params?.guests || "";
-  const dateRaw = params?.date || "";
+  const session = await stripe.checkout.sessions.retrieve
+  (sessionID);
+  const md = session?.metadata || {};
+
+  const experienceSlug = md.experienceSlug || "";
+  const name = md.name || "";
+  const email = md.email || "";
+  const guestCount = md.guests || "";
+  const dateRaw = md.bookingDateISO || "";
 
   const exp = experienceSlug ? getExperienceBySlug(experienceSlug) : null;
   const bookingDateText = formatBookingDateText(dateRaw);
+  const isPaid = session?.payment_status === "paid";
 
   return (
     <main>
-      <h1 className="en">Booking complete</h1>
-      <p>
-        Your booking is confirmed. We will send a confirmation email with
-        details.
-      </p>
+      <h1 className="en">{isPaid 
+                            ? "Booking complete (Paid)"
+                            : "Payment status pending"
+                          }
+      </h1>
+      {isPaid
+        ? (<p>Your payment is confirmed. We will email your booking details.</p>)
+        : (<p>
+              We recive your session, but payment is not confirmed yet.<br />
+              If you beleve this is a mistake, please contact us.
+          </p>)
+      }
 
       {exp ? (
         <section>

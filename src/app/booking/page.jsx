@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
-import { sendBookingEmail } from "@/lib/server/sendBookingEmail";
-import { saveBooking } from "@/lib/server/saveBooking";
 import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
 import { getSoldOutDatesForMonth } from "@/lib/server/getSoldOutDatesForMonth";
+import { stripe } from "@/lib/server/stripe";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
-import { formatBookingDateText } from "@/lib/utils/formatBookingDateText";
 import BookingForm from "@/app/booking/BookingForm";
 
 export default async function BookingPage({ searchParams }) {
@@ -57,11 +55,6 @@ export default async function BookingPage({ searchParams }) {
     // フォームから渡ってきた dataRaw は "YYYY-MM-DD" を想定できるので
     // 変数名はあえて "bookingDateISO" としている。
     const bookingDateISO = dateRaw;
-    // Supabase保存などでDateが必要な箇所用（UTC 00:00として生成）
-    const bookingDate = new Date(`${bookingDateISO}T00:00:00Z`);
-    if (Number.isNaN(bookingDate.getTime())) {
-      return { ok: false, error: "Invalid date." };
-    }
 
     // form
     // フォームから送られたデータ
@@ -97,57 +90,35 @@ export default async function BookingPage({ searchParams }) {
       };
     }
 
-    // save(unique制約で落ちる可能性)
-    try {
-      // Supabaseに予約の値を保存する
-      // 保存　ここで重複が起きうる
-      await saveBooking({
+    // Stripe Checkout へ（最小安全：決済完了は Webhook 側で確定＆メール送信）
+    const siteURL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      // 1人単価 × 人数
+      line_items: [
+        {
+          quantity: guests,
+          price_data: {
+            currency: "jpy",
+            unit_amount: bookedExp.priceJPY, // 円は最小単位＝1円
+            product_data: { name: bookedExp.title },
+          },
+        },
+      ],
+      customer_email: email,
+      metadata: {
         experienceSlug: experience,
-        bookingDate,
-        guests,
+        bookingDateISO,
+        guests: String(guests),
         name,
         email,
-      });
-    } catch (error) {
-      // “重複予約” をユーザー向け文言に変換
-      const msg = String(error?.message || error);
-
-      if (msg.includes("duplicate key value violates unique constraint")) {
-        return {
-          ok: false,
-          error: "This booking already exists for that date (same email).",
-        };
-      }
-      return { ok: false, error: "Failed to save booking. Please try again." };
-    }
-
-    // Email
-    // 体験スケジュールの日付と曜日
-    const scheduleText = buildScheduleText(bookedExp);
-
-    // 予約された日付
-    // jsのDateオブジェクトを任意の文字列へ変更
-    const bookingDateText = formatBookingDateText(bookingDateISO);
-
-    // 予約の内容を送信する本体にあたる関数
-    await sendBookingEmail({
-      to: email,
-      name,
-      guests,
-      experienceTitle: bookedExp.title,
-      scheduleText,
-      bookingDateText,
+      },
+      success_url: `${siteURL}/booking/complete?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteURL}/booking?experience=${encodeURIComponent(experience)}&canceled=1`,
     });
-
-    // クエリを生成してリダイレクトする
-    const query = new URLSearchParams({
-      experience,
-      name,
-      email,
-      guests: String(guests),
-      date: bookingDateISO,
-    });
-    redirect(`/booking/complete?${query.toString()}`);
+    console.log("[submitBooking] created session:", session.id, session.url);
+    redirect(session.url);
   }
 
   if (!exp) {
