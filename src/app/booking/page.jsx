@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getExperienceBySlug } from "@/lib/data/experiences";
+import { supabaseAdmin } from "@/lib/server/supabaseAdmin";
 import { getRemainingSeats } from "@/lib/server/getRemainingSeats";
 import { getSoldOutDatesForMonth } from "@/lib/server/getSoldOutDatesForMonth";
 import { stripe } from "@/lib/server/stripe";
@@ -90,6 +91,22 @@ export default async function BookingPage({ searchParams }) {
       };
     }
 
+    // 既存予約チェック（同一体験・同一日・同一emailなら支払いへ進ませない）
+    const { data: existing, error: selErr } = await supabaseAdmin
+      .from("bookings")
+      .select("id")
+      .eq("experience_slug", experience)
+      .eq("booking_date", bookingDateISO)
+      .eq("email", email)
+      .maybeSingle();
+    
+    if (selErr) {
+      return { ok: false, error: `Failed to check existiong booking: ${selErr.message}`};
+    }
+    if (existing?.id) {
+      return { ok: false, error: "This booking already exists for the date (same email)."}
+    }
+
     // Stripe Checkout へ（最小安全：決済完了は Webhook 側で確定＆メール送信）
     const siteURL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -115,7 +132,9 @@ export default async function BookingPage({ searchParams }) {
         email,
       },
       success_url: `${siteURL}/booking/complete?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteURL}/booking?experience=${encodeURIComponent(experience)}&canceled=1`,
+      cancel_url: `${siteURL}/booking?experience=${encodeURIComponent(
+        experience
+      )}&canceled=1`,
     });
     console.log("[submitBooking] created session:", session.id, session.url);
     redirect(session.url);
