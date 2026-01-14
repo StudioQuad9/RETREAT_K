@@ -61,7 +61,8 @@ export default async function BookingPage({ searchParams }) {
     // フォームから送られたデータ
     const experience = String(formData.get("experience") || "");
     const name = String(formData.get("name") || "");
-    const email = String(formData.get("email") || "");
+    const emailRaw = String(formData.get("email") || "");
+    const email = emailRaw.trim().toLocaleLowerCase();
     const guests = Number(formData.get("guests") || 0);
 
     // 人数についてバリデーション
@@ -101,7 +102,7 @@ export default async function BookingPage({ searchParams }) {
       .maybeSingle();
     
     if (selErr) {
-      return { ok: false, error: `Failed to check existiong booking: ${selErr.message}`};
+      return { ok: false, error: `Failed to check existing booking: ${selErr.message}`};
     }
     if (existing?.id) {
       return { ok: false, error: "This booking already exists for the date (same email)."}

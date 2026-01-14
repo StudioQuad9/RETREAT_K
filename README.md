@@ -217,6 +217,10 @@ mail: takahiro@hokuto-p.co.jp
     │   ├── admin/
     │   │   └── review-test
     │   │       └── page.jsx
+    │   ├── api/
+    │   │   └── stripe
+    │   │       └── webhook
+    │   │           └── route.js
     │   ├── booking/
     │   │   ├── page.jsx
     │   │   ├── BookingForm.jsx
@@ -244,11 +248,13 @@ mail: takahiro@hokuto-p.co.jp
     │   │   ├── saveBooking.js
     │   │   ├── sendBookingEmail.js
     │   │   ├── sendReviewEmail.js
+    │   │   ├── stripe.js
     │   │   └── supabaseAdmin.js
     │   └── utils/
     │       ├── buildSchedule.js
     │       ├── formatBookingDateText.js
     │       ├── formatDuration.js
+    │       ├── formatPad.js
     │       ├── formatYen.js
     │       └── toISODateString.js
     └── styles/
@@ -867,3 +873,10 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+
+
+ローカルでstripeの返事を待つ場所を起動。
+
+```
+[tk-mba]$ stripe listen --forward-to http://localhost:3000/api/stripe/webhook
+```
