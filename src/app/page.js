@@ -1,28 +1,136 @@
 // @/app/page.js
 
-import Image from "next/image";
-import styles from "./page.module.scss";
+// @/app/page.js
+
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
-      <h1>RETREAT K</h1>
-      <p>トップページが表示されています。</p>
-      <div className="container">
-        <p>
-          しっぽがまるで箒のようだとも思いました。行ってみよう二人は、もとの車室の席に、もうすっかり覚悟して、とうとうすっかり見えなくなって川は二つにわかれました。けれどもあやしいその銀河のお祭りなのです。そしてまったくその振り子の音のたえまを遠くの遠くの野原の地平線の上ではことにけむったような、すばらしい紫のりんどうの花があちこち咲いていました。けれども、ジョバンニは、もっとたべたかったのです。ジョバンニは、もうそこに鳥捕りの形はちょうどこんななのです。さわやかな秋の時計の盤面には、いつか雑誌で読んだのでした。けれどもおまえはどうして、だまって席へ戻りました。君もらわなかったのです。そしてこれからなんでもいつでも私のとこへ持って来ました。つまりその星はみな、乳の流れたあとだと言われたりしてしばらくぼんやり立っていて信号標のあかりはどこかぼんやりありました。みんなは、一ぺんに化石させて、そらじゅうに沈めたというように、天の川の水や、三角点の青じろい微光の中を、天の川の水の上に飛び出してちょっと弓のような顔いろをしてはいけない。月のあかりはどこかぼんやりありましたが思いかえしてまたすわりました。その小さな列車の窓は一列小さく赤く見え、その手首にぶっつかって一ぺんにそれをおろしました。汽車が小さな小屋の前を通り、三角標のあたりにいらっしゃって、いまぼくのことをぼんやり思い出して眼が熱くなりました。ジョバンニは思わず窓からからだを半分出して、高く高く星めぐりの口笛を吹いたり、ケンタウルス、露をふらせいきなりいままで睡っていたのでした。ぼくは学校から帰る途中たびたびカムパネルラのうちへもつれて行った烏瓜のあかりもない川が、わずかに音をたてて流れて来るのを待っていて、その谷の底には川が明るく下にのぞけたのです。ジョバンニは、いつか町はずれのポプラの木が葉をさんさんと光らしてその霧の中に入れるのでした。左手の渚には、真鍮の大きなぼたんが二つ光っているのを見ました。けれどもあやしいその銀河のお祭りなのですからしかたありませんでした。
-        </p>
-        <p>
-          誰がいったいここらで鷺なんぞたべるだろうとジョバンニは、思わずジョバンニもカムパネルラもいっしょにうたいだしたのです。ふりかえって見ると、ちょうど水が深いほど青く見えるように思いました。と思ったらあの赤帽の信号手がまた青い旗をふっていましたが、急いでそのままやめました。それは、チョコレートででも刻まれたような、あたりまえでないようなようすでした。おっかさんが病気なんですから容易じゃありませんでした。双子のお星さまのお宮がならんで立っていました。なんだいあたし前になんべんもどこか方角もわからないその天上へ行ったのだろう。ぐあい悪くなかったのです。ところがその十字になった町かどや店の前に来てとまりました。けれどもいつでも家じゅうまだしいんとして誰もいませんでした。ジョバンニもカムパネルラもいっしょに行こうねえジョバンニがこう言いながらふりかえって見ましたら、車掌はまっすぐに草の丘に立ってこのレンズの大きさがどれくらいあるか、いくら眼をこすってしまいました。なんだかどんなこともよくわからないというような、青宝玉と黄玉の大きな二つの車輪の輻のようにまっ青な唐檜かもみの木がたって、その天の川の水を、見きわめようとしました。だんだん近づいて見ると、すすきのいっぱいにはえている崖の下に置いた鞄をもって行きますと、近くの四、五人手をあげました。だんだんそれが早くなって、まるで水のないそのままのそらのように赤く光りました。ジョバンニはわれを忘れて、その前にしょんぼりひとりの子供が立っていました。蠍の火ってなんだいジョバンニがこらえかねて言いました。またすぐ眼の下のまちまでが、やっぱりぼんやりした三角標の列は、けむるように燃えるように、もうそれをたべているのでした。きっとまた鳥をつかまえる商売でね何鳥ですか鶴ですか、しばらくしげしげジョバンニを見ていました。そして誰にも聞こえないように、眼の前がさあっと明るくなって、眼をつぶるのでした。あっちにもこっちにも、燐光の三角標がさそりの尾やかぎのようにこっちを見ていました。
-        </p>
-      </div>
-      <pre>
-        {`
-          export default function Hello() {
-            console.log("hello");
-          }
-        `}
-      </pre>
-    </>
+    <main className="page">
+      {/* HERO */}
+      <section className="hero container">
+        <header className="hero__header">
+          <p className="hero__eyebrow">Kyoto · Cultural Experiences</p>
+
+          <h1 className="hero__title">RETREAT K</h1>
+
+          <p className="hero__lead">
+            RETREAT K offers quiet, carefully curated cultural experiences,
+            <br />
+            shared with guests who seek something genuine.
+          </p>
+
+          <div className="hero__actions">
+            <Link className="btn btn--primary" href="/experiences">
+              Explore experiences
+            </Link>
+
+            <Link className="btn btn--ghost" href="/experiences/sokan-zen-tea">
+              View Sokan Zen & Tea
+            </Link>
+          </div>
+        </header>
+
+        {/* すぐ下に「要点」だけ置く（問い合わせを減らす） */}
+        <div className="hero__points">
+          <div className="point">
+            <div className="point__title">Small-group</div>
+            <div className="point__text">Limited seats, calm pace</div>
+          </div>
+          <div className="point">
+            <div className="point__title">Privacy-first</div>
+            <div className="point__text">No personal photography</div>
+          </div>
+          <div className="point">
+            <div className="point__title">Floor seating</div>
+            <div className="point__text">Chairs are not available</div>
+          </div>
+          <div className="point">
+            <div className="point__title">Cancellation</div>
+            <div className="point__text">Free up to 24 hours before</div>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED（1体験だけ） */}
+      <section className="section container">
+        <header className="section__header">
+          <h2 className="section__title">Featured experience</h2>
+          <p className="section__sub">
+            One experience, carefully prepared. No marketplace noise.
+          </p>
+        </header>
+
+        <article className="card">
+          <div className="card__body">
+            <div className="card__badge">Zen & Tea</div>
+            <h3 className="card__title">Sokan Zen Meditation & Tea</h3>
+            <p className="card__text">
+              Guided by a Zen monk at a secluded temple in northern Kyoto (Yase).
+              A quiet session designed to preserve stillness.
+            </p>
+
+            <div className="card__actions">
+              <Link className="btn btn--primary" href="/experiences/sokan-zen-tea">
+                View details
+              </Link>
+              <Link className="btn btn--ghost" href="/booking?experience=sokan-zen-tea">
+                Book
+              </Link>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      {/* HOW IT WORKS（短く） */}
+      <section className="section container">
+        <header className="section__header">
+          <h2 className="section__title">How it works</h2>
+        </header>
+
+        <ol className="steps">
+          <li className="steps__item">
+            <div className="steps__title">1) Choose a date</div>
+            <div className="steps__text">Available dates are shown on the booking calendar.</div>
+          </li>
+          <li className="steps__item">
+            <div className="steps__title">2) Pay securely</div>
+            <div className="steps__text">Payment is handled by Stripe Checkout.</div>
+          </li>
+          <li className="steps__item">
+            <div className="steps__title">3) Confirmation email</div>
+            <div className="steps__text">You will receive a confirmation email after payment.</div>
+          </li>
+        </ol>
+      </section>
+
+      {/* FOOTER NOTE（問い合わせを減らす） */}
+      <section className="section container">
+        <div className="note">
+          <h2 className="note__title">Contact</h2>
+          <p className="note__text">
+            For same-day contact, please use email. Details will be provided after booking.
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }
+
+
+
+
+// import Image from "next/image";
+// import styles from "./page.module.scss";
+
+// export default function Home() {
+//   return (
+//     <>
+//       <h1>RETREAT K</h1>
+//       <p>トップページが表示されています。</p>
+//       <div className="container">
+//         {/* 本文が入る */}
+//       </div>
+//     </>
+//   );
+// }

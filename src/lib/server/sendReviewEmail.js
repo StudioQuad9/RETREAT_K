@@ -6,8 +6,7 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function buildReviewLink({ experienceSlug, email }) {
-  const baseUrl = process.env.APP_URL || "http://localhost:3000";
-
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   // 例えば、
   // 文化体験が、宗貫住職の禅と茶。体験者のメールアドレスが、studio.quad9@gmail.com。
   // この情報を使ってレビューのためのリンクを作成して、レビューしてもらうページへ誘導する。
@@ -32,8 +31,8 @@ export async function sendReviewEmail({
 }) {
   if (!to) throw new Error("Missing recipient email (to)");
   if (!process.env.RESEND_FROM) throw new Error("Missing RESEND_FROM");
-  if (!process.env.APP_URL) {
-    console.warn("APP_URL is not set. Using localhost for review link.");
+  if (!process.env.NEXT_PUBLIC_SITE_URL) {
+    console.warn("NEXT_PUBLIC_SITE_URL is not set. Using localhost for review link.");
   }
 
   const subject = `Thanks you for joining us - a quich review request`;

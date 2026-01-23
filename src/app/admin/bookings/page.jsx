@@ -10,11 +10,21 @@ export const dynamic = "force-dynamic";
 // ✅ 簡易ガード（ローカル運用想定）
 // .env.local に ADMIN_TOKEN=任意の長い文字列 を入れて、
 // /admin/bookings?token=その文字列 で開けるようにする
-function requireAdmin(params) {
-  const adminToken = process.env.ADMIN_TOKEN;
-  if (!adminToken) return; // 未設定ならガード無し（ローカルだけならOK）
+// function requireAdmin(params) {
+//   const adminToken = process.env.ADMIN_TOKEN;
+//   if (!adminToken) return; // 未設定ならガード無し（ローカルだけならOK）
 
-  const token = String(params?.token || "");
+//   const token = String(params?.token || "");
+//   if (token !== adminToken) redirect("/");
+// }
+function requireAdmin(searchParams) {
+  // ✅ ローカルはガード無し
+  if (process.env.NODE_ENV !== "production") return;
+
+  const adminToken = process.env.ADMIN_TOKEN;
+  if (!adminToken) return;
+
+  const token = String(searchParams?.token || "");
   if (token !== adminToken) redirect("/");
 }
 

@@ -8,7 +8,7 @@ export const EXPERIENCES = [
     priceJPY: 16000,
     scheduleDetails: [{ weekday: "THU", time: "10:00" }],
     minGuests: 3,
-    capacity: 9,
+    capacity: 6,
     locationText: "Kyoto (details after booking)",
     highlights: [
       "Guided Zen meditation with a Zen monk",
