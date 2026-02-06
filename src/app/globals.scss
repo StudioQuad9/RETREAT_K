@@ -24,13 +24,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
+// page.module.scssの詳細度を勝たせるための施作
+:where(main) > :where(.container) {
   @include content-width;
-  padding: 32px $pad;
+  padding: 1rem 0;
 }
 
-section {
+section:not(:first-of-type)  {
   margin-top: 24px;
+}
+
+.sec {
+  &__title {
+    font-size: $fs-lg4;
+  }
+  &__sub-title {
+    margin: 1.1rem 0 0.35rem;
+    font-family: var(--ff-gothic);
+    font-size: $fs-lg2;
+    line-height: $lh-tight;
+  }
 }
 
 h1 {
@@ -68,11 +81,36 @@ nav,
   font-family: var(--ff-gothic);
 }
 
+a {
+  text-decoration: none;
+}
+
 .en-title,
 h1.en,
 h2.en {
   font-family: var(--ff-title-en);
   letter-spacing: 0.02em;
+}
+
+.bullets {
+  margin-left: 3rem;
+  line-height: $lh-tight;
+  font-family: var(--ff-mincho);
+  & > li:not(:first-of-type) {
+    margin-top: .5rem;
+  }
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 pre {
@@ -86,7 +124,145 @@ button {
   padding: .5em 1.5em;
 }
 
-.next-actions {
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.8em 1.4em;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 1px solid rgba($color: $color-black, $alpha: 0.14);
+  transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease;
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1px);
+  }
+  &--primary {
+    color: $color-white;
+    background-color: $color-black;
+    border-color: rgba($color: $color-black, $alpha: 0.2);
+    &:hover {
+      background-color: rgba($color: $color-black, $alpha: 0.86);
+    }
+  }
+  &--ghost {
+    color: $color-black;
+    background-color: transparent;
+    &:hover,
+    &:focus-visible  {
+      background-color: rgba($color: $color-black, $alpha: 0.05);
+      border-color: rgba($color: $color-black, $alpha: 0.18);
+    }
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// A11Y focus ring baseline
+:where(a, button, input, select, textarea):focus {
+  outline: none;
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgba($color: $color-black, $alpha: 0.55);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+.hero {
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  &__eyebrow {
+    font-family: var(--ff-gothic);
+    font-size: $fs-sm;
+    letter-spacing: 0.06rem;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  &__title {
+    margin: 0;
+    font-family: var(--ff-title-en);
+    line-height: $lh-tight;
+  }
+  &__lead {
+    max-width: 68ch;
+    opacity: 0.92;
+  }
+  &__fineprint {
+    max-width: 70ch;
+    font-family: var(--ff-gothic);
+    font-size: $fs-sm;
+    opacity: 0.75;
+  }
+}
+
+.spec-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+  margin-top: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba($color: $color-black, $alpha: 0.08);
+  @include mq(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 0.9rem;
+  }
+  @include mq(lg) {
+    gap: 0.7rem 1rem;
+  }
+  & > .spec {
+    display: grid;
+    grid-template-columns: 6.25rem 1fr;
+    gap: 0.45rem;
+    align-items: baseline;
+    font-family: var(--ff-gothic);
+    font-size: $fs-sm;
+    & dt {
+      font-family: var(--ff-gothic);
+      font-size: $fs-sm;
+      font-weight: $fw-medium;
+      opacity: 0.72;
+      white-space: nowrap;
+    }
+    & dd {
+      margin: 0;
+      font-family: var(--ff-mincho);
+      font-size: $fs-sm;
+      line-height: $lh-normal;
+      opacity: 0.92;
+    }
+  }   
+}
+
+.next-action {
   display: flex;
   flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin-top: 0.8rem;
+  @include mq(md) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.divider {
+  margin: 2rem 0;
+  border: 0;
+  height: 1px;
+  background-color: rgba($color: $color-black, $alpha: 0.2);
+}
+
+// ユーザーがブラウザでアニメーションの動きを止める設定をしている場合に対応するためのもの
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }

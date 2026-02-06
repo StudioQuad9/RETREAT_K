@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="home">
+    <div className="container home">
       <section className="hero">
         <div className="hero__inner">
           <p className="hero__eyebrow">Japanese Cultural Experiences</p>
@@ -16,7 +16,7 @@ export default function Home() {
             shared with guests who seek something genuine.
           </p>
 
-          <div className="hero__actions">
+          <div className="next-action">
             <Link className="btn btn--primary" href="/experiences">
               View Experiences
             </Link>
@@ -84,6 +84,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

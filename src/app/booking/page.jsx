@@ -152,7 +152,7 @@ export default async function BookingPage({ searchParams }) {
   }
 
   return (
-    <main>
+    <div className="container booking">
       <h1>Booking</h1>
 
       <section>
@@ -174,9 +174,11 @@ export default async function BookingPage({ searchParams }) {
         submitBooking={submitBooking}
       />
 
-      <div className="enter-btn">
-        <Link href={`/experiences/${exp.slug}`}>Back to details</Link>
+      <div className="next-action">
+        <Link className="btn btn--primary" href={`/experiences/${exp.slug}`}>
+          Back to details
+        </Link>
       </div>
-    </main>
+    </div>
   );
 }

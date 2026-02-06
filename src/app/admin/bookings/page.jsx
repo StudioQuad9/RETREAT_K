@@ -69,7 +69,7 @@ export default async function AdminBookingsPage({ searchParams }) {
     .limit(limit);
 
   return (
-    <main className={styles.page}>
+    <div className="container bookings">
       <header className={styles.header}>
         <div>
           <h1 className={styles.title}>Bookings</h1>
@@ -181,6 +181,6 @@ export default async function AdminBookingsPage({ searchParams }) {
           </ul>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

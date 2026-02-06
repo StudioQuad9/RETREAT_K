@@ -1,21 +1,13 @@
 // @/src/styles/shared/_daypicker.scss
 
 @use './variables' as *;
+@use './mixins' as *;
 
 // react-day-picker styles
+
 // このクラスの要素はtable(1ヶ月ごとのテーブル要素)
 // 週の上下の間隔を調整したいので設定している。
-.rdp-month_grid {
-  border-spacing: .5em;
-  font-family: $font-mincho;  
-  & .rdp-week:not(:first-of-type) {
-    & > .rdp-day {
-      & > button {
-        margin-top: .75em;
-      }
-    }
-  }
-}
+
 // ナビ
 .rdp-nav {
   & > button {
@@ -24,6 +16,23 @@
     & > .rdp-chevron {
       width: 15px !important;
       height: 15px !important;
+    }
+  }
+}
+
+// 大枠
+.rdp-month_grid {
+  width: 100%;
+  border-spacing: .5em;
+  font-family: $font-mincho;  
+  @include mq(md) {
+    width: unset;
+  }
+  & .rdp-week:not(:first-of-type) {
+    & > .rdp-day {
+      & > button {
+        margin-top: .3em;
+      }
     }
   }
 }
@@ -39,13 +48,19 @@
 
 // 日付
 .rdp-day {
+  width: calc(100% / 7);
   border-radius: 4px;
   & button {
     width: 100%;
+    padding: .2em 0;
     margin-top: unset;
     font-size: .9rem;
     font-weight: 400;
     font-family: $font-mincho;
+    @include mq(md) {
+      padding: .4em 1.5em;
+      font-size: 1.1rem;
+    }
   }
   &.rdp-selected {
     & > button {

@@ -38,7 +38,7 @@ export default async function BookingCompletePage({ searchParams }) {
   const isPaid = session?.payment_status === "paid";
 
   return (
-    <main>
+    <div className="container booking-complete">
       <h1 className="en">{isPaid 
                             ? "Booking complete (Paid)"
                             : "Payment status pending"
@@ -107,6 +107,6 @@ export default async function BookingCompletePage({ searchParams }) {
           <Link href="/experiences">Go to Experiences</Link>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

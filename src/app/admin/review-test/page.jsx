@@ -29,7 +29,7 @@ export default function ReviewTestPage() {
   }
 
   return (
-    <main>
+    <div className="container review">
       <h1 className="en">Review Email Test</h1>
       <form action={send}>
         <label htmlFor="email">
@@ -55,6 +55,6 @@ export default function ReviewTestPage() {
 
         <button type="submit">Send review email</button>
       </form>
-    </main>
+    </div>
   );
 }

@@ -147,6 +147,9 @@ mail: takahiro@hokuto-p.co.jp
     │   ├── page.js
     │   ├── page.module.scss
     │   ├── admin/
+    │   │   ├── bookings
+    │   │   │   ├── page.jsx
+    │   │   │   └── page.module.scss
     │   │   └── review-test
     │   │       └── page.jsx
     │   ├── api/
@@ -160,6 +163,7 @@ mail: takahiro@hokuto-p.co.jp
     │   │       └── page.jsx
     │   └── experiences/
     │       ├── page.jsx
+    │       │   └── page.module.scss
     │       └── [slug]/
     │           └── page.jsx
     ├── components/

@@ -5,6 +5,7 @@ import { EXPERIENCES } from "@/lib/data/experiences";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText } from "@/lib/utils/buildSchedule";
+import styles from "./page.module.scss";
 
 function getCoverSrc(exp) {
   // ✅ まずは仮：/public/experiences/{slug}.jpg を置けば表示される
@@ -25,62 +26,70 @@ function getTagline(exp) {
 
 export default function ExperiencesPage() {
   return (
-    <main className="experiences">
-      <header className="experiences__header">
-        <p className="experiences__eyebrow">Experiences</p>
-        <h1 className="experiences__title">Choose an experience</h1>
-        <p className="experiences__lead">
+    <div className={`container ${styles.experiences}`}>
+      <header className={styles.experiences__header}>
+        <p className={styles.experiences__eyebrow}>Experiences</p>
+        <h1 className={styles.experiences__title}>Choose an experience</h1>
+        <p className={styles.experiences__lead}>
           Small-group cultural programs in Kyoto, designed for guests who want
           something genuine.
         </p>
       </header>
 
-      <section className="experiences__grid" aria-label="Experience list">
+      <section
+        className={styles.experiences__grid}
+        aria-label="Experience list"
+      >
         {EXPERIENCES.map((exp) => (
-          <article key={exp.slug} className="experienceCard">
+          <article key={exp.slug} className={styles.experienceCard}>
             <Link
-              className="experienceCard__media"
+              className={styles.experienceCard__media}
               href={`/experiences/${exp.slug}`}
             >
-              <Image
-                src={getCoverSrc(exp)}
-                alt={exp.title}
-                width={1200}
-                height={600}
-                priority={exp.slug === "sokan-zen-tea"}
-              />
+              <div className={`image-wrapper ${styles.experienceCard__media}`}>
+                <Image
+                  src={getCoverSrc(exp)}
+                  alt={exp.title}
+                  fill
+                  sizes="100vw"
+                  priority={exp.slug === "sokan-zen-tea"}
+                />
+              </div>
             </Link>
 
-            <div className="experienceCard__body">
-              <h2 className="experienceCard__title">
+            <div className={styles.experienceCard__body}>
+              <h2 className={styles.experienceCard__title}>
                 <Link href={`/experiences/${exp.slug}`}>{exp.title}</Link>
               </h2>
 
-              <p className="experienceCard__tagline">{getTagline(exp)}</p>
+              <p className={styles.experienceCard__tagline}>
+                {getTagline(exp)}
+              </p>
 
-              <dl className="experienceCard__specs">
-                <div className="experienceCard__spec">
+              <dl className="spec-wrapper">
+                <div className="spec">
                   <dt>Schedule</dt>
                   <dd>{buildScheduleText(exp)}</dd>
                 </div>
-                <div className="experienceCard__spec">
+                <div className="spec">
                   <dt>Duration</dt>
                   <dd>{formatDuration(exp.durationMinutes)}</dd>
                 </div>
-                <div className="experienceCard__spec">
+                <div className="spec">
                   <dt>Price</dt>
                   <dd>¥{formatYen(exp.priceJPY)} / person</dd>
                 </div>
-                <div className="experienceCard__spec">
+                <div className="spec">
                   <dt>Capacity</dt>
                   <dd>Up to {exp.capacity} guests</dd>
                 </div>
               </dl>
 
-              <div className="next-actions">
+              <div className="next-action">
                 <Link
                   className="btn btn--ghost"
                   href={`/experiences/${exp.slug}`}
+                  aria-label={`View details: ${exp.title}`}
                 >
                   View details
                 </Link>
@@ -88,6 +97,7 @@ export default function ExperiencesPage() {
                 <Link
                   className="btn btn--primary"
                   href={`/booking?experience=${exp.slug}`}
+                  aria-label={`Check availability: ${exp.title}`}
                 >
                   Check availability
                 </Link>
@@ -96,34 +106,6 @@ export default function ExperiencesPage() {
           </article>
         ))}
       </section>
-    </main>
+    </div>
   );
 }
-
-// // @/app/experiences/page.jsx
-
-// import Link from "next/link";
-// import { EXPERIENCES } from "@/lib/data/experiences";
-// import { formatDuration } from "@/lib/utils/formatDuration";
-// import { formatYen } from "@/lib/utils/formatYen";
-// export default function ExperiencesPage() {
-//   return (
-//     <main>
-//       <h1>Expriences</h1>
-//       <ul>
-//         {EXPERIENCES.map((experience) => (
-//           <li key={experience.slug}>
-//             <h2>{experience.title}</h2>
-//             <div className="duration">
-//               Duration: {formatDuration(experience.durationMinutes)}
-//             </div>
-//             <div className="price">
-//               Price: ￥{formatYen(experience.priceJPY)}
-//             </div>
-//             <Link href={`/experiences/${experience.slug}`}>View details</Link>
-//           </li>
-//         ))}
-//       </ul>
-//     </main>
-//   );
-// }
