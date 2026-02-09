@@ -15,7 +15,7 @@ export default async function ExperienceDetailPage({ params }) {
   const exp = getExperienceBySlug(slug);
   if (!exp) return notFound();
 
-  const reviews = getReviewsByExperienceSlug(exp.slug);
+  const reviews = await getReviewsByExperienceSlug(exp.slug);
 
   return (
     <div className={`container ${styles.experienceDetail}`}>

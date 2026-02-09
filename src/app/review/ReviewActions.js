@@ -1,8 +1,16 @@
-// @/app/review/reviewActions.js
+// @/app/review/ReviewActions.js
 
 "use server";
 
-import { submitReviewWithToken } from "@/lib/server/reviewsTokens";
+// アプリ側のフォームから送られるデータをサーバーに中継するためのインターチェンジ。
+
+import { submitReviewWithToken } from "@/lib/server/reviewTokens";
+import { redirect } from "next/navigation";
+
+// ここでやりたいことは、
+// フォームからのデータを引数にとってsubmitReviewWithToken関数を呼び出すこと。
+// 呼び出したら、reviewTokensの中のsubmitReviewWithToken関数が実行されて、
+// サーバーにデータが格納されるという寸法。
 
 export async function submitReviewAction(_prev, formData) {
   const token = String(formData.get("token") || "");
@@ -20,5 +28,7 @@ export async function submitReviewAction(_prev, formData) {
   });
 
   if (!res.ok) return { ok: false, error: res.error, warning: ""};
-  return { ok: true, error: "", warning: res.warning || ""};
+
+  redirect("/review/thanks");
+  // return { ok: true, error: "", warning: res.warning || ""};
 }

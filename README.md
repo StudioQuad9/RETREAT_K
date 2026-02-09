@@ -1135,3 +1135,17 @@ A. [rule]
 
 Q. Is it private?
 A. [private / small group]
+
+## レビュー依頼を送る
+
+```
+http://localhost:3000/admin/review-token?bookingId=ここにトークンを入れる
+```
+
+http://localhost:3000/admin/review-token?bookingId=3f4f2595-d1f1-4603-88cc-256266aa474c
+
+
+http://localhost:3000/admin/review-token?bookingId=ffdcb0a0-68b0-4e8e-89db-339b26e5d76a
+
+
+http://localhost:3000/admin/review-token?bookingId=182d047b-1c22-42ea-9746-0efff79d1a72
