@@ -28,7 +28,7 @@ export async function submitReviewAction(_prev, formData) {
   });
 
   if (!res.ok) return { ok: false, error: res.error, warning: ""};
+  if (res.warning) return { ok: true, error: "", warning: res.warning };
 
   redirect("/review/thanks");
-  // return { ok: true, error: "", warning: res.warning || ""};
 }

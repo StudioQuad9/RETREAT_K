@@ -7,19 +7,35 @@ import { supabaseAdmin } from "@/lib/server/supabaseAdmin";
 // 手動メール送信前に「token を作ってURLを作る」ための関数。
 // bookingId は public.bookings.id（uuid）
 export async function createReviewToken({ bookingId, daysValid = 30 }) {
-  if (!bookingId) throw new Error("Missing bookingID");
+  if (!bookingId) throw new Error("Missing bookingId");
 
   // 1) bookingからexperience_slugを取得する。
   const { data: booking, error: bookingErr } = await supabaseAdmin
     .from("bookings")
-    // .select("id, experience_slug, email")
     .select("id")
     .eq("id", bookingId)
     .maybeSingle();
+
   if (bookingErr) throw new Error(`Booking lookup failed: ${bookingErr.message}`);
   if (!booking) throw new Error("Booking not found");
-  // if (!booking.experience_slug) throw new Error("Booking has no experience_slug");
-  // if (!booking.email) throw new Error("Booking has no email")
+  
+  const { data: existing, error: existErr } = await supabaseAdmin
+    .from("review_tokens")
+    .select("token, expires_at, used_at")
+    .eq("booking_id", bookingId)
+    .maybeSingle();
+
+  if (existErr) throw new Error(`Token lookup failed: ${existErr.message}`);
+
+  const now = Date.now();
+  const existingExpires = existing?.expires_at
+    ? new Date(existing.expires_at).getTime()
+    : 0;
+
+  // 未使用 かつ 期限内なら「再発行しない」
+  if (existing && !existing.used_at && existingExpires > now) {
+    return { token: existing.token, expiresAt: existing.expires_at };
+  }
 
   // 48 chars, crypto: 暗号　つまりtokenにはランダムな16進数文字列を入れてIDにするということ。
   const token = crypto.randomUUID(); 
@@ -28,38 +44,20 @@ export async function createReviewToken({ bookingId, daysValid = 30 }) {
   const expiresAt = new Date(Date.now() + daysValid * 24 * 60 * 60 * 1000).toISOString(); 
 
   // 既にbookingIdのtoken行はあるか。
-  const { data: existing, error: selectErr } = await supabaseAdmin
+  const { error: upsertErr } = await supabaseAdmin
     .from("review_tokens")
-    .select("booking_id")
-    .eq("booking_id", bookingId)
-    .maybeSingle();
-  
-  if (selectErr) throw new Error(`Token lookup failed: ${selectErr.message}`);
-
-  // もしあった場合にupdate関数で再発行する。
-  if (existing?.booking_id) {
-    const { error: updateErr } = await supabaseAdmin
-      .from("review_tokens")
-      .update({
+    .upsert(
+      {
+        booking_id: bookingId,
         token,
         expires_at: expiresAt,
-        used_at: null, // 再発行なのでnullに戻す。
-      })
-      .eq("booking_id", bookingId);
-    
-    if (updateErr) throw new Error(`Failed to re-issue token: ${updateErr.message}`);
-    return { token, expiresAt };
-  }
-    
-  // Supabeseにデータを格納して、分割代入でerrorだけを抽出
-  const { error: insertErr } = await supabaseAdmin.from("review_tokens").insert({
-    token,
-    booking_id: bookingId,
-    expires_at: expiresAt,
-    used_at: null,
-  });
-
-  if (insertErr) throw new Error(`Failed to create token: ${error.message}`);
+        used_at: null  // 再発行は未使用に戻す。
+      }, {
+        onConflict: "booking_id"
+      }
+    );
+  
+  if (upsertErr) throw new Error(`Failed to create/re-issue token: ${upsertErr.message}`);
 
   // tokenと有効期限を返す。
   return { token, expiresAt };
@@ -80,6 +78,8 @@ export async function verifyReviewToken(token) {  // verify: 確認する
   if (!tokenRow) return { ok: false, error: "Invalid token" };
   // すでにレビューは書かれてのかを確認する。
   if (tokenRow.used_at) return { ok: false, error: "This link has already been used."};
+  // レビューを書くにはもう有効期限を過ぎています。
+  if (!tokenRow.expires_at) return { ok: false, error: "This link has expired."};
   // レビューを書く期限が過ぎているかを確認する。
   const now = Date.now();
   const expiresAtMS = new Date(tokenRow.expires_at).getTime();
@@ -128,11 +128,14 @@ export async function submitReviewWithToken({ token, rating, comment, displayNam
     return { ok: false, error: `Failed to save review: ${insertErr.message}` };
   }
   // 2) used_atには初期値でnullが入っている。投稿されたらここをアップデートする。
-  const { error: updateErr } = await supabaseAdmin
+  const nowIso = new Date().toISOString();
+
+  const { data: updated, error: updateErr } = await supabaseAdmin
     .from("review_tokens")
-    // .update({ used_at: new Date().toISOString() })
-    .update({ used_at: new Date().toISOString() })
-    .eq("token", token);
+    .update({ used_at: nowIso })
+    .eq("token", token)
+    .is("used_at", null)
+    .select("token, used_at");
 
   // ここは「レビューは保存されたが token の used_at が付かなかった」ケース。
   // 運用上は修正可能なので、致命的扱いにはしない。
@@ -140,6 +143,13 @@ export async function submitReviewWithToken({ token, rating, comment, displayNam
     return {
       ok: true,
       warning: `Save review, but failed to mark token used: ${updateErr.message}`,
+    };
+  }
+
+  if (!updated || updated.length === 0) {
+    return {
+      ok: true,
+      warning: "Save review, but token row was not updated (token mismatch / aleady used / RLS?)",
     };
   }
 
