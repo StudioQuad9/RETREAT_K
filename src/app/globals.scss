@@ -101,6 +101,11 @@ h2.en {
   }
 }
 
+.margin-R-thin {
+  display: inline-block;
+  margin-right: .2em;
+}
+
 .image-wrapper {
   position: relative;
   width: 100%;
@@ -122,6 +127,16 @@ pre {
 button {
   margin-top: 2rem;
   padding: .5em 1.5em;
+}
+
+.parens {
+  display: inline-block;
+  &__left {
+    margin-right: .15rem;
+  }
+  &__right {
+    margin-left: .15rem;
+  }
 }
 
 .btn {
@@ -258,6 +273,26 @@ button {
   height: 1px;
   background-color: rgba($color: $color-black, $alpha: 0.2);
 }
+
+.reviewSummary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0.5rem 0 1rem;
+  &__avg {
+    font-family: var(--ff-title-en);
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+  &__stars {
+    letter-spacing: 0.12em;
+  }
+  &__count {
+    font-size: .85rem;
+    opacity: 0.8;
+  }
+}
+
 
 // ユーザーがブラウザでアニメーションの動きを止める設定をしている場合に対応するためのもの
 @media (prefers-reduced-motion: reduce) {

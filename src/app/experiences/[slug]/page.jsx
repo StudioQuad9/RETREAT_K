@@ -8,6 +8,8 @@ import { getReviewsByExperienceSlug } from "@/lib/server/getReviewsByExperienceS
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText } from "@/lib/utils/buildSchedule";
+import RatingStars from "@/components/reviews/RatingStars"; 
+import { calcReviewSummary } from "@/lib/reviews/reviewSummary"; 
 import styles from "./page.module.scss";
 
 export default async function ExperienceDetailPage({ params }) {
@@ -16,6 +18,7 @@ export default async function ExperienceDetailPage({ params }) {
   if (!exp) return notFound();
 
   const reviews = await getReviewsByExperienceSlug(exp.slug);
+  const { count, avg } = calcReviewSummary(reviews)
 
   return (
     <div className={`container ${styles.experienceDetail}`}>
@@ -159,24 +162,45 @@ export default async function ExperienceDetailPage({ params }) {
       {/* Reviews */}
       <section>
         <h2 className="section__title">Reviews</h2>
-        {reviews.length === 0 ? (
+        {count === 0 ? (
           <p>No reviews yet.</p>
         ) : (
-          <ul className={styles.reviews}>
-            {reviews.map((review, idx) => (
-              <li key={idx} className={styles.reviews__review}>
-                <strong>{review.displayName}</strong>({review.country} *
-                {review.rating}
-                )
-                <br />
-                {review.comment}
-                <br />
-                <small>
-                  {review.date} / {review.source}
-                </small>
-              </li>
-            ))}
-          </ul>
+          <>
+            <div className="reviewSummary">
+              <div className="reviewSummary__avg">
+                {avg.toFixed(1)}&nbsp;/&nbsp;5
+              </div>
+              <div className="reviewSummary__stars">
+                <RatingStars rating={avg} />
+              </div>
+              <div className="reviewSummary__count parens">
+                <span className="parens__left">(</span>
+                  <span className="margin-R-thin">{count}</span>reviews
+                <span className="parens__right">)</span>
+              </div>
+            </div>
+
+            <ul className={styles.review}>
+              {reviews.map((review, idx) => (
+                <li key={idx}>
+                  <div className={styles.review__info}>
+                    <div className={styles.review__displayName}>
+                      {review.displayName}
+                    </div>
+                    <div className={`${styles.review__countryRating} parens`}>
+                      <span className="parens__left">(</span>
+                      {review.country},&nbsp;★{review.rating}
+                      <span className="parens__right">)</span>
+                    </div>
+                  </div>
+                  <p className={styles.review__comment}>{review.comment}</p>
+                  <div className={styles.review__meta}>
+                    {review.date} / {review.source}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </section>
     </div>

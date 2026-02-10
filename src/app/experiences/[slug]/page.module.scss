@@ -78,4 +78,61 @@
       }
     }
   }
+  
+  & .review {
+    display: grid;
+    gap: 0.9rem;
+    & > li {
+      padding: 0.9rem 1rem;
+      list-style: none;
+      border: 1px solid rgba(0,0,0,0.10);
+      border-radius: 12px;
+    }
+    &__info {
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+    }
+    &__displayName {
+      font-family: var(--font-title-en);
+      font-size: 1.2rem;
+    }
+    &__countryRating {
+      font-size: .8rem;
+      opacity: .8;
+    }
+    &__comment {
+      margin: .25rem 0 .7rem;
+      font-size: .9rem;
+      line-height: 1.7;
+    }
+    &__meta {
+      padding-right: 1rem;
+      text-align: right;
+      font-size: .8rem;
+      opacity: .7;
+    }
+  }
 }
+
+// .reviewRow {
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: center;
+//   gap: 0.5rem;
+
+//   &__rating {
+//     margin-left: auto;
+//     letter-spacing: 0.12em;
+//     opacity: 0.9;
+//   }
+// }
+
+// .reviewComment {
+//   margin-top: 0.6rem;
+//   margin-bottom: 0.6rem;
+// }
+
+// .reviewMeta {
+//   opacity: 0.65;
+// }

@@ -149,8 +149,8 @@ export async function submitReviewWithToken({ token, rating, comment, displayNam
   if (!updated || updated.length === 0) {
     return {
       ok: true,
-      warning: "Save review, but token row was not updated (token mismatch / aleady used / RLS?)",
-    };
+      warning: "Save review, but token row was not updated (token mismatch / already used / RLS?)",
+    }
   }
 
   return { ok: true };
