@@ -1,6 +1,10 @@
 import "server-only";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/server/supabaseAdmin";
+import { unstable_noStore as noStore } from "next/cache";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const th = {
   textAlign: "left",
@@ -17,6 +21,9 @@ const td = {
 };
 
 export default async function AdminBookingsPage() {
+  // キャッシュを強制的に消す。
+  noStore();
+
   const { data, error } = await supabaseAdmin
     .from("bookings")
     .select("id, created_at, experience_slug, booking_date, guests, name, email")
