@@ -10,6 +10,7 @@ import { stripe } from "@/lib/server/stripe";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { formatYen } from "@/lib/utils/formatYen";
 import { buildScheduleText, buildScheduleIndex } from "@/lib/utils/buildSchedule";
+import { getSiteURL } from "@/lib/config/site";
 import BookingForm from "@/app/booking/BookingForm";
 
 export default async function BookingPage({ searchParams }) {
@@ -109,7 +110,8 @@ export default async function BookingPage({ searchParams }) {
     }
 
     // Stripe Checkout へ（最小安全：決済完了は Webhook 側で確定＆メール送信）
-    const siteURL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const siteURL = getSiteURL();
+    if (!siteURL) throw new Error("Missing NEXT_PUBLIC_SITE_URL");
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

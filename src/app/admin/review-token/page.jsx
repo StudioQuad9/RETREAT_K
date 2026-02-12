@@ -1,9 +1,11 @@
 // src/app/admin/review-token/page.jsx
 import { createReviewToken } from "@/lib/server/reviewTokens";
+import { getSiteURL } from "@/lib/config/site";
 
 export default async function AdminReviewTokenPage({ searchParams }) {
   const params = await searchParams;
   const bookingId = String(params?.bookingId || "");
+  const siteURL = getSiteURL();
 
   if (!bookingId) {
     return (
@@ -30,7 +32,7 @@ export default async function AdminReviewTokenPage({ searchParams }) {
       </p>
       <p className="spec">
         Review URL:{" "}
-        <strong>{`http://localhost:3000/review?token=${token}`}</strong>
+        <strong>{`&{siteURL}/review?token=${token}`}</strong>
       </p>
     </div>
   );

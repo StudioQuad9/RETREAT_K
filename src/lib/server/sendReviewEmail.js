@@ -2,11 +2,12 @@
 
 import "server-only";
 import { Resend } from "resend";
+import { getSiteURL } from "@/lib/config/site";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function buildReviewLink({ experienceSlug, email }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = getSiteURL();
   // 例えば、
   // 文化体験が、宗貫住職の禅と茶。体験者のメールアドレスが、studio.quad9@gmail.com。
   // この情報を使ってレビューのためのリンクを作成して、レビューしてもらうページへ誘導する。
