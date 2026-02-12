@@ -32,7 +32,7 @@ export default async function AdminReviewTokenPage({ searchParams }) {
       </p>
       <p className="spec">
         Review URL:{" "}
-        <strong>{`&{siteURL}/review?token=${token}`}</strong>
+        <strong>{`${siteURL}/review?token=${token}`}</strong>
       </p>
     </div>
   );
