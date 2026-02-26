@@ -1,89 +1,122 @@
 // @/app/page.js
+import styles from "./page.module.scss";
 
-import Link from "next/link";
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="container home">
-      <section className="hero">
-        <div className="hero__inner">
-          <p className="hero__eyebrow">Japanese Cultural Experiences</p>
+    <main className={styles.page}>
+      {/* HERO */}
+      <section className={styles.hero}>
+        {/* VIDEO */}
+        <div>
+        {/* <div className={styles.videoWrapper}> */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={styles.video}
+            // style={{ width: "100%", height: "100%", background: "#000"}}
+          >
+            <source src="/videos/hero.mp4" type="video/mp4" />
+          </video>
+        </div>
 
-          <h1 className="hero__title">RETREAT K</h1>
+        <div className={styles.heroInner}>
+          <h1>
+            京の文化と時間を、
+            <br />
+            映像とWEBで静かに記録する。
+          </h1>
 
-          <p className="hero__lead">
-            RETREAT K offers quiet, carefully curated cultural experiences,
-            shared with guests who seek something genuine.
-          </p>
+          <div className={styles.ctaRow}>
+            <a href="#about" className="btn btn--primary">
+              活動について
+            </a>
 
-          <div className="next-action">
-            <Link className="btn btn--primary" href="/experiences">
-              View Experiences
-            </Link>
+            <a href="mailto:takahiro@hokuto-p.co.jp" className="btn btn--ghost">
+              お問い合わせ
+            </a>
           </div>
-
-          <p className="hero__fineprint">
-            Operated in English. Designed for small groups and respectful
-            settings.
-          </p>
         </div>
       </section>
 
-      <section className="featured" aria-labelledby="principles-title">
-        <div className="featured__inner">
-          <h2 id="principles-title" className="featured__title">
-            How we operate
-          </h2>
+      {/* ABOUT */}
+      <section id="about" className={styles.section}>
+        <h2>About</h2>
 
-          <div className="cards">
-            <article className="card">
-              <h3 className="card__title">Carefully designed operation</h3>
-              <p className="card__text">
-                Created for guests who want to understand Japanese culture
-                deeply — with small-group, thoughtful pacing.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3 className="card__title">No overbooking by design</h3>
-              <p className="card__text">
-                Availability is checked before payment, and booking is confirmed
-                after payment.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3 className="card__title">Privacy-respecting venues</h3>
-              <p className="card__text">
-                Some experiences take place in locations where privacy is
-                carefully protected.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3 className="card__title">Clear communication</h3>
-              <p className="card__text">
-                Key policies are shown upfront, so you rarely need to contact
-                us.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3 className="card__title">Participation</h3>
-              <p className="card__text">
-                This experience is conducted in English (including guidance and
-                explanations). Please join only if you can follow in English.
-              </p>
-            </article>
-          </div>
-
-          <div className="featured__cta">
-            <Link className="btn btn--ghost" href="/experiences">
-              See details and availability
-            </Link>
-          </div>
-        </div>
+        <p>
+          京都を拠点に、寺社仏閣や庭園など文化空間の記録制作を行っています。
+          写真・動画・WEB制作を通して、場所や人が持つ空気感と、
+          その背景にある時間や思想を丁寧に伝えることを大切にしています。
+        </p>
       </section>
-    </div>
+
+      {/* WORK */}
+      <section className={styles.section}>
+        <h2>Work</h2>
+
+        <h3>WEB制作</h3>
+
+        <p>
+          寺社・文化施設のWEB制作を中心に構築。
+          情報整理から設計、撮影、公開まで一貫して対応しています。
+        </p>
+
+        <ul>
+          <li>白峯神宮様（京都市）</li>
+          <li>大報恩寺様（京都市）</li>
+          <li>法華寺様（向日市）</li>
+        </ul>
+
+        <h3>Photo / Video</h3>
+
+        <p>京都の寺院や庭園を中心に文化の風景を撮影。</p>
+
+        <ul>
+          <li>庭園風景</li>
+          <li>禅の時間</li>
+          <li>茶の準備</li>
+          <li>香の制作風景</li>
+        </ul>
+
+        <a
+          href="https://instagram.com/"
+          target="_blank"
+          rel="noreferrer"
+          className="btn btn--ghost"
+        >
+          Instagram
+        </a>
+
+        <h3>授与品</h3>
+
+        <p>授与品の企画から生産まで対応。</p>
+      </section>
+
+      {/* PHILOSOPHY */}
+      <section className={styles.section}>
+        <h2>Philosophy</h2>
+
+        <p>
+          文化は情報ではなく、体験として伝わるものだと考えています。
+          静かな時間の中で生まれる所作や空気を記録し、
+          次の世代へ残していきたいと思っています。
+        </p>
+      </section>
+
+      {/* CONTACT */}
+      <section className={styles.section}>
+        <h2>Contact</h2>
+
+        <p>
+          京都を中心に活動しています。
+          撮影・WEB制作・文化空間の記録に関するご相談は お気軽にご連絡ください。
+        </p>
+
+        <p>
+          <a href="mailto:takahiro@hokuto-p.co.jp">takahiro@hokuto-p.co.jp</a>
+        </p>
+      </section>
+    </main>
   );
 }
