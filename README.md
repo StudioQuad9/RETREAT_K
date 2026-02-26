@@ -148,24 +148,31 @@ mail: takahiro@hokuto-p.co.jp
     │   ├── page.module.scss
     │   ├── admin/
     │   │   ├── bookings
-    │   │   │   ├── page.jsx
-    │   │   │   └── page.module.scss
-    │   │   └── review-test
+    │   │   │   └── page.jsx
+    │   │   └── review-token
     │   │       └── page.jsx
     │   ├── api/
     │   │   └── stripe
     │   │       └── webhook
     │   │           └── route.js
     │   ├── booking/
-    │   │   ├── page.jsx
+    │   │   ├── complete
+    │   │   │   └── page.jsx
     │   │   ├── BookingForm.jsx
-    │   │   └── complete/
-    │   │       └── page.jsx
-    │   └── experiences/
+    │   │   └── page.jsx
+    │   ├── experiences/
+    │   │   ├── [slug]/
+    │   │   │   ├── page.jsx
+    │   │   │   └── page.module.scss
+    │   │   ├── page.jsx
+    │   │   └── page.module.scss
+    │   └── review/
+    │       ├── thanks/
+    │       │   └── page.jsx
     │       ├── page.jsx
-    │       │   └── page.module.scss
-    │       └── [slug]/
-    │           └── page.jsx
+    │       ├── page.module.scss
+    │       ├── reviewActions.js
+    │       └── ReviewForm.jsx
     ├── components/
     │   └── layout
     │       ├── Header
@@ -175,12 +182,19 @@ mail: takahiro@hokuto-p.co.jp
     │           ├── index.jsx
     │           └── Footer.module.scss
     ├── lib/
+    │   ├── config
+    │   │   └── site.js
     │   ├── data
     │   │   ├── experiences.js
     │   │   └── reviews.js
+    │   ├── reviews
+    │   │   └── reviewSummary.js
     │   ├── server/
     │   │   ├── getRemainingSeats.js
+    │   │   ├── getReviewsByExperienceSlug.js
     │   │   ├── getSoldOutDatesForMonth.js
+    │   │   ├── reviews.js
+    │   │   ├── reviewTokens.js
     │   │   ├── saveBooking.js
     │   │   ├── sendBookingEmail.js
     │   │   ├── sendReviewEmail.js
@@ -202,7 +216,7 @@ mail: takahiro@hokuto-p.co.jp
             └── reset.css
 ```
 
-_Last updated: 2026-01-22_
+_Last updated: 2026-02-18_
 
 ---
 
@@ -1175,3 +1189,5 @@ http://localhost:3000/admin/review-token?bookingId=22189500-4d87-4a88-9f7d-7a33d
 http://localhost:3000/admin/review-token?bookingId=8560c5d8-e374-43d7-8c9e-62c62c4e5014
 
 http://localhost:3000/admin/review-token?bookingId=59dbc5fb-075b-4023-a90d-d2bc24c319f4
+
+git push -u origin portfolio-jp

@@ -293,6 +293,11 @@ button {
   }
 }
 
+.inputNum {
+  display: block;
+  margin-top: 1rem;
+  padding: .75rem;
+}
 
 // ユーザーがブラウザでアニメーションの動きを止める設定をしている場合に対応するためのもの
 @media (prefers-reduced-motion: reduce) {
