@@ -1,3 +1,39 @@
+"use client";
+
+import { useEffect } from "react";
+
+const useParallaxGaps = (selector = ".gap-image") => {
+  useEffect(() => {
+    const gaps = document.querySelectorAll(selector);
+
+    if (!gaps.length) return;
+
+    const handleScroll = () => {
+      gaps.forEach((gap) => {
+        const layer = gap.querySelector(".gap-image__layer");
+        if (!layer) return;
+
+        const rect = gap.getBoundingClientRect();
+        const speed = Number(gap.dataset.speed || 0.18);
+
+        const offset = rect.top * speed;
+
+        layer.style.transform = `translate3d(0, ${offset}px, 0)`;
+      });
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [selector]);
+};
+
+export default useParallaxGaps;
+
 // "use client";
 
 // import { useEffect } from "react";
@@ -76,40 +112,3 @@
 // };
 
 // export default useParallaxGaps;
-
-
-"use client";
-
-import { useEffect } from "react";
-
-const useParallaxGaps = (selector = ".gap-image") => {
-  useEffect(() => {
-    const gaps = document.querySelectorAll(selector);
-
-    if (!gaps.length) return;
-
-    const handleScroll = () => {
-      gaps.forEach((gap) => {
-        const layer = gap.querySelector(".gap-image__layer");
-        if (!layer) return;
-
-        const rect = gap.getBoundingClientRect();
-        const speed = Number(gap.dataset.speed || 0.18);
-
-        const offset = rect.top * speed;
-
-        layer.style.transform = `translate3d(0, ${offset}px, 0)`;
-      });
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [selector]);
-};
-
-export default useParallaxGaps;
