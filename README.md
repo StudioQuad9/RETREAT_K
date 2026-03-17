@@ -1,3 +1,12 @@
+quite kyoto studioのデザインを調整する。
+全体の構成は、
+https://theshinmonzen.com/
+
+動画は、
+https://www.aman.com/resorts/aman-kyoto?utm_source=Google&utm_medium=Yext&y_source=1_MTU3MDc1MDEtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D
+
+これらを参考にして3月中に日本語版を完成させる。
+
 # RETREAT K – Cultural Experience Booking Site (Prototype)
 
 ## Overview
