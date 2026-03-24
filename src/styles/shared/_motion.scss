@@ -11,10 +11,8 @@
     opacity 700ms ease, 
     transform 700ms ease;
   will-change: opacity, transform;
-  // 表示後
-  &.is-visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+  &:not(:first-of-type) {
+    margin-top: 3rem;
   }
   // 方向指定
   &[data-dir="bottom"] {
@@ -66,6 +64,11 @@
   &[data-delay="4"] {
     transition-delay: 420ms;
   }
+  // 表示後
+  &.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }  
 }
 
 // panel内で複数要素を順に出すときに便利

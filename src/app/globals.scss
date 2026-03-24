@@ -34,7 +34,10 @@ body {
 // やりたいことはcontainerクラスの定義
 :where(main) :where(.container) {
   @include content-width;
-  padding: 1rem;
+  padding: 3rem 2rem 4rem;
+  @include mq(lg) {
+    padding: 12rem;
+  }
 }
 
 #top-panel {
@@ -48,36 +51,6 @@ body {
   background-color: $color-white;
 }
 
-// .gap-image {
-//   position: relative;
-//   z-index: 1;
-//   height: 20rem;
-//   background-image: var(--panel-bg);
-//   background-size: cover;
-//   background-position: center;
-//   background-attachment: fixed;
-//   &::after {
-//     position:absolute;
-//     content:"";
-//     inset:0;
-//     background: rgba($color: $color-black, $alpha: .25)
-//   }
-// }
-
-// // くそアップル用
-// @supports (-webkit-touch-callout: none) {
-//   .gap-image{
-//     background-attachment: scroll; // iOSはfixed捨てる
-//   }
-// }
-
-// // くそアップル用
-// @supports (-webkit-touch-callout: none) {
-//   .gap-image{
-//     background-position: center top; // ほんの少し印象変える
-//   }
-// }
-
 // くそアップル用
 .hero__video,
 .hero__video * {
@@ -86,11 +59,14 @@ body {
 
 // 背景として固定するヒーロー
 .hero {
-  pointer-events: none;
   position: fixed;
   inset: 0; // top:0 right:0 bottom:0 left:0
   overflow: hidden;
   z-index: 0; // 背面
+  pointer-events: none;
+  @include mq(md) {
+    height: 95vh;
+  }
   // 動画
   &__video {
     position: absolute;
@@ -135,33 +111,82 @@ body {
   position: relative;
   aspect-ratio: 3 / 2;
   overflow: hidden;
+  &.portrait {
+    aspect-ratio: 2 / 3;
+  }
+  &.square {
+    aspect-ratio: 1 / 1;
+  }
   & img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+  &.grad-mask-to-bottom {
+    & > img {
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+  }
+  &.page-sample {
+    & > img {
+      object-position: top center;
+      transform-origin: top center;
+    }
+  }
 }
 
 h1, h2, h3 {
   line-height: 1;
+  text-align: center;
 }
 
 h2 {
+  margin-bottom: .5rem;
   font-size: $fs-lg2;
   font-family: var(--ff-title-en);
   letter-spacing: 0.02em;
 }
+
 h3 {
-  margin: 1rem 0 0.25rem;
+  width: fit-content;
+  margin: 2rem auto 0.75rem;
+  padding: .25em .5em .35em;
   font-family: var(--ff-mincho);
   font-size: $fs-lg4;
+  border-top: 1px solid rgba($color: $color-black, $alpha: .3);
+  border-bottom: 1px solid rgba($color: $color-black, $alpha: .3);
 }
 
 p, .spec {
   font-family: var(--ff-mincho);
   line-height: 1.7;
   text-align: justify;
+}
+
+p {
+  text-align: justify;
+  @mq(md) {
+    text-align: center;
+  }
+}
+
+li {
+  list-style: none;
+  &:not(:first-of-type) {
+    margin-top: 3rem;
+  }
 }
 
 button,
@@ -173,6 +198,9 @@ nav {
 }
 
 a {
+  font-size: 0.9rem;
+  font-feature-settings: "palt" 1;
+  color: $color-black;
   text-decoration: none;
   pointer-events: auto;
 }
@@ -207,6 +235,16 @@ a {
       background-color: rgba($color: $color-black, $alpha: 0.05);
       border-color: rgba($color: $color-black, $alpha: 0.18);
     }
+  }
+  &--formail {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0;
+    background-color: $color-brown;
+    color: $color-white; 
+    font-family: $font-title-en;
+    font-size: 1.5rem;    
+    font-weight: 600;   
   }
   &:active {
     transform: translateY(0);
@@ -357,6 +395,10 @@ pre {
 .margin-R-thin {
   display: inline-block;
   margin-right: .2em;
+}
+
+.bg-color-theme-light {
+  background-color: $color-primary-thinlight;
 }
 
 // ユーザーがブラウザでアニメーションの動きを止める設定をしている場合に対応するためのもの
