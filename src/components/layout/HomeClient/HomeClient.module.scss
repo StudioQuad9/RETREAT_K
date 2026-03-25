@@ -20,6 +20,27 @@
   }
 }
 
+.workSamples {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  flex-direction: column;
+  margin-top: 2rem;
+  @include mq(md) {
+    grid-template-columns: repeat(2, 1fr);
+    flex-direction: row;
+    gap: 1rem;
+    & > li:not(:first-of-type) {
+      margin-top: 0;
+    }
+    & > li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      max-width: 60%;
+      margin-top: 2rem;
+    }
+  }
+}
+
 .workName {
   margin-bottom: 1em;
   color: rgba($color: $color-black, $alpha: .7);
@@ -33,10 +54,6 @@
   &::after {
     content: "】";
   }
-}
-
-.workSample {
-  margin-top: 2rem;
 }
 
 .toInstagram {
@@ -55,7 +72,7 @@
     position: relative;
     margin-top: 0;
     & > .aspectRatio3div1 {
-      aspect-ratio: 3 / 1.4;
+      aspect-ratio: 3 / 1.7;
     }
     & > .imageTitle {
       position: absolute;

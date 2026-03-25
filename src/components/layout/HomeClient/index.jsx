@@ -94,8 +94,8 @@ export default function HomeClient() {
                 情報整理から設計、撮影、公開まで一貫して対応しています。
               </p>
 
-              <ul className={styles.workSample} data-dir="left">
-                <li className="reveal" data-dir="bottom">
+              <ul className={styles.workSamples} data-dir="left">
+                <li className={`reveal ${styles.mySample}`} data-dir="bottom" data-delay="1">
                   <Link href="https://shiraminejingu.or.jp/" target="_blank">
                     <div
                       className={`${styles.workName} reveal`}
@@ -111,7 +111,7 @@ export default function HomeClient() {
                     </div>
                   </Link>
                 </li>
-                <li className="reveal" data-dir="bottom">
+                <li className={`reveal ${styles.mySample}`} data-dir="bottom" data-delay="2">
                   <Link href="https://daihoonji.jp/" target="_blank">
                     <div
                       className={`${styles.workName} reveal`}
@@ -127,7 +127,7 @@ export default function HomeClient() {
                     </div>
                   </Link>
                 </li>
-                <li className="reveal" data-dir="bottom">
+                <li className={`reveal ${styles.mySample}`} data-dir="bottom" data-delay="3">
                   <Link href="https://hokkeji.jp/" target="_blank">
                     <div
                       className={`${styles.workName} reveal`}
@@ -163,7 +163,11 @@ export default function HomeClient() {
                   data-dir="bottom"
                   data-delay="1"
                 >
-                  <li className={`reveal ${styles.toInstagramLinkList}`} data-dir="left" data-delay="1">
+                  <li
+                    className={`reveal ${styles.toInstagramLinkList}`}
+                    data-dir="left"
+                    data-delay="1"
+                  >
                     <div className={styles.imageTitle}>庭園</div>
                     <div
                       className={`image-wrapper grad-mask-to-bottom ${styles.aspectRatio3div1}`}
@@ -174,7 +178,11 @@ export default function HomeClient() {
                       />
                     </div>
                   </li>
-                  <li className={`reveal ${styles.toInstagramLinkList}`} data-dir="right" data-delay="2">
+                  <li
+                    className={`reveal ${styles.toInstagramLinkList}`}
+                    data-dir="right"
+                    data-delay="2"
+                  >
                     <div className={styles.imageTitle}>禅</div>
                     <div
                       className={`image-wrapper grad-mask-to-bottom ${styles.aspectRatio3div1}`}
@@ -182,7 +190,11 @@ export default function HomeClient() {
                       <img src="/images/image-zen.jpg" alt="禅のイメージ" />
                     </div>
                   </li>
-                  <li className={`reveal ${styles.toInstagramLinkList}`} data-dir="left" data-delay="3">
+                  <li
+                    className={`reveal ${styles.toInstagramLinkList}`}
+                    data-dir="left"
+                    data-delay="3"
+                  >
                     <div className={styles.imageTitle}>茶</div>
                     <div
                       className={`image-wrapper grad-mask-to-bottom ${styles.aspectRatio3div1}`}
@@ -190,7 +202,11 @@ export default function HomeClient() {
                       <img src="/images/image-tea.jpg" alt="茶のイメージ" />
                     </div>
                   </li>
-                  <li className={`reveal ${styles.toInstagramLinkList}`} data-dir="right" data-delay="4">
+                  <li
+                    className={`reveal ${styles.toInstagramLinkList}`}
+                    data-dir="right"
+                    data-delay="4"
+                  >
                     <div className={styles.imageTitle}>芸能</div>
                     <div
                       className={`image-wrapper grad-mask-to-bottom ${styles.aspectRatio3div1}`}

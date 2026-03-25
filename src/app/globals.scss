@@ -36,7 +36,7 @@ body {
   @include content-width;
   padding: 3rem 2rem 4rem;
   @include mq(lg) {
-    padding: 12rem;
+    padding: 4rem 12rem;
   }
 }
 
@@ -177,7 +177,7 @@ p, .spec {
 
 p {
   text-align: justify;
-  @mq(md) {
+  @include mq(md) {
     text-align: center;
   }
 }

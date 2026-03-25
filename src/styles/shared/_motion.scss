@@ -95,7 +95,7 @@
   height: 20rem;
   overflow: hidden;
   @include mq(lg) {
-    height: 80vh;
+    height: 30vh;
   }
   &__layer {
     position: absolute;
@@ -113,7 +113,7 @@
       background-color: rgba($color: $color-black, $alpha: 0.25);
     }
     @include mq(lg) {
-      inset: -50% 0 -20% 0;
+      inset: -80% 0 -20% 0;
       background-position: center 70%;
     }
   }
