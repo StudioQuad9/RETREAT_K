@@ -156,16 +156,24 @@ mail: takahiro@hokuto-p.co.jp
     │   ├── globals.scss
     │   ├── layout.jsx
     │   ├── page.js
-    │   └── page.module.scss
+    │   ├── page.module.scss
+    │   ├── en
+    │   │   └── page.js
+    │   └── jp
+    │       └── page.js
     ├── components/
     │   └── layout
     │       ├── Header
     │       │   ├── index.jsx
     │       │   └── Header.module.scss
-    │       └── Footer
+    │       ├── Footer
+    │       │   ├── index.jsx
+    │       │   └── Footer.module.scss
+    │       └── HomeClient
     │           ├── index.jsx
-    │           └── Footer.module.scss
+    │           └── HomeClient.module.scss
     ├── hooks/
+    │   ├── useParallaxGaps.js.js
     │   └── useScrollAnimation.js
     ├── lib/
     │   ├── config

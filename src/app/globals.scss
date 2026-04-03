@@ -14,7 +14,6 @@
 html,
 body {
   max-width: 100vw;
-  // overflow-x: hidden;
 }
 
 html {
@@ -30,157 +29,308 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// page.module.scssの詳細度を勝たせるための施作
-// やりたいことはcontainerクラスの定義
-:where(main) :where(.container) {
-  @include content-width;
-  padding: 3rem 2rem 4rem;
-  @include mq(lg) {
-    padding: 4rem 12rem;
-  }
-}
-
-#top-panel {
-  margin-top: 100vh;
-}
-
-.panel {
-  position: relative;
-  z-index: 1;
-  padding: 0;
-  background-color: $color-white;
-}
-
-// くそアップル用
-.hero__video,
-.hero__video * {
-  pointer-events: none;
-}
-
-// 背景として固定するヒーロー
 .hero {
-  position: fixed;
-  inset: 0; // top:0 right:0 bottom:0 left:0
-  overflow: hidden;
-  z-index: 0; // 背面
-  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
   @include mq(md) {
-    height: 95vh;
+    justify-content: center;
   }
-  // 動画
-  &__video {
-    position: absolute;
-    inset: 0;
-    & > video {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+
+  & > .title {
+    position: relative;
+    margin: 12rem 0;
+    font-family: var(--ff-title-en);
+    @include mq(md) {
+      margin: unset;
+      margin-bottom: 5rem;
     }
+    &::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      width: 100vw;
+      height: 45vh;
+      background-image: url("/images/logo-awai-portrait.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: .1;
+      filter: blur(3px);
+      @include mq(md) {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -65%);        
+        height: 30vh;
+        background-image: url("/images/logo-awai-black.png");
+      }
+    }
+  }
+
+  & .wrapper {
+    margin-top: 1.25rem;
+  }
+  
+  & .catch-copy {
+    position: relative;
+    text-align: center; 
+    font-size: 2rem;
+    line-height: 1;
+    font-family: var(--ff-title-en);
+    font-weight: 600;
+    letter-spacing: .2em;
+    opacity: .8;
+    color: $color-gold;
+    &::before,
     &::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 1px;      
+      background-color: rgba($color: $color-gold, $alpha: .7);
+      @include mq(md) {
+        left: unset;
+        transform: unset;        
+        width: 100px;
+        height: 1px;
+        background-color: rgba($color: $color-gold, $alpha: 1);
+      }
+    }
+    &::before {
+      top: -40%;
+      @include mq(md) {
+        top: 50%;
+        left: calc(-100px - 1rem) ;
+      }
+    }
+    &::after {
+      top: -25%;
+      @include mq(md) {
+        top: 50%;
+        right: calc(-100px - 1rem) ;
+      }
     }
   }
-  // 動画上の文字
-  &__inner {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    gap: 16px;
-    position: relative;
-    z-index: 1;
-    height: 100%;
-    padding: 30px 0;
-    color: #fff;
-    & .btn--primary {
-      background-color: rgba($color: $color-black, $alpha: .6);
-    }
-    & .btn--ghost {
-      background-color: rgba($color: $color-white, $alpha: .6);
-    }
-  }
-}
 
-// block要素は親要素いっぱいに広がる
-// => width: auto; と同じ、そして、これとも同じ width: 100%; だから省略する。
-.image-wrapper {
-  position: relative;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  &.portrait {
-    aspect-ratio: 2 / 3;
-  }
-  &.square {
-    aspect-ratio: 1 / 1;
-  }
-  & img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  &.grad-mask-to-bottom {
-    & > img {
-      mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 75%,
-        rgba(0, 0, 0, 0) 100%
-      );
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 75%,
-        rgba(0, 0, 0, 0) 100%
-      );
-    }
-  }
-  &.page-sample {
-    & > img {
-      object-position: top center;
-      transform-origin: top center;
-    }
-  }
-}
-
-h1, h2, h3 {
-  line-height: 1;
-  text-align: center;
-}
-
-h2 {
-  margin-bottom: .5rem;
-  font-size: $fs-lg2;
-  font-family: var(--ff-title-en);
-  letter-spacing: 0.02em;
-}
-
-h3 {
-  width: fit-content;
-  margin: 2rem auto 0.75rem;
-  padding: .25em .5em .35em;
-  font-family: var(--ff-mincho);
-  font-size: $fs-lg4;
-  border-top: 1px solid rgba($color: $color-black, $alpha: .3);
-  border-bottom: 1px solid rgba($color: $color-black, $alpha: .3);
-}
-
-p, .spec {
-  font-family: var(--ff-mincho);
-  line-height: 1.7;
-  text-align: justify;
-}
-
-p {
-  text-align: justify;
-  @include mq(md) {
+  & .copy-jp,
+  & .copy-en {
     text-align: center;
+    font-size: 1.5rem;
+    font-family: var(--ff-mincho);
+    letter-spacing: 2px;
+    color: rgba($color: $color-black, $alpha: .8);
+  }
+  & .copy-en {
+    margin-top: 1rem;
+    line-height: 1;
+    font-size: 1.4rem;
+    font-family: var(--ff-title-en);
+    font-weight: 600;
+    color: $color-gold;    
+    @include mq(md) {
+      font-size: 1.7rem;
+    }
+  }
+  & .copy-jp {
+    margin-top: 1.5rem;
+    line-height: 1.5;
   }
 }
+
+.btn {
+  margin-top: 2rem;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 2px 5px rgba($color: $color-black, $alpha: .2);
+  }
+  &--regular {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 2em;
+    font-size: 1.1rem;
+    border: 2px solid rgba($color: $color-black, $alpha: .2);
+    border-radius: 1000px;
+    transition: .5s ease;
+    &:hover {
+      color: $color-white;
+      background-color: $color-gold-dark;
+    }
+  }
+}
+
+.horizontal-wide {
+  display: inline-block;
+  transform: scaleX(3);
+}
+
+.tume-minus-1 {
+  letter-spacing: -30%;
+}
+
+.br-for-smartphone {
+  @include mq(md) {
+    display: none;
+  }
+}
+
+// // page.module.scssの詳細度を勝たせるための施作
+// // やりたいことはcontainerクラスの定義
+// :where(main) :where(.container) {
+//   @include content-width;
+//   padding: 3rem 2rem 4rem;
+//   @include mq(lg) {
+//     padding: 4rem 12rem;
+//   }
+// }
+
+// #top-panel {
+//   margin-top: 100vh;
+// }
+
+// .panel {
+//   position: relative;
+//   z-index: 1;
+//   padding: 0;
+//   background-color: $color-white;
+// }
+
+// // くそアップル用
+// .hero__video,
+// .hero__video * {
+//   pointer-events: none;
+// }
+
+// // 背景として固定するヒーロー
+// .hero {
+//   position: fixed;
+//   inset: 0; // top:0 right:0 bottom:0 left:0
+//   overflow: hidden;
+//   z-index: 0; // 背面
+//   pointer-events: none;
+//   @include mq(md) {
+//     height: 95vh;
+//   }
+//   // 動画
+//   &__video {
+//     position: absolute;
+//     inset: 0;
+//     & > video {
+//       display: block;
+//       width: 100%;
+//       height: 100%;
+//       object-fit: cover;
+//     }
+//     &::after {
+//       content: "";
+//       position: absolute;
+//       inset: 0;
+//       background: rgba(0,0,0,0.35);
+//     }
+//   }
+//   // 動画上の文字
+//   &__inner {
+//     display: flex;
+//     flex-direction: column;
+//     align-content: center;
+//     justify-content: center;
+//     gap: 16px;
+//     position: relative;
+//     z-index: 1;
+//     height: 100%;
+//     padding: 30px 0;
+//     color: #fff;
+//     & .btn--primary {
+//       background-color: rgba($color: $color-black, $alpha: .6);
+//     }
+//     & .btn--ghost {
+//       background-color: rgba($color: $color-white, $alpha: .6);
+//     }
+//   }
+// }
+
+// // block要素は親要素いっぱいに広がる
+// // => width: auto; と同じ、そして、これとも同じ width: 100%; だから省略する。
+// .image-wrapper {
+//   position: relative;
+//   aspect-ratio: 3 / 2;
+//   overflow: hidden;
+//   &.portrait {
+//     aspect-ratio: 2 / 3;
+//   }
+//   &.square {
+//     aspect-ratio: 1 / 1;
+//   }
+//   & img {
+//     display: block;
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//   }
+//   &.grad-mask-to-bottom {
+//     & > img {
+//       mask-image: linear-gradient(
+//         to bottom,
+//         rgba(0, 0, 0, 1) 0%,
+//         rgba(0, 0, 0, 1) 75%,
+//         rgba(0, 0, 0, 0) 100%
+//       );
+//       -webkit-mask-image: linear-gradient(
+//         to bottom,
+//         rgba(0, 0, 0, 1) 0%,
+//         rgba(0, 0, 0, 1) 75%,
+//         rgba(0, 0, 0, 0) 100%
+//       );
+//     }
+//   }
+//   &.page-sample {
+//     & > img {
+//       object-position: top center;
+//       transform-origin: top center;
+//     }
+//   }
+// }
+
+// h1, h2, h3 {
+//   line-height: 1;
+//   text-align: center;
+// }
+
+// h2 {
+//   margin-bottom: .5rem;
+//   font-size: $fs-lg2;
+//   font-family: var(--ff-title-en);
+//   letter-spacing: 0.02em;
+// }
+
+// h3 {
+//   width: fit-content;
+//   margin: 2rem auto 0.75rem;
+//   padding: .25em .5em .35em;
+//   font-family: var(--ff-mincho);
+//   font-size: $fs-lg4;
+//   border-top: 1px solid rgba($color: $color-black, $alpha: .3);
+//   border-bottom: 1px solid rgba($color: $color-black, $alpha: .3);
+// }
+
+// p, .spec {
+//   font-family: var(--ff-mincho);
+//   line-height: 1.7;
+//   text-align: justify;
+// }
+
+// p {
+//   text-align: justify;
+//   @include mq(md) {
+//     text-align: center;
+//   }
+// }
 
 li {
   list-style: none;
@@ -202,209 +352,209 @@ a {
   font-feature-settings: "palt" 1;
   color: $color-black;
   text-decoration: none;
-  pointer-events: auto;
+  // pointer-events: auto;
 }
 
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.4em;
-  padding: 0.8em 1.4em;
-  border-radius: 999px;
-  text-decoration: none;
-  border: 1px solid rgba($color: $color-black, $alpha: 0.14);
-  transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease;
-  &:hover,
-  &:focus-visible {
-    transform: translateY(-1px);
-  }
-  &--primary {
-    color: $color-white;
-    background-color: $color-black;
-    border-color: rgba($color: $color-black, $alpha: 0.2);
-    &:hover {
-      background-color: rgba($color: $color-black, $alpha: 0.86);
-    }
-  }
-  &--ghost {
-    color: $color-black;
-    background-color: transparent;
-    &:hover,
-    &:focus-visible  {
-      background-color: rgba($color: $color-black, $alpha: 0.05);
-      border-color: rgba($color: $color-black, $alpha: 0.18);
-    }
-  }
-  &--formail {
-    width: 100%;
-    margin-top: 1.5rem;
-    padding: 0;
-    background-color: $color-brown;
-    color: $color-white; 
-    font-family: $font-title-en;
-    font-size: 1.5rem;    
-    font-weight: 600;   
-  }
-  &:active {
-    transform: translateY(0);
-  }
-}
+// .btn {
+//   display: inline-flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 0.4em;
+//   padding: 0.8em 1.4em;
+//   border-radius: 999px;
+//   text-decoration: none;
+//   border: 1px solid rgba($color: $color-black, $alpha: 0.14);
+//   transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease;
+//   &:hover,
+//   &:focus-visible {
+//     transform: translateY(-1px);
+//   }
+//   &--primary {
+//     color: $color-white;
+//     background-color: $color-black;
+//     border-color: rgba($color: $color-black, $alpha: 0.2);
+//     &:hover {
+//       background-color: rgba($color: $color-black, $alpha: 0.86);
+//     }
+//   }
+//   &--ghost {
+//     color: $color-black;
+//     background-color: transparent;
+//     &:hover,
+//     &:focus-visible  {
+//       background-color: rgba($color: $color-black, $alpha: 0.05);
+//       border-color: rgba($color: $color-black, $alpha: 0.18);
+//     }
+//   }
+//   &--formail {
+//     width: 100%;
+//     margin-top: 1.5rem;
+//     padding: 0;
+//     background-color: $color-brown;
+//     color: $color-white; 
+//     font-family: $font-title-en;
+//     font-size: 1.5rem;    
+//     font-weight: 600;   
+//   }
+//   &:active {
+//     transform: translateY(0);
+//   }
+// }
 
-.ctaRow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
+// .ctaRow {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 1rem;
+// }
 
-label {
-  display: block;
-  margin-top: 14px
-}
+// label {
+//   display: block;
+//   margin-top: 14px
+// }
 
-input {
-  width: 100%;
-  padding: 10px 12px;
-  margin-top: 6px;
-}
+// input {
+//   width: 100%;
+//   padding: 10px 12px;
+//   margin-top: 6px;
+// }
 
-.bullets {
-  margin-left: 3rem;
-  line-height: $lh-tight;
-  font-family: var(--ff-mincho);
-  & > li:not(:first-of-type) {
-    margin-top: .5rem;
-  }
-}
+// .bullets {
+//   margin-left: 3rem;
+//   line-height: $lh-tight;
+//   font-family: var(--ff-mincho);
+//   & > li:not(:first-of-type) {
+//     margin-top: .5rem;
+//   }
+// }
 
-pre {
-  font-family: var(--ff-mono);
-  white-space: pre; // これが本命：改行とスペースを保持
-  overflow-x: auto; // はみ出したら横スクロール
-}
+// pre {
+//   font-family: var(--ff-mono);
+//   white-space: pre; // これが本命：改行とスペースを保持
+//   overflow-x: auto; // はみ出したら横スクロール
+// }
 
-.parens {
-  display: inline-block;
-  &__left {
-    margin-right: .15rem;
-  }
-  &__right {
-    margin-left: .15rem;
-  }
-}
+// .parens {
+//   display: inline-block;
+//   &__left {
+//     margin-right: .15rem;
+//   }
+//   &__right {
+//     margin-left: .15rem;
+//   }
+// }
 
-// A11Y focus ring baseline
-:where(a, button, input, select, textarea):focus {
-  outline: none;
-}
+// // A11Y focus ring baseline
+// :where(a, button, input, select, textarea):focus {
+//   outline: none;
+// }
 
-:where(a, button, input, select, textarea):focus-visible {
-  outline: 3px solid rgba($color: $color-black, $alpha: 0.55);
-  outline-offset: 3px;
-  border-radius: 10px;
-}
+// :where(a, button, input, select, textarea):focus-visible {
+//   outline: 3px solid rgba($color: $color-black, $alpha: 0.55);
+//   outline-offset: 3px;
+//   border-radius: 10px;
+// }
 
-.page {
-  position: relative;
-}
+// .page {
+//   position: relative;
+// }
 
-.spec-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.55rem;
-  margin-top: 0.35rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba($color: $color-black, $alpha: 0.08);
-  @include mq(md) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.6rem 0.9rem;
-  }
-  @include mq(lg) {
-    gap: 0.7rem 1rem;
-  }
-  & > .spec {
-    display: grid;
-    grid-template-columns: 6.25rem 1fr;
-    gap: 0.45rem;
-    align-items: baseline;
-    font-family: var(--ff-gothic);
-    font-size: $fs-sm;
-    & dt {
-      font-family: var(--ff-gothic);
-      font-size: $fs-sm;
-      font-weight: $fw-medium;
-      opacity: 0.72;
-      white-space: nowrap;
-    }
-    & dd {
-      margin: 0;
-      font-family: var(--ff-mincho);
-      font-size: $fs-sm;
-      line-height: $lh-normal;
-      opacity: 0.92;
-    }
-  }   
-}
+// .spec-wrapper {
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   gap: 0.55rem;
+//   margin-top: 0.35rem;
+//   padding-top: 0.75rem;
+//   border-top: 1px solid rgba($color: $color-black, $alpha: 0.08);
+//   @include mq(md) {
+//     grid-template-columns: repeat(2, minmax(0, 1fr));
+//     gap: 0.6rem 0.9rem;
+//   }
+//   @include mq(lg) {
+//     gap: 0.7rem 1rem;
+//   }
+//   & > .spec {
+//     display: grid;
+//     grid-template-columns: 6.25rem 1fr;
+//     gap: 0.45rem;
+//     align-items: baseline;
+//     font-family: var(--ff-gothic);
+//     font-size: $fs-sm;
+//     & dt {
+//       font-family: var(--ff-gothic);
+//       font-size: $fs-sm;
+//       font-weight: $fw-medium;
+//       opacity: 0.72;
+//       white-space: nowrap;
+//     }
+//     & dd {
+//       margin: 0;
+//       font-family: var(--ff-mincho);
+//       font-size: $fs-sm;
+//       line-height: $lh-normal;
+//       opacity: 0.92;
+//     }
+//   }   
+// }
 
-.next-action {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  align-items: flex-start;
-  margin-top: 0.8rem;
-  @include mq(md) {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-  }
-}
+// .next-action {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 0.6rem;
+//   align-items: flex-start;
+//   margin-top: 0.8rem;
+//   @include mq(md) {
+//     flex-direction: row;
+//     justify-content: center;
+//     align-items: center;
+//   }
+// }
 
-.divider {
-  margin: 2rem 0;
-  border: 0;
-  height: 1px;
-  background-color: rgba($color: $color-black, $alpha: 0.2);
-}
+// .divider {
+//   margin: 2rem 0;
+//   border: 0;
+//   height: 1px;
+//   background-color: rgba($color: $color-black, $alpha: 0.2);
+// }
 
-.reviewSummary {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  margin: 0.5rem 0 1rem;
-  &__avg {
-    font-family: var(--ff-title-en);
-    font-size: 1.35rem;
-    line-height: 1;
-  }
-  &__stars {
-    letter-spacing: 0.12em;
-  }
-  &__count {
-    font-size: .85rem;
-    opacity: 0.8;
-  }
-}
+// .reviewSummary {
+//   display: flex;
+//   align-items: baseline;
+//   gap: 0.6rem;
+//   margin: 0.5rem 0 1rem;
+//   &__avg {
+//     font-family: var(--ff-title-en);
+//     font-size: 1.35rem;
+//     line-height: 1;
+//   }
+//   &__stars {
+//     letter-spacing: 0.12em;
+//   }
+//   &__count {
+//     font-size: .85rem;
+//     opacity: 0.8;
+//   }
+// }
 
-.inputNum {
-  display: block;
-  margin-top: 1rem;
-  padding: .75rem;
-}
+// .inputNum {
+//   display: block;
+//   margin-top: 1rem;
+//   padding: .75rem;
+// }
 
-.margin-R-thin {
-  display: inline-block;
-  margin-right: .2em;
-}
+// .margin-R-thin {
+//   display: inline-block;
+//   margin-right: .2em;
+// }
 
-.bg-color-theme-light {
-  background-color: $color-primary-thinlight;
-}
+// .bg-color-theme-light {
+//   background-color: $color-primary-thinlight;
+// }
 
-// ユーザーがブラウザでアニメーションの動きを止める設定をしている場合に対応するためのもの
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-}
+// // ユーザーがブラウザでアニメーションの動きを止める設定をしている場合に対応するためのもの
+// @media (prefers-reduced-motion: reduce) {
+//   * {
+//     transition: none !important;
+//     scroll-behavior: auto !important;
+//   }
+// }
