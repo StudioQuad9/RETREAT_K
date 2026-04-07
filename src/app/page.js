@@ -2,7 +2,7 @@
 
 export default function Home() {
   return (
-    <main className="hero">
+    <div className="hero">
       <h1 className="title">Awai</h1>
       <div className="wrapper">
         <p className="catch-copy">Where something begins between</p>
@@ -21,6 +21,6 @@ export default function Home() {
       <a className="btn btn--regular" href="/en/experiences">
         View Experiences
       </a>
-    </main>
+    </div>
   );
 }
