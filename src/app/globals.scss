@@ -239,13 +239,13 @@ body {
     align-items: center;
     padding: 1em 2em;
     font-size: 1.1rem;
-    background-color: rgba($color: $color-white, $alpha: .5);
+    background-color: $color-gold-dark;
     border: 2px solid rgba($color: $color-black, $alpha: .2);
     border-radius: 1000px;
     transition: .5s ease;
     &:hover {
       color: $color-white;
-      background-color: $color-gold-dark;
+      background-color: rgba($color: $color-white, $alpha: .5);
     }
   }
   @include mq(md) {
