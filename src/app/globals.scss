@@ -37,21 +37,24 @@ main > .container {
   @include mq(lg) {
     padding: 4rem 12rem;
   }
+}
 
-  &.container.top-page {
-    margin-top: unset;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/images/hero-image-tea-room.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    @include mq(md) {
-      max-width: unset;
-      height: 100vh;
-      padding-top: 4.5rem;
-    }
+.top-page {
+  position: relative;
+  margin-top: unset;
+  width: 100%;
+  height: 100%;
+  // max-width: 100vw;
+  // max-height: 100vh;
+  padding: 0;
+  background-image: url('/images/hero-image-tea-room.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  @include mq(md) {
+    // max-width: unset;
+    // height: 100vh;
+    padding-top: 4.5rem;
   }
 }
 
@@ -60,6 +63,9 @@ main > .container {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
   @include mq(md) {
     justify-content: center;
   }
@@ -69,8 +75,11 @@ main > .container {
     margin: 18rem 0 7rem;
     font-family: var(--ff-title-en);
     color: rgba($color: $color-white, $alpha: .7);
-    @include mq(md) {
+    @include mq(lg) {
       margin: 14rem 0 11rem;
+    }
+    @include mq(xl) {
+      margin: 20rem 0 15rem;
     }
     &::after {
       position: absolute;
@@ -382,10 +391,25 @@ main > .container {
 //   }
 // }
 
-// h1, h2, h3 {
-//   line-height: 1;
-//   text-align: center;
-// }
+h1, h2, h3 {
+  margin-bottom: 1rem;
+  font-family: var(--ff-title-en);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+h2, h3 {
+  margin: .5em 0 .25em;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
 
 // h2 {
 //   margin-bottom: .5rem;
