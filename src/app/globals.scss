@@ -417,11 +417,11 @@ main > .container {
 p {
   // text-align: justify;
   font-family: var(--ff-en);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   line-height: 1.5;
   color: $color-text;
   @include mq(md) {
-    text-align: center;
+    // text-align: center;
   }
 }
 
