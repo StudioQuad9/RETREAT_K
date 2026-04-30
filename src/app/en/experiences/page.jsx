@@ -17,7 +17,8 @@ export default function Experiences() {
       {/* LIST */}
       <section className="experiences-list">
         {/* Tea Experience */}
-        <Link href="/en/experiences/TeaExperienceWithSoKo">
+        <Link href="#">
+        {/* <Link href="/en/experiences/TeaExperienceWithSoKo"> */}
           <h2>Beyond Performance — A Private Tea Gathering with a Kyoto Practitioner</h2>
           <p>
             A quiet, small-group experience with a Kyoto practitioner, centered on
@@ -26,7 +27,8 @@ export default function Experiences() {
           <p>120 minutes / up to 5 guests</p>
         </Link>
 
-        <Link href="/en/experiences/ZenExperienceWithJirai">
+        <Link href="#">
+        {/* <Link href="/en/experiences/ZenExperienceWithJirai"> */}
           <h2>Zen Experience with Jirai</h2>
           <p>
             A Zen-centered experience in Kyoto, where you explore
