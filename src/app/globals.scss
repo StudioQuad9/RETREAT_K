@@ -24,10 +24,17 @@ html {
 // layout.jsで定義した変数が使えてしまうNext.jsの不思議
 // var(--font-gothi, var(--font-minch, var(--font-title-en)
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   color: $color-black;
   background: $color-white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex: 1;
 }
 
 main > .container {
@@ -36,6 +43,9 @@ main > .container {
   padding: 1rem 0.5rem 2rem;
   @include mq(lg) {
     padding: 4rem 12rem;
+    &.detail {
+      padding: 4rem 0;
+    }
   }
 }
 

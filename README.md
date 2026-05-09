@@ -150,6 +150,7 @@ mail: info@awai-studio.jp
 
 # Others
 ## Site map
+
 ```
 └── src/
     ├── app/
@@ -160,7 +161,15 @@ mail: info@awai-studio.jp
     │   ├── en
     │   │   └── experiences
     │   │       ├── page.js
-    │   │       └── TeaExperienceWithSoKo
+    │   │       ├── experiences.module.scss
+    │   │       ├── _components
+    │   │       │   └── BookingCard.jsx
+    │   │       │   └── ReviewList.jsx
+    │   │       ├── _data
+    │   │       │   └── reviews.js
+    │   │       ├── TeaExJack
+    │   │       │   └── page.js
+    │   │       └── ZenExperienceWithJirai
     │   │           └── page.js
     │   └── ja
     │       └── page.js

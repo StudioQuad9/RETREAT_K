@@ -1,0 +1,49 @@
+// @/app/en/experiences/_data/reviews.js
+
+export const reviews = [
+  {
+    rating: 5,
+    text: "A quiet and deeply memorable experience. The tea room, the charcoal, and the conversation stayed with me long after the session. It felt less like a performance and more like being invited into a thoughtful practice.",
+    firstName: "Yoko",
+    country: "Japan",
+    date: "April 2026",
+    experienceSlug: "TeaExJack",
+    isPublished: true,
+  },
+  {
+    rating: 5,
+    text: "This was one of the most peaceful experiences I had in Kyoto. The pace was unhurried, and every detail—from the sound of the kettle to the way tea was prepared—felt meaningful. I left feeling calm and quietly refreshed.",
+    firstName: "John",
+    country: "England",
+    date: "April 2026",
+    experienceSlug: "TeaExJack",
+    isPublished: true,
+  },
+  {
+    rating: 5,
+    text: "A beautiful and intimate introduction to tea in Kyoto. What made it special was not only the tea itself, but the atmosphere, the charcoal fire, and the gentle conversation around the practice. It felt personal, sincere, and very different from a typical tour.",
+    firstName: "Rinda",
+    country: "United States",
+    date: "April 2026",
+    experienceSlug: "TeaExJack",
+    isPublished: true,
+  },
+  {
+    rating: 5,
+    text: "I appreciated how small and thoughtful this experience was. There was time to observe, ask questions, and take part without feeling rushed. The session gave me a deeper sense of tea as a living practice, not just something to watch.",
+    firstName: "Paul",
+    country: "England",
+    date: "April 2026",
+    experienceSlug: "TeaExJack",
+    isPublished: true,
+  },
+  {
+    rating: 5,
+    text: "I appreciated how small and thoughtful this experience was. There was time to observe, ask questions, and take part without feeling rushed. The session gave me a deeper sense of tea as a living practice, not just something to watch.",
+    firstName: "Paty",
+    country: "India",
+    date: "May 2026",
+    experienceSlug: "ZenExJirai",
+    isPublished: true,
+  },
+];

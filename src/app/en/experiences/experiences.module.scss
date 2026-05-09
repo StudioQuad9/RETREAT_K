@@ -1,0 +1,235 @@
+// @/app/en/experiences/experiences.module.scss
+
+@use '@/styles/shared/' as *;
+
+/* =========================
+  Index page
+========================= */
+
+.experiencesHero {
+  margin-bottom: 3rem;
+
+  & > p {
+    max-width: 42rem;
+  }
+}
+
+.experiencesList {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.experienceCard {
+  display: block;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba($color: $color-black, $alpha: 0.12);
+
+  &:last-child {
+    border-bottom: 1px solid rgba($color: $color-black, $alpha: 0.12);
+  }
+
+  & h2 {
+    margin-bottom: 0.6rem;
+  }
+
+  & p {
+    max-width: 46rem;
+  }
+}
+
+.cardMeta {
+  margin-top: 0.75rem;
+  font-family: var(--ff-gothic);
+  font-size: 0.9rem;
+  color: rgba($color: $color-black, $alpha: 0.62);
+}
+
+/* =========================
+  Detail page
+========================= */
+
+// .detail {
+//   padding: unset !important; 
+// }
+
+.experienceDetail {
+  width: 100%;
+}
+
+.detailLayout {
+  display: grid;
+  gap: 3rem;
+
+  @include mq(lg) {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    align-items: start;
+    gap: 4rem;
+  }
+}
+
+.detailMain {
+  min-width: 0;
+
+  & section {
+    padding: 2.25rem 0;
+    border-top: 1px solid rgba($color: $color-black, $alpha: 0.1);
+  }
+
+  & section:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  & p {
+    line-height: 1.65;
+  }
+
+  & ul {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+  }
+
+  & li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-family: var(--ff-en);
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: $color-text;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.72em;
+      left: 0;
+      width: 0.3rem;
+      height: 0.3rem;
+      border-radius: 999px;
+      background-color: rgba($color: $color-black, $alpha: 0.35);
+    }
+  }
+}
+
+.detailHero {
+  & h1 {
+    max-width: 48rem;
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    line-height: 0.95;
+  }
+}
+
+.shortDescription {
+  max-width: 40rem;
+  margin-top: 1.4rem;
+  font-size: 1.35rem;
+  line-height: 1.55;
+}
+
+.galleryPlaceholder {
+  display: grid;
+  place-items: center;
+  min-height: 14rem;
+  border: 1px solid rgba($color: $color-black, $alpha: 0.12);
+  background-color: rgba($color: $color-black, $alpha: 0.03);
+  font-family: var(--ff-gothic);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  @include mq(md) {
+    min-height: 22rem;
+  }
+}
+
+.detailSidebar {
+  @include mq(lg) {
+    position: sticky;
+    top: calc(#{$navHeight} + 2rem);
+  }
+}
+
+/* =========================
+  Booking Card
+========================= */
+
+.bookingCard {
+  padding: 1.5rem;
+  border: 1px solid rgba($color: $color-black, $alpha: 0.14);
+  background-color: rgba($color: $color-white, $alpha: 0.92);
+}
+
+.bookingPrice {
+  font-family: var(--ff-title-en);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.bookingUnit {
+  margin-top: 0.35rem;
+  font-family: var(--ff-gothic);
+  font-size: 0.9rem;
+  color: rgba($color: $color-black, $alpha: 0.65);
+}
+
+.bookingMeta {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.25rem;
+
+  & li {
+    font-family: var(--ff-gothic);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: rgba($color: $color-black, $alpha: 0.78);
+  }
+}
+
+.bookingNote {
+  margin-top: 1rem;
+  font-family: var(--ff-gothic);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba($color: $color-black, $alpha: 0.62);
+}
+
+/* =========================
+  Reviews
+========================= */
+
+.reviews {
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba($color: $color-black, $alpha: 0.1);
+}
+
+.reviewList {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  @include mq(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.reviewCard {
+  padding: 1.2rem;
+  border: 1px solid rgba($color: $color-black, $alpha: 0.1);
+}
+
+.reviewRating {
+  font-family: var(--ff-gothic);
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+}
+
+.reviewText {
+  margin-top: 0.8rem;
+}
+
+.reviewMeta {
+  margin-top: 0.8rem;
+  font-family: var(--ff-gothic);
+  font-size: 0.85rem;
+  color: rgba($color: $color-black, $alpha: 0.58);
+}

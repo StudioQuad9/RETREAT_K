@@ -1,12 +1,15 @@
 // @/app/en/experiences/page.js
 
 import Link from "next/link";
+import { experiences } from "./_data/experiences";
+import { getGuestText } from "@/lib/formatExperiences";
+import styles from "./experiences.module.scss";
 
 export default function Experiences() {
   return (
     <div className="container">
       {/* HERO */}
-      <section className="experiences-hero">
+      <section className={styles.experiencesHero}>
         <h1>Experiences</h1>
         <p>
           Cultural experiences in Kyoto for small groups, shaped through
@@ -15,27 +18,24 @@ export default function Experiences() {
       </section>
 
       {/* LIST */}
-      <section className="experiences-list">
+      <section className={styles.experiencesList}>
         {/* Tea Experience */}
-        <Link href="#">
-        {/* <Link href="/en/experiences/TeaExperienceWithSoKo"> */}
-          <h2>Beyond Performance — A Private Tea Gathering with a Kyoto Practitioner</h2>
-          <p>
-            A quiet, small-group experience with a Kyoto practitioner, centered on
-            making tea, real charcoal, and thoughtful conversation.
-          </p>
-          <p>120 minutes / up to 5 guests</p>
-        </Link>
-
-        <Link href="#">
-        {/* <Link href="/en/experiences/ZenExperienceWithJirai"> */}
-          <h2>Zen Experience with Jirai</h2>
-          <p>
-            A Zen-centered experience in Kyoto, where you explore
-            your experience of Japan through dialogue with a Zen monk.
-          </p>
-          <p>90 minutes / up to 6 guests</p>
-        </Link>
+        {experiences.map((experience) => (
+          <Link
+            key={experience.slug}
+            // Next.jsは、このURLの『experience.slug』を
+            // ExperienceDetailPage({ params })の『params』に渡す。
+            // AppRouterが自動で判断してやっている。
+            href={`/en/experiences/${experience.slug}`}
+          >
+            <h2>{experience.cardTitle}</h2>
+            <p>{experience.cardShortDescription}</p>
+            <p>
+              {experience.duration.minutes} minutes /{" "}
+              {getGuestText(experience.pricing)}
+            </p>
+          </Link>
+        ))}
       </section>
     </div>
   );
