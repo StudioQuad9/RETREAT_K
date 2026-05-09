@@ -88,6 +88,12 @@ export default async function ExperienceDetailPage({ params }) {
               </ul>
             </section>
 
+            {/* Cancellation Policy */}
+            <section>
+              <h2>Cancellation Policy</h2>
+              <p>{experience.cancellation.text}</p>
+            </section>
+
             {/* Not Allowed */}
             <section>
               <h2>Not Allowed</h2>
@@ -110,6 +116,24 @@ export default async function ExperienceDetailPage({ params }) {
       </div>
     </div>
   );
+}
+
+// SEO対策
+// ページ遷移ごとにtitleとdescriptionが切り替わる。
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+
+  const experience = experiences.find((item) => {
+    return item.slug === slug;
+  });
+
+  if (!experience) {
+    return {};
+  }
+  return {
+    title: experience.seo.title,
+    description: experience.seo.description,
+  }
 }
 
 // ビルド時にページがどれくらいあるかをNext.jsに知らせる。

@@ -10,6 +10,12 @@ export const experiences = [
       "A quiet, small-group experience with a Kyoto practitioner, centered on making tea, real charcoal, and thoughtful conversation.",
     cardShortDescription:
       "Cultural experiences in Kyoto for small groups, shaped through practice, dialogue, and reflection.",
+    seo: {
+      title:
+        "Kyoto Private Tea Experience with a Kyoto Practitioner | Awai Studio",
+      description:
+        "A quiet private tea experience in Kyoto centered on tea making, real charcoal, thoughtful conversation, and small-group cultural depth.",
+    },
     pricing: {
       type: "privateGroup",
       amount: 48000,
@@ -76,7 +82,7 @@ export const experiences = [
       "Video recording during the session",
       "Strong perfume or strong fragrances",
     ],
-    bookingHref: "/en/booking",
+    bookingHref: "/en/booking?experience=TeaExJack",
     galleryImages: [
       {
         src: "/images/experiences/TeaExJack/slide-01.jpg",
@@ -112,6 +118,13 @@ export const experiences = [
       "A Zen-centered experience in Kyoto, where you explore your experience of Japan through dialogue with a Zen monk.",
     cardShortDescription:
       "A Zen-centered experience in Kyoto, where you explore your experience of Japan through dialogue with a Zen monk.",
+    seo: 
+    {
+      title: 
+        "Kyoto Zen Experience with Jirai | Awai Studio",
+      description:
+        "A Zen-centered experience in Kyoto, where you explore your experience of Japan through dialogue with a Zen monk.",
+    },
     pricing: {
       type: "perPerson",
       amount: 16000,
@@ -144,7 +157,7 @@ export const experiences = [
     },
     importantInformation: [],
     notAllowed: ["Strong perfume or strong fragrances"],
-    bookingHref: "/en/booking",
+    bookingHref: "/en/booking?experience=ZenExJirai",
     galleryImages: [
       {
         src: "/images/experiences/ZenExJirai/slide-01.jpg",
