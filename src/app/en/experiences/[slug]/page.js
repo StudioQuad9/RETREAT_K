@@ -1,5 +1,6 @@
 // @/app/en/experiences/[slug]/page.js
 
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { experiences } from "../_data/experiences";
 import { reviews } from "../_data/reviews";
@@ -23,60 +24,86 @@ export default async function ExperienceDetailPage({ params }) {
   return (
     <div className="container detail">
       <div className={styles.experienceDetail}>
+        {/* HERO */}
+        <section className={styles.detailHero}>
+          <div className={styles.detailHeroText}>
+            <p className={styles.kicker}>Awai Studio Experience</p>
+            <h1>{experience.title}</h1>
+            <p className={styles.shortDescription}>
+              {experience.shortDescription}
+            </p>
+          </div>
+
+          <div className={styles.heroBooking}>
+            <BookingCard experience={experience} />
+          </div>
+        </section>
+
+        {/* GALLELY */}
+        <section className={styles.gallerySection}>
+          <div className={styles.galleryPlaceHolder}>Gallery Slider</div>
+        </section>
+
         <div className={styles.detailLayout}>
           {/* Main Contents */}
           <div className={styles.detailMain}>
-            {/* Title */}
-            <section className={styles.hero}>
-              <h1>{experience.title}</h1>
-              <p className={styles.shortDescription}>
-                {experience.shortDescription}
-              </p>
-            </section>
-
-            {/* Gallery */}
-            <section>
-              <div className={styles.galleryPlaceHolder}>Gallery Slider</div>
-            </section>
-
             {/* Highlights */}
-            <section>
-              <h2>Highlights</h2>
-              <ul>
-                {experience.highlights.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {experience.highlights.lenght > 0 && (
+              <section className={styles.detailSection}>
+                <h2>Highlights</h2>
+                <ul>
+                  {experience.highlights.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* Full Description */}
-            <section>
-              <h2>Full Description</h2>
-              {experience.fullDescription.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+            {experience.fullDescription.lenght > 0 && (
+              <section className={styles.detailSection}>
+                <h2>Full Description</h2>
+                {experience.fullDescription.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </section>
+            )}
+
+            {/* MID CTA */}
+            <section className={styles.inlineCta}>
+              <p>Interrested in this experience?</p>
+              <Link
+                className="btn btn--regular"
+                href={`${experience.bookingHref}`}
+              >
+                Check Availability
+              </Link>
             </section>
 
             {/* What's Included */}
-            <section>
-              <h2>What's Included</h2>
-              <ul>
-                {experience.included.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {experience.included.lenght > 0 && (
+              <section className={styles.detailSection}>
+                <h2>What's Included</h2>
+                <ul>
+                  {experience.included.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* Meeting Point */}
-            <section>
-              <h2>Meeting Point</h2>
-              <p>{experience.meetingPoint.description}</p>
-              <ul>
-                {experience.meetingPoint.access.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {experience.meetingPoint.lenght > 0 && (
+              <section className={styles.detailSection}>
+                <h2>Meeting Point</h2>
+                <p>{experience.meetingPoint.description}</p>
+                <ul>
+                  {experience.meetingPoint.access.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* Important Information */}
             <section>
