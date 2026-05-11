@@ -85,27 +85,27 @@ export const experiences = [
     bookingHref: "/en/booking?experience=TeaExJack",
     galleryImages: [
       {
-        src: "/images/experiences/TeaExJack/slide-01.jpg",
+        src: "/images/experiences/TeaExJack/_G9_7782.JPG",
         alt: "Tea room with charcoal fire",
       },
       {
-        src: "/images/experiences/TeaExJack/slide-02.jpg",
+        src: "/images/experiences/TeaExJack/260318_G9_7574.jpg",
         alt: "Preparing tea in Kyoto",
       },
       {
-        src: "/images/experiences/TeaExJack/slide-03.jpg",
+        src: "/images/experiences/TeaExJack/260318_G9_7575.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/slide-04.jpg",
+        src: "/images/experiences/TeaExJack/260318_G9_7576.jpg",
         alt: "Tea room with charcoal fire",
       },
       {
-        src: "/images/experiences/TeaExJack/slide-05.jpg",
+        src: "/images/experiences/TeaExJack/260318_G9_7578.jpg",
         alt: "Preparing tea in Kyoto",
       },
       {
-        src: "/images/experiences/TeaExJack/slide-06.jpg",
+        src: "/images/experiences/TeaExJack/260318_G9_7580.jpg",
         alt: "Traditional tea utensils",
       },
     ],
@@ -118,10 +118,8 @@ export const experiences = [
       "A Zen-centered experience in Kyoto, where you explore your experience of Japan through dialogue with a Zen monk.",
     cardShortDescription:
       "A Zen-centered experience in Kyoto, where you explore your experience of Japan through dialogue with a Zen monk.",
-    seo: 
-    {
-      title: 
-        "Kyoto Zen Experience with Jirai | Awai Studio",
+    seo: {
+      title: "Kyoto Zen Experience with Jirai | Awai Studio",
       description:
         "A Zen-centered experience in Kyoto, where you explore your experience of Japan through dialogue with a Zen monk.",
     },
@@ -160,27 +158,27 @@ export const experiences = [
     bookingHref: "/en/booking?experience=ZenExJirai",
     galleryImages: [
       {
-        src: "/images/experiences/ZenExJirai/slide-01.jpg",
+        src: "/images/experiences/ZenExJirai/",
         alt: "Zen monk speaking with guests",
       },
       {
-        src: "/images/experiences/ZenExJirai/slide-02.jpg",
+        src: "/images/experiences/ZenExJirai/",
         alt: "Zen monk speaking with guests",
       },
       {
-        src: "/images/experiences/ZenExJirai/slide-03.jpg",
+        src: "/images/experiences/ZenExJirai/",
         alt: "Zen monk speaking with guests",
       },
       {
-        src: "/images/experiences/ZenExJirai/slide-04.jpg",
+        src: "/images/experiences/ZenExJirai/",
         alt: "Zen monk speaking with guests",
       },
       {
-        src: "/images/experiences/ZenExJirai/slide-05.jpg",
+        src: "/images/experiences/ZenExJirai/",
         alt: "Zen monk speaking with guests",
       },
       {
-        src: "/images/experiences/ZenExJirai/slide-06.jpg",
+        src: "/images/experiences/ZenExJirai/",
         alt: "Traditional tea utensils",
       },
     ],

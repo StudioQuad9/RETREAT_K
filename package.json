@@ -16,7 +16,8 @@
     "resend": "^6.6.0",
     "sass": "^1.97.1",
     "scss": "^0.2.4",
-    "stripe": "^20.1.0"
+    "stripe": "^20.1.0",
+    "swiper": "^12.1.4"
   },
   "devDependencies": {
     "baseline-browser-mapping": "^2.10.19"

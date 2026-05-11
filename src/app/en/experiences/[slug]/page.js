@@ -6,6 +6,7 @@ import { experiences } from "../_data/experiences";
 import { reviews } from "../_data/reviews";
 import BookingCard from "../_components/BookingCard";
 import ReviewList from "../_components/ReviewList";
+import ExperienceSlider from "../_components/ExperienceSlider";
 import styles from "../experiences.module.scss";
 
 export default async function ExperienceDetailPage({ params }) {
@@ -39,16 +40,16 @@ export default async function ExperienceDetailPage({ params }) {
           </div>
         </section>
 
-        {/* GALLELY */}
+        {/* GALLERY*/}
         <section className={styles.gallerySection}>
-          <div className={styles.galleryPlaceHolder}>Gallery Slider</div>
+          <ExperienceSlider images={experience.galleryImages} />
         </section>
 
         <div className={styles.detailLayout}>
           {/* Main Contents */}
           <div className={styles.detailMain}>
             {/* Highlights */}
-            {experience.highlights.lenght > 0 && (
+            {experience.highlights.length > 0 && (
               <section className={styles.detailSection}>
                 <h2>Highlights</h2>
                 <ul>
@@ -60,7 +61,7 @@ export default async function ExperienceDetailPage({ params }) {
             )}
 
             {/* Full Description */}
-            {experience.fullDescription.lenght > 0 && (
+            {experience.fullDescription.length > 0 && (
               <section className={styles.detailSection}>
                 <h2>Full Description</h2>
                 {experience.fullDescription.map((paragraph) => (
@@ -71,7 +72,7 @@ export default async function ExperienceDetailPage({ params }) {
 
             {/* MID CTA */}
             <section className={styles.inlineCta}>
-              <p>Interrested in this experience?</p>
+              <p>Interested in this experience?</p>
               <Link
                 className="btn btn--regular"
                 href={`${experience.bookingHref}`}
@@ -81,7 +82,7 @@ export default async function ExperienceDetailPage({ params }) {
             </section>
 
             {/* What's Included */}
-            {experience.included.lenght > 0 && (
+            {experience.included.length > 0 && (
               <section className={styles.detailSection}>
                 <h2>What's Included</h2>
                 <ul>
@@ -93,7 +94,7 @@ export default async function ExperienceDetailPage({ params }) {
             )}
 
             {/* Meeting Point */}
-            {experience.meetingPoint.lenght > 0 && (
+            {experience.meetingPoint.length > 0 && (
               <section className={styles.detailSection}>
                 <h2>Meeting Point</h2>
                 <p>{experience.meetingPoint.description}</p>
@@ -106,7 +107,7 @@ export default async function ExperienceDetailPage({ params }) {
             )}
 
             {/* Important Information */}
-            <section>
+            <section className={styles.detailSection}>
               <h2>Important Information</h2>
               <ul>
                 {experience.importantInformation.map((item) => (
@@ -116,13 +117,13 @@ export default async function ExperienceDetailPage({ params }) {
             </section>
 
             {/* Cancellation Policy */}
-            <section>
+            <section className={styles.detailSection}>
               <h2>Cancellation Policy</h2>
               <p>{experience.cancellation.text}</p>
             </section>
 
             {/* Not Allowed */}
-            <section>
+            <section className={styles.detailSection}>
               <h2>Not Allowed</h2>
               <ul>
                 {experience.notAllowed.map((item) => (
