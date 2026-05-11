@@ -35,9 +35,9 @@ export default async function ExperienceDetailPage({ params }) {
             </p>
           </div>
 
-          <div className={styles.heroBooking}>
+          {/* <div className={styles.heroBooking}>
             <BookingCard experience={experience} />
-          </div>
+          </div> */}
         </section>
 
         {/* GALLERY*/}

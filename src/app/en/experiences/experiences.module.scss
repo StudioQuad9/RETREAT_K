@@ -65,27 +65,22 @@
 
 .detailMain {
   min-width: 0;
-
   & section {
     padding: 2.25rem 0;
     border-top: 1px solid rgba($color: $color-black, $alpha: 0.1);
   }
-
   & section:first-child {
     padding-top: 0;
     border-top: 0;
   }
-
   & p {
     line-height: 1.65;
   }
-
   & ul {
     display: grid;
     gap: 0.7rem;
     margin-top: 1rem;
   }
-
   & li {
     position: relative;
     padding-left: 1.1rem;
@@ -93,7 +88,6 @@
     font-size: 1.1rem;
     line-height: 1.55;
     color: $color-text;
-
     &::before {
       content: "";
       position: absolute;
@@ -138,7 +132,6 @@
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-
   @include mq(md) {
     min-height: 22rem;
   }
@@ -178,7 +171,6 @@
   display: grid;
   gap: 0.55rem;
   margin-top: 1.25rem;
-
   & li {
     font-family: var(--ff-gothic);
     font-size: 0.9rem;
@@ -228,9 +220,12 @@
 
 .slideImage {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   background-color: rgba($color: $color-black, $alpha: 1);
+  @include mq(md) {
+    aspect-ratio: 3 / 2;
+  }
   & > img {
     display: block;
     width: 100%;
@@ -252,7 +247,6 @@
   display: grid;
   gap: 1rem;
   margin-top: 1rem;
-
   @include mq(md) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
