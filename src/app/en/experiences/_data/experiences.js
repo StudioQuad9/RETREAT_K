@@ -93,19 +93,19 @@ export const experiences = [
         alt: "Preparing tea in Kyoto",
       },
       {
-        src: "/images/experiences/TeaExJack/02_1011535.jpg",
+        src: "/images/experiences/TeaExJack/02_G9_7765.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/03_1011518.jpg",
+        src: "/images/experiences/TeaExJack/03_1011529.jpg",
         alt: "Tea room with charcoal fire",
       },
       {
-        src: "/images/experiences/TeaExJack/04_1011530.jpg",
+        src: "/images/experiences/TeaExJack/04_1011514.jpg",
         alt: "Preparing tea in Kyoto",
       },
       {
-        src: "/images/experiences/TeaExJack/05_G9_7950.jpg",
+        src: "/images/experiences/TeaExJack/05_G9_7792.jpg",
         alt: "Traditional tea utensils",
       },
       {
@@ -141,7 +141,11 @@ export const experiences = [
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/14_1011533.jpg",
+        src: "/images/experiences/TeaExJack/14_1011457.jpg",
+        alt: "Traditional tea utensils",
+      },
+      {
+        src: "/images/experiences/TeaExJack/15_G9_7802.jpg",
         alt: "Traditional tea utensils",
       },
     ],

@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 import styles from "../experiences.module.scss";
 
 export default function ExperienceSlider({ images = [] }) {
-  const displayImages = images.slice(0, 15);
+  const displayImages = images.slice(0, 16);
 
   if (displayImages.length === 0) {
     return null;
