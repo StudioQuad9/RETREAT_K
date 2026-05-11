@@ -112,6 +112,9 @@
     max-width: 48rem;
     font-size: clamp(2.6rem, 7vw, 5.4rem);
     line-height: 0.95;
+    @include mq(md) {
+      max-width: unset;
+    }
   }
 }
 
@@ -120,6 +123,9 @@
   margin-top: 1.4rem;
   font-size: 1.35rem;
   line-height: 1.55;
+  @include mq(md) {
+    max-width: unset;
+  }  
 }
 
 .galleryPlaceholder {
@@ -190,7 +196,7 @@
 }
 
 /* =========================
-  Detail page Slider
+  Detail Page Slider
 ========================= */
 .experienceSlider {
   position: relative;

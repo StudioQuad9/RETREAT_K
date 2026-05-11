@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 import styles from "../experiences.module.scss";
 
 export default function ExperienceSlider({ images = [] }) {
-  const displayImages = images.slice(0, 6);
+  const displayImages = images.slice(0, 15);
 
   if (displayImages.length === 0) {
     return null;
@@ -25,8 +25,9 @@ export default function ExperienceSlider({ images = [] }) {
         loop={displayImages.length > 1}
         effect="fade"
         speed={1200}
+        navigation={displayImages.length > 1}
         pagination ={{ clickable: true }}
-        autoPlay={{
+        autoplay={{
           delay: 5000,
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
