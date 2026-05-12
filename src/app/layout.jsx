@@ -2,7 +2,7 @@
 
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { Noto_Sans_JP, Noto_Serif_JP, Cormorant_Garamond, Crimson_Text, Zen_Old_Mincho } from 'next/font/google';
+import { Noto_Sans_JP, Noto_Serif_JP, Cormorant_Garamond, Crimson_Text, Zen_Old_Mincho, Roboto } from 'next/font/google';
 import "@/styles/shared/reset.css";
 import "./globals.scss";
 
@@ -38,6 +38,13 @@ const crimsonText = Crimson_Text({
   variable: "--font-en",
 });
 
+const roboto = Roboto({
+  weight: ["100", "400", "900"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-en-gothic",
+});
+
 const zenOldMincho = Zen_Old_Mincho({
   weight: ["400"],
   subsets: ["latin"],
@@ -65,6 +72,7 @@ export default function RootLayout({ children }) {
         ${notoSerif.variable}
         ${cormorantGaramond.variable}
         ${crimsonText.variable}
+        ${roboto.variable}
         ${zenOldMincho.variable}
       `}
       suppressHydrationWarning

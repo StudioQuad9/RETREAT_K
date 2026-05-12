@@ -11,10 +11,12 @@ export default function BookingCard({ experience }) {
 
   return (
     <aside className={styles.bookingCard}>
-      <p className={styles.bookingPrice}>{experience.pricing.displayPrice}</p>
-      <p className={styles.bookingUnit}>{experience.pricing.unit}</p>
+      <div className="wrapper">
+        <p className={styles.bookingPrice}>{experience.pricing.displayPrice}</p>
+        <p className={styles.bookingUnit}>{experience.pricing.unit}</p>
+      </div>
 
-      <ul className={styles.bookingMeta}>
+      <ul className={`${styles.bookingMeta} ${styles.explanation}`}>
         <li>{guestText}</li>
         <li>{durationText}</li>
         <li>{experience.cancellation.text}</li>
@@ -26,9 +28,11 @@ export default function BookingCard({ experience }) {
         )
       }
 
-      <Link className="btn btn--regular" href={`${experience.bookingHref}`}>
-        Book this experience
-      </Link>
+      <div className="cta">
+        <Link className="btn btn--regular" href={`${experience.bookingHref}`}>
+          Book this experience
+        </Link>
+      </div>
     </aside>
   );
 }

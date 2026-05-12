@@ -101,51 +101,51 @@ export const experiences = [
         alt: "Tea room with charcoal fire",
       },
       {
-        src: "/images/experiences/TeaExJack/04_1011514.jpg",
+        src: "/images/experiences/TeaExJack/04_G9_7942.jpg",
         alt: "Preparing tea in Kyoto",
       },
       {
-        src: "/images/experiences/TeaExJack/05_G9_7792.jpg",
+        src: "/images/experiences/TeaExJack/05_G9_7936.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/06_G9_7970.jpg",
+        src: "/images/experiences/TeaExJack/06_G9_7952.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/07_G9_7942.jpg",
+        src: "/images/experiences/TeaExJack/07_G9_7970.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/08_G9_7936.jpg",
+        src: "/images/experiences/TeaExJack/08_G9_7792.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/09_G9_7952.jpg",
+        src: "/images/experiences/TeaExJack/09_G9_7944.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/10_G9_7944.jpg",
+        src: "/images/experiences/TeaExJack/10_G9_7802.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/11_1011475.jpg",
+        src: "/images/experiences/TeaExJack/11_G9_7782.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/12_G9_7782.jpg",
+        src: "/images/experiences/TeaExJack/12_1011514.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/13_G9_7800.jpg",
+        src: "/images/experiences/TeaExJack/13_1011475.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/14_1011457.jpg",
+        src: "/images/experiences/TeaExJack/14_G9_7800.jpg",
         alt: "Traditional tea utensils",
       },
       {
-        src: "/images/experiences/TeaExJack/15_G9_7802.jpg",
+        src: "/images/experiences/TeaExJack/15_1011457.jpg",
         alt: "Traditional tea utensils",
       },
     ],

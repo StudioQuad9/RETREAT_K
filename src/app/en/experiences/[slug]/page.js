@@ -26,7 +26,7 @@ export default async function ExperienceDetailPage({ params }) {
     <div className="container detail">
       <div className={styles.experienceDetail}>
         {/* HERO */}
-        <section className={styles.detailHero}>
+        <div className={styles.detailHero}>
           <div className={styles.detailHeroText}>
             <p className={styles.kicker}>Awai Studio Experience</p>
             <h1>{experience.title}</h1>
@@ -34,16 +34,12 @@ export default async function ExperienceDetailPage({ params }) {
               {experience.shortDescription}
             </p>
           </div>
-
-          {/* <div className={styles.heroBooking}>
-            <BookingCard experience={experience} />
-          </div> */}
-        </section>
+        </div>
 
         {/* GALLERY*/}
-        <section className={styles.gallerySection}>
+        <div className={styles.gallerySection}>
           <ExperienceSlider images={experience.galleryImages} />
-        </section>
+        </div>
 
         <div className={styles.detailLayout}>
           {/* Main Contents */}
@@ -73,17 +69,21 @@ export default async function ExperienceDetailPage({ params }) {
             {/* MID CTA */}
             <section className={styles.inlineCta}>
               <p>Interested in this experience?</p>
-              <Link
-                className="btn btn--regular"
-                href={`${experience.bookingHref}`}
-              >
-                Check Availability
-              </Link>
+              <div className="cta">
+                <Link
+                  className="btn btn--regular"
+                  href={`${experience.bookingHref}`}
+                >
+                  Check Availability
+                </Link>
+              </div>
             </section>
 
             {/* What's Included */}
             {experience.included.length > 0 && (
-              <section className={styles.detailSection}>
+              <section
+                className={`${styles.detailSection} ${styles.explanation}`}
+              >
                 <h2>What's Included</h2>
                 <ul>
                   {experience.included.map((item) => (
@@ -94,43 +94,60 @@ export default async function ExperienceDetailPage({ params }) {
             )}
 
             {/* Meeting Point */}
-            {experience.meetingPoint.length > 0 && (
-              <section className={styles.detailSection}>
-                <h2>Meeting Point</h2>
-                <p>{experience.meetingPoint.description}</p>
+            {experience.meetingPoint.description &&
+              experience.meetingPoint.access.length > 0 && (
+                <section
+                  className={`${styles.detailSection} ${styles.explanation} ${styles.meetingPoint}`}
+                >
+                  <div className="wrapper">
+                    <h2>Meeting Point</h2>
+                    <p>{experience.meetingPoint.description}</p>
+                  </div>
+                  <ul>
+                    {experience.meetingPoint.access.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+            {/* Important Information */}
+            {experience.importantInformation.length > 0 && (
+              <section
+                className={`${styles.detailSection} ${styles.explanation}`}
+              >
+                <h2>Important Information</h2>
                 <ul>
-                  {experience.meetingPoint.access.map((item) => (
+                  {experience.importantInformation.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </section>
             )}
 
-            {/* Important Information */}
-            <section className={styles.detailSection}>
-              <h2>Important Information</h2>
-              <ul>
-                {experience.importantInformation.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
             {/* Cancellation Policy */}
-            <section className={styles.detailSection}>
-              <h2>Cancellation Policy</h2>
-              <p>{experience.cancellation.text}</p>
-            </section>
+            {experience.cancellation.text && (
+              <section
+                className={`${styles.detailSection} ${styles.explanation}`}
+              >
+                <h2>Cancellation Policy</h2>
+                <p>{experience.cancellation.text}</p>
+              </section>
+            )}
 
             {/* Not Allowed */}
-            <section className={styles.detailSection}>
-              <h2>Not Allowed</h2>
-              <ul>
-                {experience.notAllowed.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {experience.notAllowed.length > 0 && (
+              <section
+                className={`${styles.detailSection} ${styles.explanation}`}
+              >
+                <h2>Not Allowed</h2>
+                <ul>
+                  {experience.notAllowed.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* Reviews */}
             <ReviewList reviews={experienceReviews} />

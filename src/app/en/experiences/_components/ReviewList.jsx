@@ -25,7 +25,7 @@ export default function ReviewList({ reviews = [] }) {
             <p className={styles.reviewText}>"{review.text}"</p>
 
             <div className={styles.reviewMeta}>
-              {review.firstaName}, {review.country} / {review.date}
+              {review.firstName}, {review.country} / {review.date}
             </div>
           </article>
         ))}
