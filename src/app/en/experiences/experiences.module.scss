@@ -90,11 +90,13 @@
   &.explanation {
     & p,
     & li {
-    padding-left: 1.2em;      
       font-family: var(--ff-en-gothic);
       font-size: 1rem;
-        letter-spacing: .03em;
+      letter-spacing: .03em;
       color: rgba($color: $color-text, $alpha: .9);
+    }
+    & li {
+      padding-left: 1.2em;      
       &::before {
         position: absolute;
         top: 0.15em;
@@ -119,7 +121,6 @@
   font-family: var(--ff-en-gothic);
   font-size: 1.1rem;
   line-height: 1.7;
-  font-weight: 100;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: $color-primary;
