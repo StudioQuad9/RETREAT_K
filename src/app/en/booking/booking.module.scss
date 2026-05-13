@@ -1,0 +1,73 @@
+// @/app/en/booking/booking.module.scss
+
+@use '@/styles/shared/' as *;
+
+.bookingPage {
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 3rem 0 6rem;
+}
+
+.bookingHero {
+  margin-bottom: 4rem;
+  & > p {
+    max-width: 42rem;
+  }
+}
+
+.kicker {
+  margin-bottom: 1rem;
+  font-family: var(--ff-en-gothic);
+  font-size: .85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba($color: $color-text, $alpha: .6);
+}
+
+.experienceSummary,
+.requestForm {
+  padding: 2rem 0 2.5rem;
+  border-top: 1px solid rgba($color: $color-black, $alpha: 0.3);
+}
+
+.experienceSummary {
+  & form {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  & label {
+    display: grid;
+    gap: .5rem;
+    font-family: var(--ff-en-gothic);
+    font-size: .95rem;
+    letter-spacing: 0.03em;
+    color: rgba($color: $color-text, $alpha: .9);
+  }
+  & input,
+  & textarea {
+    width: 100%;
+    padding: .9rem 1rem;
+    border: 1px solid rgba($color: $color-black, $alpha: 0.3);
+    border-radius: 2px;
+    background-color: rgba($color: $color-white, $alpha: 1.0);
+    font-family: var(--ff-gothic);
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    &:focus {
+      outline: none;
+      border-color: rgba($color: $color-primary, $alpha: .8);
+      box-shadow: 0 0 0 3px rgba($color: $color-primary, $alpha: .3);
+    }
+  }
+  & textarea {
+    resize: vertical;
+    min-height: 10rem;
+  }
+  & button {
+    justify-self: start;
+    margin-top: 1rem;
+  }
+}

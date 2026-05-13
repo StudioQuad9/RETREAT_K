@@ -35,6 +35,12 @@ export const experiences = [
       role: "Kyoto-based tea practitioner",
       languages: ["English"],
     },
+    availability: {
+      type: "request",
+      availableWeekdays: [1, 2, 4, 5, 6],
+      timeSlots: ["13:00", "15:30"],
+      unavailableDates: ["2026-05-26", "2026-05-29"],
+    },
     cancellation: {
       summary: "Free cancellation",
       text: "Free cancellation up to 7 days before the experience. Cancellations made less than 7 days before the experience are non-refundable. Date changes may be possible depending on availability.",
@@ -181,6 +187,12 @@ export const experiences = [
       name: "Jirai Mehl",
       role: "Kyoto-based zen monk",
       languages: ["English", "German"],
+    },
+    availability: {
+      type: "request",
+      availableWeekdays: [0, 3, 4, 5, 6],
+      timeSlots: ["11:00", "15:00"],
+      unavailableDates: ["2026-05-26", "2026-05-29"],
     },
     cancellation: {
       summary: "Free cancellation",
