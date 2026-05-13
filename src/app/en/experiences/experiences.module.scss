@@ -93,8 +93,7 @@
     padding-left: 1.2em;      
       font-family: var(--ff-en-gothic);
       font-size: 1rem;
-      font-weight: 100;
-      letter-spacing: .03em;
+        letter-spacing: .03em;
       color: rgba($color: $color-text, $alpha: .9);
       &::before {
         position: absolute;
@@ -188,7 +187,6 @@
     font-family: var(--ff-en-gothic);
     font-size: .95rem;
     line-height: 1.5;
-    font-weight: 100;
     letter-spacing: .03em;
     color: rgba($color: $color-text, $alpha: .9);
     &::before {
