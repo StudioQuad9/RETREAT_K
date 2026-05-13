@@ -1,0 +1,59 @@
+// @/app/en/experiences/_components/BookingCard.module.scss
+
+@use '@/styles/shared/' as *;
+
+.bookingCard {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem 1.5rem 2.5rem;
+  border: 2px solid rgba($color: $color-black, $alpha: 0.1);
+  background-color: rgba($color: $color-white, $alpha: 0.9);
+}
+
+.bookingPrice {
+  font-family: var(--ff-title-en);
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.bookingUnit {
+  margin-top: 0.35rem;
+  padding: .15em .25em .1em;
+  text-align: right;
+  font-family: var(--ff-en-gothic);
+  font-size: .9rem;
+  line-height: 1;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: $color-white;
+  background-color: rgba($color: $color-text, $alpha: .8);
+}
+
+.bookingMeta.explanation {
+  & li {
+    padding-left: 1em;
+    font-family: var(--ff-en-gothic);
+    font-size: .95rem;
+    line-height: 1.5;
+    letter-spacing: .03em;
+    color: rgba($color: $color-text, $alpha: .9);
+    &::before {
+      position: absolute;
+      top: 0.45em;
+      left: 0;
+      width: 0.6em;
+      height: 0.6em;
+    }
+    &:not(:first-of-type) {
+      margin-top: .6em;
+    }
+  }  
+}
+
+.bookingNote {
+  margin-top: 1rem;
+  font-family: var(--ff-gothic);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba($color: $color-black, $alpha: 0.62);
+}

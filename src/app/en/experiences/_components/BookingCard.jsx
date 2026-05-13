@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { getGuestText, getDurationText, getMinimumGuestText } from "@/lib/formatExperiences";
-import styles from "../experiences.module.scss";
+import styles from "./BookingCard.module.scss";
 
 export default function BookingCard({ experience }) {
   const guestText = getGuestText(experience.pricing);
@@ -22,15 +22,13 @@ export default function BookingCard({ experience }) {
         <li>{experience.cancellation.text}</li>
       </ul>
 
-      {
-        minimunGuestText && (
-          <p className={styles.bookingNote}>{minimunGuestText}</p>
-        )
-      }
+      {minimunGuestText && (
+        <p className={styles.bookingNote}>{minimunGuestText}</p>
+      )}
 
       <div className="cta">
         <Link className="btn btn--regular" href={`${experience.bookingHref}`}>
-          Book this experience
+          Check Availability
         </Link>
       </div>
     </aside>

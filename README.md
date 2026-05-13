@@ -152,49 +152,55 @@ mail: info@awai-studio.jp
 ## Site map
 
 ```
-└── src/
-    ├── app/
-    │   ├── favicon.ico
-    │   ├── globals.scss
-    │   ├── layout.jsx
-    │   ├── page.js
-    │   ├── en
-    │   │   └── experiences
-    │   │       ├── page.js
-    │   │       ├── experiences.module.scss
-    │   │       ├── _components
-    │   │       │   └── BookingCard.jsx
-    │   │       │   └── ReviewList.jsx
-    │   │       ├── _data
-    │   │       │   └── reviews.js
-    │   │       ├── TeaExJack
-    │   │       │   └── page.js
-    │   │       └── ZenExperienceWithJirai
-    │   │           └── page.js
-    │   └── ja
-    │       └── page.js
-    ├── components/
-    │   └── layout
-    │       ├── Header
-    │       │   ├── index.jsx
-    │       │   └── Header.module.scss
-    │       └── Footer
-    │           ├── index.jsx
-    │           └── Footer.module.scss
-    ├── hooks/
-    │   ├── useParallaxGaps.js
-    │   └── useScrollAnimation.js
-    ├── lib/
-    │   └── config
-    │       └── site.js
-    └── styles/
-        └── shared
-            ├── _daypicker.scss
-            ├── _index.scss
-            ├── _mixins.scss
-            ├── _motion.scss
-            ├── _variables.scss
-            └── reset.css
+├── src/
+│   ├── app/
+│   │   ├── favicon.ico
+│   │   ├── globals.scss
+│   │   ├── layout.jsx
+│   │   ├── page.js
+│   │   ├── page.module.scss
+│   │   └── en/
+│   │       └── experiences/
+│   │           ├── page.js
+│   │           ├── experiences.module.scss
+│   │           ├── _components/
+│   │           │   ├── BookingCard.jsx
+│   │           │   ├── ExperienceSlider.jsx
+│   │           │   └── ReviewList.jsx
+│   │           ├── _data/
+│   │           │   ├── experiences.js
+│   │           │   └── reviews.js
+│   │           └── [slug]/
+│   │               └── page.js
+│   ├── components/
+│   │   └── layout/
+│   │       ├── Header
+│   │       │   ├── index.jsx
+│   │       │   └── Header.module.scss
+│   │       └── Footer
+│   │           ├── index.jsx
+│   │           └── Footer.module.scss
+│   ├── hooks/
+│   │   ├── useParallaxGaps.js
+│   │   └── useScrollAnimation.js
+│   ├── lib/
+│   │   ├── formatExperiences.js
+│   │   └── config/
+│   │       └── site.js
+│   └── styles/
+│       └── shared/
+│           ├── _daypicker.scss
+│           ├── _index.scss
+│           ├── _mixins.scss
+│           ├── _motion.scss
+│           ├── _variables.scss
+│           └── reset.css
+└── public/
+    └── images/  
+        ├── experiences/
+        │   ├── TeaExJack/
+        │   └── ZenExJirai/
+        └── top/
 ```
 
 _Last updated: 2026-04-07_

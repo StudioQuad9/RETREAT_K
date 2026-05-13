@@ -1,0 +1,112 @@
+// @/app/en/experiences/_components/RevewList.module.scss
+
+@use '@/styles/shared/' as *;
+
+.reviews {
+  padding-top: 2.25rem;
+  border-top: 1px solid rgba($color: $color-black, $alpha: 0.1);
+}
+
+.reviewList {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  @include mq(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.reviewCard {
+  padding: 1.2rem;
+  border: 1px solid rgba($color: $color-black, $alpha: 0.1);
+  box-shadow: 2px 2px 5px  rgba($color: $color-black, $alpha: 0.5);
+}
+
+.reviewRating {
+  font-family: var(--ff-gothic);
+  font-size: 0.8rem;
+  letter-spacing: .1em;
+  color: $color-gold;
+  & > span {
+    margin-left: .5em;
+    font-family: var(--ff-en-gothic);
+    font-size: .9rem;
+    color: $color-text;
+  }
+}
+
+.reviewText {
+  margin-top: 0.8rem;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.reviewMeta {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 0.8rem;
+  font-family: var(--ff-en-gothic);
+  & .icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 900;
+    padding: .15em .35em .125em;
+    border-radius: 999px;
+    color: $color-white;
+    &.color0 {
+      background-color: #c99166;
+    }
+    &.color1 {
+      background-color: #799bb0;
+    }
+    &.color2 {
+      background-color: #458e5a;
+    }
+    &.color3 {
+      background-color: #9a9325;
+    }
+    &.color4 {
+      background-color: #877c97;
+    }
+  }
+// 色,カラーコード,色名（イメージ）,役割
+// 主役,#c99166,テラコッタ・ウッド,唯一の暖色として、空間に血色を与える
+// 寒色1,#454d52,消炭（けしずみ）,青みを含んだ深いグレー。全体を律する
+// 寒色2,#6b7b83,薄藍鼠（うすあいねず）,影の部分に柔らかな冷たさを添える
+// 中立,#b5b5b5,中灰（ちゅうはい）,黄色味を一切排した、無機質なシルバーグレー
+// 極み,#1a1d1e,墨色（すみいろ）,寒色寄りの黒。高級感を一気に引き締める
+
+
+
+
+
+
+
+
+
+
+//   色,カラーコード,色名（イメージ）,役割
+// 主役,#c99166,琥珀色（こはくいろ）,温もりと深みを与えるベース
+// 寒色1,#4a5963,藍鼠（あいねず）,霧がかった夜のような、落ち着いた青
+// 寒色2,#36403d,深緑（ふかみどり）,苔むした岩のような、重厚感のある緑
+// 調和,#8d877e,利休鼠（りきゅうねず）,暖色と寒色を繋ぐ、しっとりした中間色
+// 光,#dcd6d0,薄雲（うすぐも）,寒色を引き立てる、透明感のあるグレー
+//   色,カラーコード,色名（イメージ）,役割
+// 主役,,琥珀色（こはくいろ）,全体の温度感を決めるキーカラー
+// 調和,,海松茶（みるちゃ）,影を演出し、全体をどっしりと落ち着かせる
+// 洗練,,銀鼠（ぎんねず）,しっとりとした質感を加える中間色
+// 深み,,鉄紺（てつこん）系,高級感を引き締める、黒に近い深い緑
+// 余白,,生成り（きなり）,圧迫感を逃がし、品の良い明るさを添える
+  & .meta {
+    font-size: .9rem;
+    line-height: 1.2;
+    color: rgba($color: $color-text, $alpha: 0.7);
+  }
+}
+

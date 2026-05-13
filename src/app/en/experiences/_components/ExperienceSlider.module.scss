@@ -1,0 +1,47 @@
+// @/app/en/experiences/_components/ExperienceSlider.module.scss
+
+@use '@/styles/shared/' as *;
+
+.experienceSlider {
+  position: relative;
+  width: 100%;
+  :global(.swiper) {
+    width: 100%;
+  }
+  :global(.swiper-button-prev),
+  :global(.swiper-button-next) {
+    color: rgba($color: $color-white, $alpha: 0.85);
+  }
+  :global(.swiper-button-prev::after),
+  :global(.swiper-button-next::after) {
+    font-size: 1.6rem;
+  }
+  :global(.swiper-pagination) {
+    bottom: 1rem;
+  }
+  :global(.swiper-pagination-bullet) {
+    width: 8px;
+    height: 8px;
+    background-color: rgba($color: $color-white, $alpha: .7);
+    opacity: 1;
+  }
+  :global(.swiper-pagination-bullet-active) {
+    background-color: $color-white;
+  }
+}
+
+.slideImage {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background-color: rgba($color: $color-black, $alpha: 1);
+  @include mq(md) {
+    aspect-ratio: 3 / 2;
+  }
+  & > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

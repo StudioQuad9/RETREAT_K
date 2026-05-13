@@ -1,6 +1,6 @@
 // @/app/en/experiences/_components/ReviewList.jsx
 
-import styles from "../experiences.module.scss";
+import styles from "./ReviewList.module.scss";
 
 export default function ReviewList({ reviews = [] }) {
   const publishedReviews = reviews.filter((review) => {
@@ -20,13 +20,20 @@ export default function ReviewList({ reviews = [] }) {
           <article className={styles.reviewCard} key={index}>
             <div className={styles.reviewRating}>
               {"★".repeat(review.rating)}
+              <span>{review.rating}</span>
+            </div>
+
+            <div className={styles.reviewMeta}>
+              <div className={`${styles.icon} ${styles[`color${index % 5}`]}`}>
+                {review.firstName?.trim().charAt(0).toUpperCase()}
+              </div>
+              <div className={styles.meta}>
+                {review.firstName}&nbsp;-&nbsp;{review.country}<br />
+                {review.date}
+              </div>
             </div>
 
             <p className={styles.reviewText}>"{review.text}"</p>
-
-            <div className={styles.reviewMeta}>
-              {review.firstName}, {review.country} / {review.date}
-            </div>
           </article>
         ))}
       </div>

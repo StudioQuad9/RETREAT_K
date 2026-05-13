@@ -40,6 +40,15 @@ export const reviews = [
   {
     rating: 5,
     text: "I appreciated how small and thoughtful this experience was. There was time to observe, ask questions, and take part without feeling rushed. The session gave me a deeper sense of tea as a living practice, not just something to watch.",
+    firstName: "Jimy",
+    country: "United States",
+    date: "April 2026",
+    experienceSlug: "TeaExJack",
+    isPublished: true,
+  },
+  {
+    rating: 5,
+    text: "I appreciated how small and thoughtful this experience was. There was time to observe, ask questions, and take part without feeling rushed. The session gave me a deeper sense of tea as a living practice, not just something to watch.",
     firstName: "Paty",
     country: "India",
     date: "May 2026",

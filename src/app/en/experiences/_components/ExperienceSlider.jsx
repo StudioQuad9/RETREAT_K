@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
-import styles from "../experiences.module.scss";
+import styles from "./ExperienceSlider.module.scss";
 
 export default function ExperienceSlider({ images = [] }) {
   const displayImages = images.slice(0, 16);
