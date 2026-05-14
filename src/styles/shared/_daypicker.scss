@@ -4,9 +4,27 @@
 @use './mixins' as *;
 
 // react-day-picker styles
+// DayPickerが生成する .rdp-* クラス専用
 
-// このクラスの要素はtable(1ヶ月ごとのテーブル要素)
-// 週の上下の間隔を調整したいので設定している。
+.rdp-root {
+  width: 100%;
+  max-width: 24rem;
+  margin: 0 auto;
+  font-family: var(--ff-en-gothic);
+}
+
+.rdp-months {
+  justify-content: center;
+}
+
+.rdp-month {
+  width: 100%;
+}
+
+.rdp-month_grid {
+  width: 100%;
+  border-spacing: 0.35;
+}
 
 // ナビ
 .rdp-nav {
@@ -58,7 +76,6 @@
     font-weight: 400;
     font-family: $font-mincho;
     @include mq(md) {
-      padding: .4em 1.5em;
       font-size: 1.1rem;
     }
   }

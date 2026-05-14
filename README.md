@@ -160,13 +160,21 @@ mail: info@awai-studio.jp
 │   │   ├── page.js
 │   │   ├── page.module.scss
 │   │   └── en/
+│   │       ├── booking/
+│   │       │   ├── page.js
+│   │       │   ├── booking.module.scss
+│   │       │   └── _components/
+│   │       │       └── BookingForm.jsx
 │   │       └── experiences/
 │   │           ├── page.js
 │   │           ├── experiences.module.scss
 │   │           ├── _components/
 │   │           │   ├── BookingCard.jsx
+│   │           │   ├── BookingCard.module.scss
 │   │           │   ├── ExperienceSlider.jsx
-│   │           │   └── ReviewList.jsx
+│   │           │   ├── ExperienceSlider.module.scss
+│   │           │   ├── ReviewList.jsx
+│   │           │   └── ReviewList.module.scss
 │   │           ├── _data/
 │   │           │   ├── experiences.js
 │   │           │   └── reviews.js
